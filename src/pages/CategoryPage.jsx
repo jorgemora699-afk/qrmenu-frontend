@@ -1,14 +1,19 @@
-import { useLocation, useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
+import { useCategory } from "../hooks/useCategory"
+import ProductCard from "../components/product/ProductCard"
 
 function CategoryPage() {
   const { slug, categoryId } = useParams()
-  const { state } = useLocation()
   const navigate = useNavigate()
-  const category = state?.category
+
+  const { category, loading } = useCategory(slug, categoryId)
+
+  if (loading) {
+    return <div className="loading">Cargando...</div>
+  }
 
   if (!category) {
-    navigate(`/${slug}`)
-    return null
+    return <div className="error">Categoría no encontrada</div>
   }
 
   return (
@@ -21,19 +26,15 @@ function CategoryPage() {
 
       <div className="products-list">
         {category.products.map((product) => (
-          <div
+          <ProductCard
             key={product.id}
-            className="product-card"
-            onClick={() => navigate(`/${slug}/${categoryId}/${product.id}`, { state: { product, category } })}
-          >
-            {product.image_url && (
-              <img src={product.image_url} alt={product.name} className="product-thumb" />
-            )}
-            <div className="product-info">
-              <span className="product-name">{product.name}</span>
-              <span className="product-price">${product.price.toLocaleString()}</span>
-            </div>
-          </div>
+            product={product}
+            onClick={() =>
+              navigate(`/${slug}/${categoryId}/${product.id}`, {
+                state: { product, category },
+              })
+            }
+          />
         ))}
       </div>
     </div>

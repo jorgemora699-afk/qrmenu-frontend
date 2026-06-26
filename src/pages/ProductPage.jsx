@@ -1,20 +1,29 @@
-import { useLocation, useParams, useNavigate } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
+import { useProduct } from "../hooks/useProduct"
 
 function ProductPage() {
-  const { slug, categoryId } = useParams()
-  const { state } = useLocation()
+  const { slug, categoryId, productId } = useParams()
   const navigate = useNavigate()
-  const product = state?.product
-  const category = state?.category
+
+  const {
+    product,
+    loading
+  } = useProduct(slug, categoryId, productId)
+
+  if (loading) {
+    return <div className="loading">Cargando...</div>
+  }
 
   if (!product) {
-    navigate(`/${slug}`)
-    return null
+    return <div className="error">Producto no encontrado</div>
   }
 
   return (
     <div className="product-page">
-      <button className="back-btn" onClick={() => navigate(`/${slug}/${categoryId}`, { state: { category } })}>
+      <button
+        className="back-btn"
+        onClick={() => navigate(`/${slug}/${categoryId}`)}
+      >
         ← Volver
       </button>
 
