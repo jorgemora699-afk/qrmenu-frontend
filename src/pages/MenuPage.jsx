@@ -3,17 +3,23 @@ import MenuHero from "../components/menu/MenuHero"
 import CategoriesGrid from "../components/menu/CategoriesGrid"
 import { useMenu } from "../hooks/useMenu"
 import PageBackground from "../components/layout/PageBackground"
+import Loading from "../components/common/Loading"
+import ErrorState from "../components/common/ErrorState"
 
 function MenuPage() {
   const { slug } = useParams()
   const navigate = useNavigate()
   const { business, categories, loading } = useMenu(slug)
 
-  if (loading) return <div className="loading">Cargando menú...</div>
-  if (!business) return <div className="error">Negocio no encontrado</div>
+  if (loading) return <Loading />
+
+  if (!business) {
+    return <ErrorState message="Negocio no encontrado" />
+  }
 
 
   return (
+    <PageContainer>
     <div className="menu-page">
 
       {/* FONDO: la foto del negocio cubre toda la pantalla, no solo el header.
@@ -34,6 +40,7 @@ function MenuPage() {
         }
       />
     </div>
+    </PageContainer>
   )
 }
 

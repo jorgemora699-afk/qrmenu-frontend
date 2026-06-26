@@ -1,5 +1,10 @@
 import { useParams, useNavigate } from "react-router-dom"
 import { useProduct } from "../hooks/useProduct"
+import Loading from "../components/common/Loading"
+import ErrorState from "../components/common/ErrorState"
+import PageContainer from "../components/layout/PageContainer"
+import ProductImage from "../components/product/ProductImage"
+import ProductPrice from "../components/product/ProductPrice"
 
 function ProductPage() {
   const { slug, categoryId, productId } = useParams()
@@ -10,33 +15,44 @@ function ProductPage() {
     loading
   } = useProduct(slug, categoryId, productId)
 
-  if (loading) {
-    return <div className="loading">Cargando...</div>
-  }
+  if (loading) return <Loading />
 
   if (!product) {
-    return <div className="error">Producto no encontrado</div>
+    return <ErrorState message="Producto no encontrado" />
   }
 
   return (
-    <div className="product-page">
-      <button
-        className="back-btn"
-        onClick={() => navigate(`/${slug}/${categoryId}`)}
-      >
-        ← Volver
-      </button>
+    <PageContainer>
+      <div className="product-page">
 
-      {product.image_url && (
-        <img src={product.image_url} alt={product.name} className="product-image" />
-      )}
+        <ProductImage
+          src={product.image_url}
+          alt={product.name}
+        />
 
-      <div className="product-detail">
-        <h2>{product.name}</h2>
-        <p className="product-description">{product.description}</p>
-        <span className="product-price-big">${product.price.toLocaleString()}</span>
+        <div className="product-content">
+
+          <button
+            className="back-btn"
+            onClick={() => navigate(`/${slug}/${categoryId}`)}
+          >
+            ← Volver al menú
+          </button>
+
+          <h1 className="product-title">
+            {product.name}
+          </h1>
+
+          <p className="product-description">
+            {product.description}
+          </p>
+
+          <ProductPrice price={product.price} />
+
+        </div>
+
       </div>
-    </div>
+    </PageContainer>
   )
 }
 

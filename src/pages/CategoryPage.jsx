@@ -1,6 +1,8 @@
 import { useParams, useNavigate } from "react-router-dom"
 import { useCategory } from "../hooks/useCategory"
 import ProductCard from "../components/product/ProductCard"
+import Loading from "../components/common/Loading"
+import ErrorState from "../components/common/ErrorState"
 
 function CategoryPage() {
   const { slug, categoryId } = useParams()
@@ -8,15 +10,14 @@ function CategoryPage() {
 
   const { category, loading } = useCategory(slug, categoryId)
 
-  if (loading) {
-    return <div className="loading">Cargando...</div>
-  }
+  if (loading) return <Loading />
 
   if (!category) {
-    return <div className="error">Categoría no encontrada</div>
+    return <ErrorState message="Categoría no encontrada" />
   }
 
   return (
+    <PageContainer>
     <div className="category-page">
       <button className="back-btn" onClick={() => navigate(`/${slug}`)}>
         ← Volver
@@ -38,6 +39,7 @@ function CategoryPage() {
         ))}
       </div>
     </div>
+    </PageContainer>
   )
 }
 
