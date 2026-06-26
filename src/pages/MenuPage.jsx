@@ -23,33 +23,30 @@ function MenuPage() {
   if (!business) return <div className="error">Negocio no encontrado</div>
 
   const primary = business.primary_color || "#222222"
-  const secondary = business.secondary_color || "#ffffff"
 
   return (
-    <div className="menu-page" style={{ padding: 0 }}>
+    <div className="menu-page">
 
-      {/* HEADER */}
+      {/* FONDO: la foto del negocio cubre toda la pantalla, no solo el header.
+          Es 'fixed' para que al hacer scroll de la lista de categorías,
+          la imagen se quede fija detrás (efecto de profundidad). */}
       <div
-        className="menu-hero"
+        className={`menu-page-bg ${business.banner_url ? "" : "no-image"}`}
         style={{
           backgroundImage: business.banner_url ? `url(${business.banner_url})` : "none",
-          backgroundColor: business.banner_url ? "transparent" : primary,
-          backgroundSize: "cover",
-          backgroundPosition: "center",
+          "--biz-primary": primary,
         }}
-      >
-        <div
-          className="menu-hero-overlay"
-          style={{ background: business.banner_url ? `${primary}bb` : primary }}
-        >
-          {business.logo_url && (
-            <img src={business.logo_url} alt={business.name} className="hero-logo" />
-          )}
-          <h1 className="hero-title" style={{ color: secondary }}>{business.name}</h1>
-          {business.tagline && (
-            <p className="hero-tagline" style={{ color: secondary }}>{business.tagline}</p>
-          )}
-        </div>
+      />
+
+      {/* HEADER */}
+      <div className="menu-hero">
+        {business.logo_url && (
+          <img src={business.logo_url} alt={business.name} className="hero-logo" />
+        )}
+        <h1 className="hero-title">{business.name}</h1>
+        {business.tagline && (
+          <p className="hero-tagline">{business.tagline}</p>
+        )}
       </div>
 
       {/* CATEGORÍAS */}
