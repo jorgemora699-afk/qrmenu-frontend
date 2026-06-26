@@ -6,6 +6,7 @@ import LoginPage from "./pages/admin/LoginPage"
 import DashboardPage from "./pages/admin/DashboardPage"
 import CategoriesPage from "./pages/admin/CategoriesPage"
 import ProductsPage from "./pages/admin/ProductsPage"
+import RegisterPage from "./pages/RegisterPage"
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem("token")
@@ -20,6 +21,7 @@ function App() {
         <Route path="/admin" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
         <Route path="/admin/categories" element={<PrivateRoute><CategoriesPage /></PrivateRoute>} />
         <Route path="/admin/products" element={<PrivateRoute><ProductsPage /></PrivateRoute>} />
+        <Route path="/register" element={<RegisterPage />} />
 
         <Route path="/:slug" element={<MenuPage />} />
         <Route path="/:slug/:categoryId" element={<CategoryPage />} />
