@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate, useEffect } from "react-router-dom"
 import MenuPage from "./pages/MenuPage"
 import CategoryPage from "./pages/CategoryPage"
 import ProductPage from "./pages/ProductPage"
@@ -11,7 +11,14 @@ import ProfilePage from "./pages/admin/ProfilePage"
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem("token")
-  return token ? children : <Navigate to="/admin/login" />
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!token) navigate("/admin/login")
+  }, [])
+
+  if (!token) return null
+  return children
 }
 
 function App() {
