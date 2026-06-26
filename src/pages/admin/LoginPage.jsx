@@ -48,11 +48,12 @@ function LoginPage() {
         <button onClick={handleLogin} disabled={loading}>
           {loading ? "Ingresando..." : "Ingresar"}
         </button>
+
+        <p className="login-link">
+          ¿No tienes cuenta?{" "}
+          <span onClick={() => navigate("/register")}>Regístrate gratis</span>
+        </p>
       </div>
-      <p className="login-link">
-        ¿No tienes cuenta?{" "}
-        <span onClick={() => navigate("/register")}>Regístrate gratis</span>
-      </p>
     </div>
   )
 }
