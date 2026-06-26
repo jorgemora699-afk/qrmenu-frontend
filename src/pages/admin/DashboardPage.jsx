@@ -36,6 +36,11 @@ function DashboardPage() {
           <h3>Ver menú</h3>
           <p>Así ve tu carta el cliente</p>
         </div>
+        <div className="admin-card" onClick={() => navigate("/admin/profile")}>
+            <span className="admin-card-icon">⚙️</span>
+            <h3>Perfil</h3>
+            <p>Edita nombre, logo, colores y slogan</p>
+        </div>
       </div>
     </div>
   )
