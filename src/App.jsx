@@ -1,0 +1,32 @@
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import MenuPage from "./pages/MenuPage"
+import CategoryPage from "./pages/CategoryPage"
+import ProductPage from "./pages/ProductPage"
+import LoginPage from "./pages/admin/LoginPage"
+import DashboardPage from "./pages/admin/DashboardPage"
+import CategoriesPage from "./pages/admin/CategoriesPage"
+import ProductsPage from "./pages/admin/ProductsPage"
+
+const PrivateRoute = ({ children }) => {
+  const token = localStorage.getItem("token")
+  return token ? children : <Navigate to="/admin/login" />
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/admin/login" element={<LoginPage />} />
+        <Route path="/admin" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
+        <Route path="/admin/categories" element={<PrivateRoute><CategoriesPage /></PrivateRoute>} />
+        <Route path="/admin/products" element={<PrivateRoute><ProductsPage /></PrivateRoute>} />
+
+        <Route path="/:slug" element={<MenuPage />} />
+        <Route path="/:slug/:categoryId" element={<CategoryPage />} />
+        <Route path="/:slug/:categoryId/:productId" element={<ProductPage />} />
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+export default App

@@ -1,0 +1,27 @@
+import axios from "axios"
+
+const BASE_URL = "https://menunegocio-production.up.railway.app"
+
+const api = axios.create({ baseURL: BASE_URL })
+
+api.interceptors.request.use((config) => {
+  const token = localStorage.getItem("token")
+  if (token) config.headers.Authorization = `Bearer ${token}`
+  return config
+})
+
+export const getMenu = (slug) => axios.get(`${BASE_URL}/api/menu/${slug}`)
+
+export const login = (email, password) =>
+  api.post("/api/auth/login", { email, password })
+
+export const getCategories = () => api.get("/api/categories/")
+export const createCategory = (name) => api.post("/api/categories/", { name })
+export const updateCategory = (id, name) => api.put(`/api/categories/${id}`, { name })
+export const deleteCategory = (id) => api.delete(`/api/categories/${id}`)
+
+export const getProducts = (category_id) =>
+  api.get("/api/products/", { params: category_id ? { category_id } : {} })
+export const createProduct = (data) => api.post("/api/products/", data)
+export const updateProduct = (id, data) => api.put(`/api/products/${id}`, data)
+export const deleteProduct = (id) => api.delete(`/api/products/${id}`)
