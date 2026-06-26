@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, Navigate, useEffect } from "react-router-dom"
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import { useEffect } from "react"
 import MenuPage from "./pages/MenuPage"
 import CategoryPage from "./pages/CategoryPage"
 import ProductPage from "./pages/ProductPage"
