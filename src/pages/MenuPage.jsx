@@ -26,30 +26,51 @@ function MenuPage() {
   const secondary = business.secondary_color || "#ffffff"
 
   return (
-    <div className="menu-page">
+    <div className="menu-page" style={{ padding: 0 }}>
+
+      {/* HEADER */}
       <div
-        className="menu-header"
-        style={{ background: primary, color: secondary }}
+        className="menu-hero"
+        style={{
+          backgroundImage: business.banner_url ? `url(${business.banner_url})` : "none",
+          backgroundColor: business.banner_url ? "transparent" : primary,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
-        {business.logo_url && (
-          <img src={business.logo_url} alt={business.name} className="logo" />
-        )}
-        <h1>{business.name}</h1>
-        {business.tagline && <p className="tagline">{business.tagline}</p>}
+        <div
+          className="menu-hero-overlay"
+          style={{ background: business.banner_url ? `${primary}bb` : primary }}
+        >
+          {business.logo_url && (
+            <img src={business.logo_url} alt={business.name} className="hero-logo" />
+          )}
+          <h1 className="hero-title" style={{ color: secondary }}>{business.name}</h1>
+          {business.tagline && (
+            <p className="hero-tagline" style={{ color: secondary }}>{business.tagline}</p>
+          )}
+        </div>
       </div>
 
-      <div className="categories-grid">
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            className="category-card"
-            style={{ borderLeft: `4px solid ${primary}` }}
-            onClick={() => navigate(`/${slug}/${cat.id}`, { state: { category: cat } })}
-          >
-            <span className="category-name">{cat.name}</span>
-            <span className="category-count">{cat.products.length} productos</span>
-          </button>
-        ))}
+      {/* CATEGORÍAS */}
+      <div className="menu-body">
+        <p className="menu-subtitle">¿Qué deseas ver?</p>
+        <div className="categories-grid">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              className="category-card"
+              onClick={() => navigate(`/${slug}/${cat.id}`, { state: { category: cat } })}
+            >
+              <span className="category-emoji">{cat.emoji || "🍽"}</span>
+              <div className="category-info">
+                <span className="category-name">{cat.name}</span>
+                <span className="category-count">{cat.products.length} productos</span>
+              </div>
+              <span className="category-arrow">→</span>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   )
