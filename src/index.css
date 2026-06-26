@@ -167,3 +167,69 @@ body {
   font-size: 1.1rem;
   color: rgba(255, 255, 255, 0.55);
 }
+
+/* Vista previa del menú en el panel admin.
+   Usa el MISMO esquema visual que el menú real del cliente
+   (foto + degradado fijo), para que el admin vea exactamente
+   lo que verán sus clientes al escanear el QR. */
+
+.menu-preview {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  min-height: 200px;
+  background-size: cover;
+  background-position: center;
+  background-color: #2b2622;
+}
+
+.menu-preview::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.75) 0%,
+    rgba(0, 0, 0, 0.35) 45%,
+    rgba(0, 0, 0, 0.6) 100%
+  );
+}
+
+.menu-preview-noimg::after {
+  background: rgba(0, 0, 0, 0.15);
+}
+
+.menu-preview-overlay {
+  position: relative;
+  z-index: 1;
+  min-height: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.menu-preview-overlay h3 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.menu-preview-overlay p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.88);
+  text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+}
+
+.preview-logo {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255, 255, 255, 0.85);
+  margin-bottom: 0.25rem;
+}

@@ -5,8 +5,7 @@ import { getProfile, updateProfile, uploadImage } from "../../services/api"
 function ProfilePage() {
   const navigate = useNavigate()
   const [form, setForm] = useState({
-    name: "", logo_url: "", banner_url: "", tagline: "",
-    primary_color: "#222222", secondary_color: "#ffffff"
+    name: "", logo_url: "", banner_url: "", tagline: ""
   })
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
@@ -20,9 +19,7 @@ function ProfilePage() {
         name: res.data.name || "",
         logo_url: res.data.logo_url || "",
         banner_url: res.data.banner_url || "",
-        tagline: res.data.tagline || "",
-        primary_color: res.data.primary_color || "#222222",
-        secondary_color: res.data.secondary_color || "#ffffff"
+        tagline: res.data.tagline || ""
       })
       setLoading(false)
     })
@@ -128,49 +125,14 @@ function ProfilePage() {
         </div>
 
         <div className="form-group">
-          <label>Colores del menú</label>
-          <div className="color-row">
-            <div className="color-field">
-              <span>Color del overlay</span>
-              <div className="color-input-wrap">
-                <input
-                  type="color"
-                  value={form.primary_color}
-                  onChange={(e) => setForm({ ...form, primary_color: e.target.value })}
-                />
-                <span>{form.primary_color}</span>
-              </div>
-            </div>
-            <div className="color-field">
-              <span>Color del texto</span>
-              <div className="color-input-wrap">
-                <input
-                  type="color"
-                  value={form.secondary_color}
-                  onChange={(e) => setForm({ ...form, secondary_color: e.target.value })}
-                />
-                <span>{form.secondary_color}</span>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className="form-group">
-          <label>Vista previa del header</label>
+          <label>Vista previa del menú</label>
           <div
-            className="menu-preview"
+            className={`menu-preview ${form.banner_url ? "" : "menu-preview-noimg"}`}
             style={{
               backgroundImage: form.banner_url ? `url(${form.banner_url})` : "none",
-              backgroundSize: "cover",
-              backgroundPosition: "center",
-              backgroundColor: form.banner_url ? "transparent" : form.primary_color,
-              color: form.secondary_color
             }}
           >
-            <div
-              className="menu-preview-overlay"
-              style={{ background: form.banner_url ? `${form.primary_color}99` : "transparent" }}
-            >
+            <div className="menu-preview-overlay">
               {form.logo_url && (
                 <img src={form.logo_url} alt="Logo" className="preview-logo" />
               )}
