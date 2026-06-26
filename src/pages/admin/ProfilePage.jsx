@@ -5,11 +5,13 @@ import { getProfile, updateProfile, uploadImage } from "../../services/api"
 function ProfilePage() {
   const navigate = useNavigate()
   const [form, setForm] = useState({
-    name: "", logo_url: "", tagline: "", primary_color: "#222222", secondary_color: "#ffffff"
+    name: "", logo_url: "", banner_url: "", tagline: "",
+    primary_color: "#222222", secondary_color: "#ffffff"
   })
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
-  const [uploading, setUploading] = useState(false)
+  const [uploadingLogo, setUploadingLogo] = useState(false)
+  const [uploadingBanner, setUploadingBanner] = useState(false)
   const [success, setSuccess] = useState(false)
 
   useEffect(() => {
@@ -17,6 +19,7 @@ function ProfilePage() {
       setForm({
         name: res.data.name || "",
         logo_url: res.data.logo_url || "",
+        banner_url: res.data.banner_url || "",
         tagline: res.data.tagline || "",
         primary_color: res.data.primary_color || "#222222",
         secondary_color: res.data.secondary_color || "#ffffff"
@@ -25,13 +28,13 @@ function ProfilePage() {
     })
   }, [])
 
-  const handleImageUpload = async (e) => {
+  const handleUpload = async (e, field, setUploading) => {
     const file = e.target.files[0]
     if (!file) return
     setUploading(true)
     try {
       const res = await uploadImage(file)
-      setForm({ ...form, logo_url: res.data.url })
+      setForm((prev) => ({ ...prev, [field]: res.data.url }))
     } finally {
       setUploading(false)
     }
@@ -93,13 +96,32 @@ function ProfilePage() {
               <img src={form.logo_url} alt="Logo" className="logo-preview" />
             )}
             <label className="upload-btn">
-              {uploading ? "Subiendo..." : form.logo_url ? "Cambiar logo" : "Subir logo"}
+              {uploadingLogo ? "Subiendo..." : form.logo_url ? "Cambiar logo" : "Subir logo"}
               <input
                 type="file"
                 accept="image/*"
-                onChange={handleImageUpload}
+                onChange={(e) => handleUpload(e, "logo_url", setUploadingLogo)}
                 style={{ display: "none" }}
-                disabled={uploading}
+                disabled={uploadingLogo}
+              />
+            </label>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <label>Imagen de fondo del header</label>
+          <div className="upload-area">
+            {form.banner_url && (
+              <img src={form.banner_url} alt="Banner" className="banner-preview" />
+            )}
+            <label className="upload-btn">
+              {uploadingBanner ? "Subiendo..." : form.banner_url ? "Cambiar banner" : "Subir banner"}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={(e) => handleUpload(e, "banner_url", setUploadingBanner)}
+                style={{ display: "none" }}
+                disabled={uploadingBanner}
               />
             </label>
           </div>
@@ -109,7 +131,7 @@ function ProfilePage() {
           <label>Colores del menú</label>
           <div className="color-row">
             <div className="color-field">
-              <span>Color principal</span>
+              <span>Color del overlay</span>
               <div className="color-input-wrap">
                 <input
                   type="color"
@@ -120,7 +142,7 @@ function ProfilePage() {
               </div>
             </div>
             <div className="color-field">
-              <span>Color secundario</span>
+              <span>Color del texto</span>
               <div className="color-input-wrap">
                 <input
                   type="color"
@@ -134,16 +156,27 @@ function ProfilePage() {
         </div>
 
         <div className="form-group">
-          <label>Vista previa del encabezado</label>
+          <label>Vista previa del header</label>
           <div
             className="menu-preview"
-            style={{ background: form.primary_color, color: form.secondary_color }}
+            style={{
+              backgroundImage: form.banner_url ? `url(${form.banner_url})` : "none",
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+              backgroundColor: form.banner_url ? "transparent" : form.primary_color,
+              color: form.secondary_color
+            }}
           >
-            {form.logo_url && (
-              <img src={form.logo_url} alt="Logo" className="preview-logo" />
-            )}
-            <h3>{form.name || "Nombre del negocio"}</h3>
-            <p>{form.tagline || "Tu slogan aquí"}</p>
+            <div
+              className="menu-preview-overlay"
+              style={{ background: form.banner_url ? `${form.primary_color}99` : "transparent" }}
+            >
+              {form.logo_url && (
+                <img src={form.logo_url} alt="Logo" className="preview-logo" />
+              )}
+              <h3>{form.name || "Nombre del negocio"}</h3>
+              <p>{form.tagline || "Tu slogan aquí"}</p>
+            </div>
           </div>
         </div>
       </div>
