@@ -551,3 +551,16 @@ body {
   margin-bottom: 1rem;
   font-size: 0.9rem;
 }
+
+.menu-header {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  border-radius: 0 0 20px 20px;
+  margin: -1.5rem -1.5rem 1.5rem -1.5rem;
+}
+
+.tagline {
+  font-size: 0.95rem;
+  opacity: 0.85;
+  margin-top: 0.25rem;
+}
