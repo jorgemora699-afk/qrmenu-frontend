@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { getCategories, getProducts, createProduct, updateProduct, deleteProduct } from "../../services/api"
+import { getCategories, getProducts, createProduct, updateProduct, deleteProduct, uploadImage  } from "../../services/api"
 
 function ProductsPage() {
   const navigate = useNavigate()
@@ -8,6 +8,7 @@ function ProductsPage() {
   const [products, setProducts] = useState([])
   const [selectedCategory, setSelectedCategory] = useState("")
   const [loading, setLoading] = useState(true)
+  const [uploading, setUploading] = useState(false)
   const [showForm, setShowForm] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
   const [form, setForm] = useState({
@@ -70,6 +71,18 @@ function ProductsPage() {
     fetchProducts()
   }
 
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    setUploading(true)
+    try {
+        const res = await uploadImage(file)
+        setForm({ ...form, image_url: res.data.url })
+    } finally {
+        setUploading(false)
+    }
+  }
+
   if (loading) return <div className="loading">Cargando...</div>
 
   return (
@@ -93,25 +106,20 @@ function ProductsPage() {
         ))}
       </select>
 
-      <div className="items-list">
-        {products.map((product) => (
-          <div key={product.id} className="product-admin-row">
-            {product.image_url && (
-              <img src={product.image_url} alt={product.name} className="product-thumb" />
-            )}
-            <div className="product-admin-info">
-              <span className="item-name">{product.name}</span>
-              <span className="product-price">${parseFloat(product.price).toLocaleString()}</span>
-              <span className={product.available ? "badge-available" : "badge-unavailable"}>
-                {product.available ? "Disponible" : "No disponible"}
-              </span>
-            </div>
-            <div className="item-actions">
-              <button className="btn-edit" onClick={() => openEdit(product)}>Editar</button>
-              <button className="btn-delete" onClick={() => handleDelete(product.id)}>Eliminar</button>
-            </div>
-          </div>
-        ))}
+      <div className="upload-area">
+        {form.image_url && (
+            <img src={form.image_url} alt="Producto" className="logo-preview" />
+        )}
+        <label className="upload-btn">
+            {uploading ? "Subiendo..." : form.image_url ? "Cambiar imagen" : "Subir imagen"}
+            <input
+            type="file"
+            accept="image/*"
+            onChange={handleImageUpload}
+            style={{ display: "none" }}
+            disabled={uploading}
+            />
+        </label>
       </div>
 
       {showForm && (

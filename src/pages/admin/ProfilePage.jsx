@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { getProfile, updateProfile } from "../../services/api"
+import { getProfile, updateProfile, uploadImage } from "../../services/api"
 
 function ProfilePage() {
   const navigate = useNavigate()
@@ -9,6 +9,7 @@ function ProfilePage() {
   })
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const [uploading, setUploading] = useState(false)
   const [success, setSuccess] = useState(false)
 
   useEffect(() => {
@@ -23,6 +24,18 @@ function ProfilePage() {
       setLoading(false)
     })
   }, [])
+
+  const handleImageUpload = async (e) => {
+    const file = e.target.files[0]
+    if (!file) return
+    setUploading(true)
+    try {
+      const res = await uploadImage(file)
+      setForm({ ...form, logo_url: res.data.url })
+    } finally {
+      setUploading(false)
+    }
+  }
 
   const handleSave = async () => {
     setSaving(true)
@@ -74,15 +87,22 @@ function ProfilePage() {
         </div>
 
         <div className="form-group">
-          <label>URL del logo</label>
-          <input
-            value={form.logo_url}
-            onChange={(e) => setForm({ ...form, logo_url: e.target.value })}
-            placeholder="https://..."
-          />
-          {form.logo_url && (
-            <img src={form.logo_url} alt="Logo" className="logo-preview" />
-          )}
+          <label>Logo del negocio</label>
+          <div className="upload-area">
+            {form.logo_url && (
+              <img src={form.logo_url} alt="Logo" className="logo-preview" />
+            )}
+            <label className="upload-btn">
+              {uploading ? "Subiendo..." : form.logo_url ? "Cambiar logo" : "Subir logo"}
+              <input
+                type="file"
+                accept="image/*"
+                onChange={handleImageUpload}
+                style={{ display: "none" }}
+                disabled={uploading}
+              />
+            </label>
+          </div>
         </div>
 
         <div className="form-group">

@@ -564,3 +564,21 @@ body {
   opacity: 0.85;
   margin-top: 0.25rem;
 }
+
+.upload-area {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.upload-btn {
+  background: #222;
+  color: white;
+  border-radius: 8px;
+  padding: 0.6rem 1.25rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.upload-btn:hover { background: #444; }

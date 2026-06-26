@@ -28,3 +28,11 @@ export const deleteProduct = (id) => api.delete(`/api/products/${id}`)
 
 export const getProfile = () => api.get("/api/profile/")
 export const updateProfile = (data) => api.put("/api/profile/", data)
+
+export const uploadImage = (file) => {
+  const formData = new FormData()
+  formData.append("file", file)
+  return api.post("/api/uploads/image", formData, {
+    headers: { "Content-Type": "multipart/form-data" }
+  })
+}
