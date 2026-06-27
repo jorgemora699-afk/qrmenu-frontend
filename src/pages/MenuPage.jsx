@@ -3,6 +3,7 @@ import MenuHero from "../components/menu/MenuHero"
 import CategoriesGrid from "../components/menu/CategoriesGrid"
 import { useMenu } from "../hooks/useMenu"
 import PageBackground from "../components/layout/PageBackground"
+import PageContainer from "../components/layout/PageContainer"
 import Loading from "../components/common/Loading"
 import ErrorState from "../components/common/ErrorState"
 
