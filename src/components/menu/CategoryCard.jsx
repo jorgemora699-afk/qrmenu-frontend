@@ -1,9 +1,18 @@
 function CategoryCard({ category, onClick }) {
   return (
     <button className="category-card" onClick={onClick}>
-      <span className="category-emoji">
-        {category.emoji || "🍽"}
-      </span>
+
+      {category.image_url ? (
+        <img
+          src={category.image_url}
+          alt={category.name}
+          className="category-image"
+        />
+      ) : (
+        <span className="category-emoji">
+          {category.emoji || "🍽"}
+        </span>
+      )}
 
       <div className="category-info">
         <span className="category-name">
@@ -18,6 +27,7 @@ function CategoryCard({ category, onClick }) {
       <span className="category-arrow">
         →
       </span>
+
     </button>
   )
 }
