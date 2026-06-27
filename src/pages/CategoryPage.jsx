@@ -1,8 +1,9 @@
 import { useParams, useNavigate } from "react-router-dom"
 import { useCategory } from "../hooks/useCategory"
-import ProductCard from "../components/product/ProductCard"
 import Loading from "../components/common/Loading"
 import ErrorState from "../components/common/ErrorState"
+import ProductCard from "../components/product/ProductCard"
+import PageContainer from "../components/layout/PageContainer"
 
 function CategoryPage() {
   const { slug, categoryId } = useParams()
@@ -18,27 +19,40 @@ function CategoryPage() {
 
   return (
     <PageContainer>
-    <div className="category-page">
-      <button className="back-btn" onClick={() => navigate(`/${slug}`)}>
-        ← Volver
-      </button>
+      <div className="category-page">
 
-      <h2>{category.name}</h2>
+        <div className="category-header">
 
-      <div className="products-list">
-        {category.products.map((product) => (
-          <ProductCard
-            key={product.id}
-            product={product}
-            onClick={() =>
-              navigate(`/${slug}/${categoryId}/${product.id}`, {
-                state: { product, category },
-              })
-            }
-          />
-        ))}
+          <button
+            className="back-btn"
+            onClick={() => navigate(`/${slug}`)}
+          >
+            ← Menú
+          </button>
+
+          <h1 className="category-title">
+            {category.name}
+          </h1>
+
+          <p className="category-subtitle">
+            {category.products.length} productos disponibles
+          </p>
+
+        </div>
+
+        <div className="products-list">
+          {category.products.map((product) => (
+            <ProductCard
+              key={product.id}
+              product={product}
+              onClick={() =>
+                navigate(`/${slug}/${categoryId}/${product.id}`)
+              }
+            />
+          ))}
+        </div>
+
       </div>
-    </div>
     </PageContainer>
   )
 }

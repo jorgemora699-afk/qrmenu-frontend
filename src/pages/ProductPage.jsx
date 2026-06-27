@@ -23,7 +23,15 @@ function ProductPage() {
 
   return (
     <PageContainer>
+
       <div className="product-page">
+
+        <button
+          className="back-btn"
+          onClick={() => navigate(`/${slug}/${categoryId}`)}
+        >
+          ← Menú
+        </button>
 
         <ProductImage
           src={product.image_url}
@@ -32,26 +40,24 @@ function ProductPage() {
 
         <div className="product-content">
 
-          <button
-            className="back-btn"
-            onClick={() => navigate(`/${slug}/${categoryId}`)}
-          >
-            ← Volver al menú
-          </button>
-
           <h1 className="product-title">
             {product.name}
           </h1>
 
-          <p className="product-description">
-            {product.description}
-          </p>
+          {product.description && (
+            <p className="product-description">
+              {product.description}
+            </p>
+          )}
 
-          <ProductPrice price={product.price} />
+          <ProductPrice
+            price={product.price}
+          />
 
         </div>
 
       </div>
+
     </PageContainer>
   )
 }

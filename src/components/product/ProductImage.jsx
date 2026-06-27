@@ -1,5 +1,11 @@
 function ProductImage({ src, alt }) {
-  if (!src) return null
+  if (!src) {
+    return (
+      <div className="product-image-placeholder">
+        🍽
+      </div>
+    )
+  }
 
   return (
     <img
