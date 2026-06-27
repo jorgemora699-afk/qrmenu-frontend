@@ -98,14 +98,6 @@ function ProfilePage() {
           <h2>Perfil del negocio</h2>
         </div>
 
-        <button
-          className="btn-primary"
-          onClick={handleSave}
-          disabled={saving}
-        >
-          {saving ? "Guardando..." : "Guardar"}
-        </button>
-
       </div>
 
       {success && (
@@ -122,6 +114,10 @@ function ProfilePage() {
           logo_url={form.logo_url}
           banner_url={form.banner_url}
         />
+
+        <h3 className="section-title">
+          Información
+        </h3>
 
         <div className="form-group">
           <label>Nombre del negocio</label>
@@ -152,6 +148,10 @@ function ProfilePage() {
             placeholder="Ej: El mejor café de la ciudad"
           />
         </div>
+
+        <h3 className="section-title">
+          Imágenes
+        </h3>
 
         <div className="form-group">
           <label>Logo del negocio</label>
@@ -232,6 +232,14 @@ function ProfilePage() {
 
           </div>
         </div>
+
+        <button
+          className="save-profile-btn"
+          onClick={handleSave}
+          disabled={saving}
+        >
+          {saving ? "Guardando..." : "Guardar cambios"}
+        </button>
 
       </div>
 

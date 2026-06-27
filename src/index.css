@@ -1022,3 +1022,29 @@ body {
     border-radius:12px;
     font-weight:600;
 }
+
+.section-title{
+  margin-top:24px;
+  margin-bottom:12px;
+  font-size:1.1rem;
+  font-weight:700;
+  color:#222;
+}
+
+.save-profile-btn{
+  margin-top:30px;
+  width:100%;
+  border:none;
+  border-radius:16px;
+  background:#111;
+  color:white;
+  padding:16px;
+  font-size:1rem;
+  font-weight:700;
+  cursor:pointer;
+  transition:.2s;
+}
+
+.save-profile-btn:hover{
+  transform:translateY(-2px);
+}
