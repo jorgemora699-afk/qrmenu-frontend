@@ -442,8 +442,15 @@ body {
 
 .add-form {
   display: flex;
-  gap: 0.75rem;
-  margin-bottom: 1.5rem;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.add-form-image-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-start;
 }
 
 .add-form input {
