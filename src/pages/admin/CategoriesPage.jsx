@@ -17,9 +17,11 @@ function CategoriesPage() {
 
   const [editingId, setEditingId] = useState(null)
   const [editingName, setEditingName] = useState("")
+  const [editingImage, setEditingImage] = useState(null)
 
   const [loading, setLoading] = useState(true)
   const [uploading, setUploading] = useState(false)
+  const [savingEdit, setSavingEdit] = useState(false)
 
   useEffect(() => {
     fetchCategories()
@@ -69,15 +71,27 @@ function CategoriesPage() {
     if (!editingName.trim()) return
 
     try {
-      await updateCategory(id, {
-        name: editingName
-      })
+      setSavingEdit(true)
+
+      const payload = {
+        name: editingName.trim()
+      }
+
+      if (editingImage) {
+        const upload = await uploadImage(editingImage)
+        payload.image_url = upload.data.url
+      }
+
+      await updateCategory(id, payload)
 
       setEditingId(null)
+      setEditingImage(null)
       fetchCategories()
     } catch (err) {
       console.error(err)
       alert("Error al actualizar")
+    } finally {
+      setSavingEdit(false)
     }
   }
 
@@ -120,32 +134,36 @@ function CategoriesPage() {
           onKeyDown={(e) => e.key === "Enter" && handleCreate()}
         />
 
-        <input
-          type="file"
-          accept="image/*"
-          onChange={(e) => setSelectedImage(e.target.files[0])}
-        />
+        <div className="add-form-image-row">
 
-        {selectedImage && (
-          <img
-            src={URL.createObjectURL(selectedImage)}
-            alt="Vista previa"
-            style={{
-              width: 120,
-              height: 120,
-              objectFit: "cover",
-              borderRadius: 12,
-              marginTop: 10
-            }}
+          <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => setSelectedImage(e.target.files[0])}
           />
-        )}
 
-        <button
-          onClick={handleCreate}
-          disabled={uploading}
-        >
-          {uploading ? "Subiendo..." : "Agregar"}
-        </button>
+          {selectedImage && (
+            <img
+              src={URL.createObjectURL(selectedImage)}
+              alt="Vista previa"
+              style={{
+                width: 120,
+                height: 120,
+                objectFit: "cover",
+                borderRadius: 12,
+                marginTop: 10
+              }}
+            />
+          )}
+
+          <button
+            onClick={handleCreate}
+            disabled={uploading}
+          >
+            {uploading ? "Subiendo..." : "Agregar"}
+          </button>
+
+        </div>
 
       </div>
 
@@ -161,26 +179,63 @@ function CategoriesPage() {
             {editingId === cat.id ? (
 
               <>
-                <input
-                  value={editingName}
-                  onChange={(e) => setEditingName(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleUpdate(cat.id)}
-                  autoFocus
-                />
-
-                <button
-                  className="btn-save"
-                  onClick={() => handleUpdate(cat.id)}
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column",
+                    gap: "8px",
+                    width: "100%"
+                  }}
                 >
-                  Guardar
-                </button>
+                  <input
+                    value={editingName}
+                    onChange={(e) => setEditingName(e.target.value)}
+                    onKeyDown={(e) => e.key === "Enter" && handleUpdate(cat.id)}
+                    autoFocus
+                  />
 
-                <button
-                  className="btn-cancel"
-                  onClick={() => setEditingId(null)}
-                >
-                  Cancelar
-                </button>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => setEditingImage(e.target.files[0])}
+                  />
+
+                  <img
+                    src={
+                      editingImage
+                        ? URL.createObjectURL(editingImage)
+                        : cat.image_url
+                    }
+                    alt="Vista previa"
+                    style={{
+                      width: 80,
+                      height: 80,
+                      objectFit: "cover",
+                      borderRadius: 12,
+                      display: editingImage || cat.image_url ? "block" : "none"
+                    }}
+                  />
+
+                  <div style={{ display: "flex", gap: "8px" }}>
+                    <button
+                      className="btn-save"
+                      onClick={() => handleUpdate(cat.id)}
+                      disabled={savingEdit}
+                    >
+                      {savingEdit ? "Guardando..." : "Guardar"}
+                    </button>
+
+                    <button
+                      className="btn-cancel"
+                      onClick={() => {
+                        setEditingId(null)
+                        setEditingImage(null)
+                      }}
+                    >
+                      Cancelar
+                    </button>
+                  </div>
+                </div>
               </>
 
             ) : (
@@ -228,6 +283,7 @@ function CategoriesPage() {
                     onClick={() => {
                       setEditingId(cat.id)
                       setEditingName(cat.name)
+                      setEditingImage(null)
                     }}
                   >
                     Editar

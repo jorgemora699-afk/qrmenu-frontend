@@ -20,8 +20,7 @@ export const createCategory = (data) => api.post("/api/categories/", data )
 export const updateCategory = (id, data) => api.put(`/api/categories/${id}`, data)
 export const deleteCategory = (id) => api.delete(`/api/categories/${id}`)
 
-export const getProducts = (category_id) =>
-  api.get("/api/products/", { params: category_id ? { category_id } : {} })
+export const getProducts = (category_id) => api.get("/api/products/", { params: category_id ? { category_id } : {} })
 export const createProduct = (data) => api.post("/api/products/", data)
 export const updateProduct = (id, data) => api.put(`/api/products/${id}`, data)
 export const deleteProduct = (id) => api.delete(`/api/products/${id}`)
