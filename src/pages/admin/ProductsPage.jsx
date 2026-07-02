@@ -123,22 +123,6 @@ function ProductsPage() {
 
       </select>
 
-      <div className="upload-area">
-        {form.image_url && (
-            <img src={form.image_url} alt="Producto" className="logo-preview" />
-        )}
-        <label className="upload-btn">
-            {uploading ? "Subiendo..." : form.image_url ? "Cambiar imagen" : "Subir imagen"}
-            <input
-            type="file"
-            accept="image/*"
-            onChange={handleImageUpload}
-            style={{ display: "none" }}
-            disabled={uploading}
-            />
-        </label>
-      </div>
-
       {showForm && (
         <div className="modal-overlay">
           <div className="modal">
@@ -155,16 +139,40 @@ function ProductsPage() {
               onChange={(e) => setForm({ ...form, description: e.target.value })}
               rows={3}
             />
+            <div className="upload-area">
+
+                {form.image_url && (
+                    <img
+                        src={form.image_url}
+                        alt="Producto"
+                        className="logo-preview"
+                    />
+                )}
+
+                <label className="upload-btn">
+
+                    {uploading
+                        ? "Subiendo..."
+                        : form.image_url
+                            ? "Cambiar imagen"
+                            : "Subir imagen"}
+
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        style={{ display: "none" }}
+                        disabled={uploading}
+                    />
+
+                </label>
+
+            </div>
             <input
               placeholder="Precio"
               type="number"
               value={form.price}
               onChange={(e) => setForm({ ...form, price: e.target.value })}
-            />
-            <input
-              placeholder="URL de imagen"
-              value={form.image_url}
-              onChange={(e) => setForm({ ...form, image_url: e.target.value })}
             />
             <select
               value={form.category_id}
