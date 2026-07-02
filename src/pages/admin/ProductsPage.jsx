@@ -25,13 +25,24 @@ function ProductsPage() {
 
   const fetchCategories = async () => {
     const res = await getCategories()
+
     setCategories(res.data)
+
+    if (res.data.length > 0) {
+      setSelectedCategory(String(res.data[0].id))
+    }
+
     setLoading(false)
   }
 
   const fetchProducts = async () => {
-    const res = await getProducts(selectedCategory || null)
-    setProducts(res.data)
+
+      if (!selectedCategory) return
+
+      const res = await getProducts(selectedCategory)
+
+      setProducts(res.data)
+
   }
 
   const openCreate = () => {
@@ -96,14 +107,20 @@ function ProductsPage() {
       </div>
 
       <select
-        className="filter-select"
-        value={selectedCategory}
-        onChange={(e) => setSelectedCategory(e.target.value)}
+          className="filter-select"
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
       >
-        <option value="">Todas las categorías</option>
-        {categories.map((cat) => (
-          <option key={cat.id} value={cat.id}>{cat.name}</option>
-        ))}
+
+          {categories.map((cat) => (
+              <option
+                  key={cat.id}
+                  value={cat.id}
+              >
+                  {cat.name}
+              </option>
+          ))}
+
       </select>
 
       <div className="upload-area">
