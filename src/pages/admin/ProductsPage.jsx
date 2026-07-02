@@ -1,6 +1,15 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { getCategories, getProducts, createProduct, updateProduct, deleteProduct, uploadImage } from "../../services/api"
+import {
+  getCategories,
+  getProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
+  uploadImage,
+  moveProductUp,
+  moveProductDown
+} from "../../services/api"
 
 function ProductsPage() {
   const navigate = useNavigate()
@@ -89,6 +98,26 @@ function ProductsPage() {
     fetchProducts()
   }
 
+  const handleMoveUp = async (id) => {
+    try {
+      await moveProductUp(id)
+      fetchProducts()
+    } catch (err) {
+      console.error(err)
+      alert("No se pudo mover el producto.")
+    }
+  }
+
+  const handleMoveDown = async (id) => {
+    try {
+      await moveProductDown(id)
+      fetchProducts()
+    } catch (err) {
+      console.error(err)
+      alert("No se pudo mover el producto.")
+    }
+  }
+
   const handleImageUpload = async (e) => {
     const file = e.target.files[0]
     if (!file) return
@@ -164,12 +193,37 @@ function ProductsPage() {
               </div>
 
               <div className="item-actions">
-                <button className="btn-edit" onClick={() => openEdit(product)}>
-                  Editar
-                </button>
-                <button className="btn-delete" onClick={() => handleDelete(product.id)}>
-                  Eliminar
-                </button>
+
+                  <button
+                      className="btn-order"
+                      onClick={() => handleMoveUp(product.id)}
+                      title="Subir"
+                  >
+                      ⬆️
+                  </button>
+
+                  <button
+                      className="btn-order"
+                      onClick={() => handleMoveDown(product.id)}
+                      title="Bajar"
+                  >
+                      ⬇️
+                  </button>
+
+                  <button
+                      className="btn-edit"
+                      onClick={() => openEdit(product)}
+                  >
+                      Editar
+                  </button>
+
+                  <button
+                      className="btn-delete"
+                      onClick={() => handleDelete(product.id)}
+                  >
+                      Eliminar
+                  </button>
+
               </div>
             </div>
           ))

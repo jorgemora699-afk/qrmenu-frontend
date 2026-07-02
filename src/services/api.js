@@ -26,6 +26,8 @@ export const getProducts = (category_id) => api.get("/api/products/", { params: 
 export const createProduct = (data) => api.post("/api/products/", data)
 export const updateProduct = (id, data) => api.put(`/api/products/${id}`, data)
 export const deleteProduct = (id) => api.delete(`/api/products/${id}`)
+export const moveProductUp = (id) => api.put(`/api/products/${id}/move-up`)
+export const moveProductDown = (id) => api.put(`/api/products/${id}/move-down`)
 
 export const getProfile = () => api.get("/api/profile/")
 export const updateProfile = (data) => api.put("/api/profile/", data)
