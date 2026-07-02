@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { getCategories, getProducts, createProduct, updateProduct, deleteProduct, uploadImage  } from "../../services/api"
+import { getCategories, getProducts, createProduct, updateProduct, deleteProduct, uploadImage } from "../../services/api"
 
 function ProductsPage() {
   const navigate = useNavigate()
@@ -36,28 +36,26 @@ function ProductsPage() {
   }
 
   const fetchProducts = async () => {
+    if (!selectedCategory) return
 
-      if (!selectedCategory) return
+    const res = await getProducts(selectedCategory)
 
-      const res = await getProducts(selectedCategory)
-
-      setProducts(res.data)
-
+    setProducts(res.data)
   }
 
   const openCreate = () => {
-      setEditingProduct(null)
+    setEditingProduct(null)
 
-      setForm({
-          name: "",
-          description: "",
-          price: "",
-          image_url: "",
-          available: true,
-          category_id: selectedCategory
-      })
+    setForm({
+      name: "",
+      description: "",
+      price: "",
+      image_url: "",
+      available: true,
+      category_id: selectedCategory
+    })
 
-      setShowForm(true)
+    setShowForm(true)
   }
 
   const openEdit = (product) => {
@@ -96,12 +94,18 @@ function ProductsPage() {
     if (!file) return
     setUploading(true)
     try {
-        const res = await uploadImage(file)
-        setForm({ ...form, image_url: res.data.url })
+      const res = await uploadImage(file)
+      setForm({ ...form, image_url: res.data.url })
     } finally {
-        setUploading(false)
+      setUploading(false)
     }
   }
+
+  const formatPrice = (price) => `$${Number(price).toLocaleString()}`
+
+  const selectedCategoryName = categories.find(
+    (cat) => String(cat.id) === String(selectedCategory)
+  )?.name
 
   if (loading) return <div className="loading">Cargando...</div>
 
@@ -111,110 +115,65 @@ function ProductsPage() {
         <div>
           <button className="back-btn" onClick={() => navigate("/admin")}>← Volver</button>
           <h2>Productos</h2>
+          <p className="admin-header-meta">
+            {products.length} {products.length === 1 ? "producto" : "productos"}
+            {selectedCategoryName ? ` en ${selectedCategoryName}` : ""}
+          </p>
         </div>
         <button className="btn-primary" onClick={openCreate}>+ Agregar</button>
       </div>
 
       <select
-          className="filter-select"
-          value={selectedCategory}
-          onChange={(e) => setSelectedCategory(e.target.value)}
+        className="filter-select"
+        value={selectedCategory}
+        onChange={(e) => setSelectedCategory(e.target.value)}
       >
-
-          {categories.map((cat) => (
-              <option
-                  key={cat.id}
-                  value={cat.id}
-              >
-                  {cat.name}
-              </option>
-          ))}
-
+        {categories.map((cat) => (
+          <option key={cat.id} value={cat.id}>
+            {cat.name}
+          </option>
+        ))}
       </select>
 
       <div className="items-list">
-
         {products.length === 0 ? (
-
-          <div className="empty-state">
-            No hay productos en esta categoría.
+          <div className="items-list-empty">
+            No hay productos en esta categoría todavía.
           </div>
-
         ) : (
-
           products.map((product) => (
-
             <div key={product.id} className="item-row">
-
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "15px",
-                  flex: 1
-                }}
-              >
-
+              {product.image_url ? (
                 <img
-                  src={product.image_url || "https://placehold.co/80x80"}
+                  src={product.image_url}
                   alt={product.name}
-                  style={{
-                    width: "70px",
-                    height: "70px",
-                    objectFit: "cover",
-                    borderRadius: "10px"
-                  }}
+                  className="item-thumb"
                 />
+              ) : (
+                <div className="item-thumb-placeholder">🍽️</div>
+              )}
 
-                <div>
-
-                  <h4 style={{ margin: 0 }}>
-                    {product.name}
-                  </h4>
-
-                  <p
-                    style={{
-                      margin: "6px 0",
-                      color: "#666"
-                    }}
-                  >
-                    ${Number(product.price).toLocaleString()}
-                  </p>
-
-                  <small>
-                    {product.available
-                      ? "✅ Disponible"
-                      : "❌ No disponible"}
-                  </small>
-
-                </div>
-
+              <div className="product-admin-info">
+                <span className="item-name">{product.name}</span>
+                <span style={{ color: "var(--admin-accent)", fontWeight: 700 }}>
+                  {formatPrice(product.price)}
+                </span>
+                <span className={product.available ? "badge-available" : "badge-unavailable"}>
+                  {product.available ? "Disponible" : "No disponible"}
+                </span>
               </div>
 
               <div className="item-actions">
-
-                <button
-                  className="btn-edit"
-                  onClick={() => openEdit(product)}
-                >
+                <button className="btn-edit" onClick={() => openEdit(product)}>
                   Editar
                 </button>
-
-                <button
-                  className="btn-delete"
-                  onClick={() => handleDelete(product.id)}
-                >
+                <button className="btn-delete" onClick={() => handleDelete(product.id)}>
                   Eliminar
                 </button>
-
               </div>
-
             </div>
-
           ))
-
         )}
-
       </div>
 
       {showForm && (
@@ -233,41 +192,31 @@ function ProductsPage() {
               onChange={(e) => setForm({ ...form, description: e.target.value })}
               rows={3}
             />
+
             <div className="upload-area">
+              {form.image_url && (
+                <img src={form.image_url} alt="Producto" className="logo-preview" />
+              )}
 
-                {form.image_url && (
-                    <img
-                        src={form.image_url}
-                        alt="Producto"
-                        className="logo-preview"
-                    />
-                )}
-
-                <label className="upload-btn">
-
-                    {uploading
-                        ? "Subiendo..."
-                        : form.image_url
-                            ? "Cambiar imagen"
-                            : "Subir imagen"}
-
-                    <input
-                        type="file"
-                        accept="image/*"
-                        onChange={handleImageUpload}
-                        style={{ display: "none" }}
-                        disabled={uploading}
-                    />
-
-                </label>
-
+              <label className="upload-btn">
+                {uploading ? "Subiendo..." : form.image_url ? "Cambiar imagen" : "Subir imagen"}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  style={{ display: "none" }}
+                  disabled={uploading}
+                />
+              </label>
             </div>
+
             <input
               placeholder="Precio"
               type="number"
               value={form.price}
               onChange={(e) => setForm({ ...form, price: e.target.value })}
             />
+
             <select
               value={form.category_id}
               onChange={(e) => setForm({ ...form, category_id: e.target.value })}
