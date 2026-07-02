@@ -46,9 +46,18 @@ function ProductsPage() {
   }
 
   const openCreate = () => {
-    setEditingProduct(null)
-    setForm({ name: "", description: "", price: "", image_url: "", available: true, category_id: categories[0]?.id || "" })
-    setShowForm(true)
+      setEditingProduct(null)
+
+      setForm({
+          name: "",
+          description: "",
+          price: "",
+          image_url: "",
+          available: true,
+          category_id: selectedCategory
+      })
+
+      setShowForm(true)
   }
 
   const openEdit = (product) => {
@@ -122,6 +131,91 @@ function ProductsPage() {
           ))}
 
       </select>
+
+      <div className="items-list">
+
+        {products.length === 0 ? (
+
+          <div className="empty-state">
+            No hay productos en esta categoría.
+          </div>
+
+        ) : (
+
+          products.map((product) => (
+
+            <div key={product.id} className="item-row">
+
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "15px",
+                  flex: 1
+                }}
+              >
+
+                <img
+                  src={product.image_url || "https://placehold.co/80x80"}
+                  alt={product.name}
+                  style={{
+                    width: "70px",
+                    height: "70px",
+                    objectFit: "cover",
+                    borderRadius: "10px"
+                  }}
+                />
+
+                <div>
+
+                  <h4 style={{ margin: 0 }}>
+                    {product.name}
+                  </h4>
+
+                  <p
+                    style={{
+                      margin: "6px 0",
+                      color: "#666"
+                    }}
+                  >
+                    ${Number(product.price).toLocaleString()}
+                  </p>
+
+                  <small>
+                    {product.available
+                      ? "✅ Disponible"
+                      : "❌ No disponible"}
+                  </small>
+
+                </div>
+
+              </div>
+
+              <div className="item-actions">
+
+                <button
+                  className="btn-edit"
+                  onClick={() => openEdit(product)}
+                >
+                  Editar
+                </button>
+
+                <button
+                  className="btn-delete"
+                  onClick={() => handleDelete(product.id)}
+                >
+                  Eliminar
+                </button>
+
+              </div>
+
+            </div>
+
+          ))
+
+        )}
+
+      </div>
 
       {showForm && (
         <div className="modal-overlay">
