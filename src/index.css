@@ -948,3 +948,18 @@ body {
 .dashboard-subtitle {
   color: #777;
 }
+
+.btn-order {
+    width: 42px;
+    height: 42px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    background: #f3f4f6;
+    font-size: 18px;
+    transition: .2s;
+}
+
+.btn-order:hover {
+    background: #e5e7eb;
+}

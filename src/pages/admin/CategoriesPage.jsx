@@ -5,7 +5,9 @@ import {
   createCategory,
   updateCategory,
   deleteCategory,
-  uploadImage
+  uploadImage,
+  moveCategoryUp,
+  moveCategoryDown
 } from "../../services/api"
 
 function CategoriesPage() {
@@ -104,6 +106,26 @@ function CategoriesPage() {
     } catch (err) {
       console.error(err)
       alert("Error al eliminar")
+    }
+  }
+
+  const handleMoveUp = async (id) => {
+    try {
+      await moveCategoryUp(id)
+      fetchCategories()
+    } catch (err) {
+      console.error(err)
+      alert("No se pudo mover la categoría.")
+    }
+  }
+
+  const handleMoveDown = async (id) => {
+    try {
+      await moveCategoryDown(id)
+      fetchCategories()
+    } catch (err) {
+      console.error(err)
+      alert("No se pudo mover la categoría.")
     }
   }
 
@@ -279,11 +301,26 @@ function CategoriesPage() {
                 <div className="item-actions">
 
                   <button
+                    className="btn-order"
+                    onClick={() => handleMoveUp(cat.id)}
+                    title="Subir"
+                  >
+                    ⬆️
+                  </button>
+
+                  <button
+                    className="btn-order"
+                    onClick={() => handleMoveDown(cat.id)}
+                    title="Bajar"
+                  >
+                    ⬇️
+                  </button>
+
+                  <button
                     className="btn-edit"
                     onClick={() => {
                       setEditingId(cat.id)
                       setEditingName(cat.name)
-                      setEditingImage(null)
                     }}
                   >
                     Editar
