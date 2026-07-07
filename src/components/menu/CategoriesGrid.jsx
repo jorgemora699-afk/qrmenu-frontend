@@ -6,10 +6,11 @@ function CategoriesGrid({ categories, onCategoryClick }) {
       <p className="menu-subtitle">¿Qué deseas ver?</p>
 
       <div className="categories-grid">
-        {categories.map((category) => (
+        {categories.map((category, index) => (
           <CategoryCard
             key={category.id}
             category={category}
+            index={index}
             onClick={() => onCategoryClick(category)}
           />
         ))}

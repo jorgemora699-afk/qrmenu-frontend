@@ -1,6 +1,10 @@
-function CategoryCard({ category, onClick }) {
+function CategoryCard({ category, index, onClick }) {
   return (
     <button className="category-card" onClick={onClick}>
+
+      <span className="category-index">
+        {String(index + 1).padStart(2, "0")}
+      </span>
 
       {category.image_url ? (
         <img
@@ -20,7 +24,7 @@ function CategoryCard({ category, onClick }) {
         </span>
 
         <span className="category-count">
-          {category.products.length} productos
+          {category.products.length} {category.products.length === 1 ? "producto" : "productos"}
         </span>
       </div>
 

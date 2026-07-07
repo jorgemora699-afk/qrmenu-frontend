@@ -18,6 +18,8 @@ function MenuHero({ business }) {
           {business.tagline}
         </p>
       )}
+
+      <span className="hero-rule" />
     </div>
   )
 }
