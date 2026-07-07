@@ -10,6 +10,45 @@ import {
   moveCategoryDown
 } from "../../services/api"
 
+/* ---------- iconos (trazo fino, sin dependencias externas) ---------- */
+
+const IconChevronUp = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="18 15 12 9 6 15" />
+  </svg>
+)
+
+const IconChevronDown = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+)
+
+const IconPencil = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 20h9" />
+    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+  </svg>
+)
+
+const IconTrash = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="3 6 5 6 21 6" />
+    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+    <path d="M10 11v6" />
+    <path d="M14 11v6" />
+    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+  </svg>
+)
+
+const IconImage = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="3" y="3" width="18" height="18" rx="3" />
+    <circle cx="8.5" cy="8.5" r="1.5" />
+    <path d="M21 15l-5-5L5 21" />
+  </svg>
+)
+
 function CategoriesPage() {
   const navigate = useNavigate()
 
@@ -134,89 +173,78 @@ function CategoriesPage() {
   return (
     <div className="admin-page">
 
-      <div className="admin-header">
-        <button
-          className="back-btn"
-          onClick={() => navigate("/admin")}
-        >
+      <header className="panel-header">
+        <button className="back-btn" onClick={() => navigate("/admin")}>
           ← Volver
         </button>
 
-        <h2>Categorías</h2>
-        <span className="admin-header-meta">
-          {categories.length} {categories.length === 1 ? "categoría" : "categorías"} · el orden aquí es el orden que verán tus clientes
-        </span>
-      </div>
+        <div className="panel-header-top">
+          <h2 className="panel-title">Categorías</h2>
+          <span className="panel-count">
+            {categories.length} {categories.length === 1 ? "categoría" : "categorías"}
+          </span>
+        </div>
 
-      <div className="add-form">
+        <div className="panel-rule" />
+        <p className="panel-hint">El orden de esta lista es el orden que verán tus clientes en el menú</p>
+      </header>
 
-        <span className="add-form-label">Nueva categoría</span>
+      <section className="add-card">
+        <span className="add-card-label">Nueva categoría</span>
 
-        <input
-          placeholder="Ej. Entradas, Bebidas, Postres..."
-          value={newName}
-          onChange={(e) => setNewName(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleCreate()}
-        />
+        <div className="add-card-row">
+          <input
+            placeholder="Ej. Entradas, Bebidas, Postres..."
+            value={newName}
+            onChange={(e) => setNewName(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleCreate()}
+          />
 
-        <div className="add-form-image-row">
-
-          <label className="dropzone">
+          <label className="thumb-picker">
             {selectedImage ? (
               <img
-                className="dropzone-preview"
+                className="thumb-picker-preview"
                 src={URL.createObjectURL(selectedImage)}
                 alt="Vista previa"
               />
             ) : (
-              <span>🖼️</span>
+              <IconImage />
             )}
-            {selectedImage ? "Cambiar imagen" : "Agregar imagen (opcional)"}
+            <span>{selectedImage ? "Cambiar" : "Imagen"}</span>
             <input
               type="file"
               accept="image/*"
               onChange={(e) => setSelectedImage(e.target.files[0])}
             />
           </label>
-
-          <button
-            onClick={handleCreate}
-            disabled={uploading}
-          >
-            {uploading ? "Subiendo..." : "Agregar categoría"}
-          </button>
-
         </div>
 
-      </div>
+        <button
+          className="btn-primary"
+          onClick={handleCreate}
+          disabled={uploading}
+        >
+          {uploading ? "Subiendo..." : "Agregar categoría"}
+        </button>
+      </section>
 
       {categories.length === 0 ? (
 
-        <div className="items-list-empty">
+        <div className="empty-state">
           Todavía no tienes categorías. Crea la primera arriba para empezar a organizar tu menú.
         </div>
 
       ) : (
 
-        <div className="items-list">
+        <ol className="menu-ledger">
 
           {categories.map((cat, index) => (
 
-            <div
-              key={cat.id}
-              className="item-row"
-            >
+            <li key={cat.id} className="ledger-row">
 
               {editingId === cat.id ? (
 
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: "10px",
-                    width: "100%"
-                  }}
-                >
+                <div className="ledger-edit-form">
                   <input
                     value={editingName}
                     onChange={(e) => setEditingName(e.target.value)}
@@ -224,29 +252,27 @@ function CategoriesPage() {
                     autoFocus
                   />
 
-                  <div className="add-form-image-row">
-                    <label className="dropzone">
-                      {(editingImage || cat.image_url) ? (
-                        <img
-                          className="dropzone-preview"
-                          src={editingImage ? URL.createObjectURL(editingImage) : cat.image_url}
-                          alt="Vista previa"
-                        />
-                      ) : (
-                        <span>🖼️</span>
-                      )}
-                      Cambiar imagen
-                      <input
-                        type="file"
-                        accept="image/*"
-                        onChange={(e) => setEditingImage(e.target.files[0])}
+                  <label className="thumb-picker">
+                    {(editingImage || cat.image_url) ? (
+                      <img
+                        className="thumb-picker-preview"
+                        src={editingImage ? URL.createObjectURL(editingImage) : cat.image_url}
+                        alt="Vista previa"
                       />
-                    </label>
-                  </div>
+                    ) : (
+                      <IconImage />
+                    )}
+                    <span>Cambiar imagen</span>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => setEditingImage(e.target.files[0])}
+                    />
+                  </label>
 
-                  <div style={{ display: "flex", gap: "8px" }}>
+                  <div className="ledger-edit-actions">
                     <button
-                      className="btn-save"
+                      className="btn-primary"
                       onClick={() => handleUpdate(cat.id)}
                       disabled={savingEdit}
                     >
@@ -268,82 +294,75 @@ function CategoriesPage() {
               ) : (
 
                 <>
-                  <div
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "12px",
-                      minWidth: 0
-                    }}
-                  >
-                    <span className="item-index">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
+                  <span className="ledger-index">
+                    {String(index + 1).padStart(2, "0")}
+                  </span>
 
-                    {cat.image_url ? (
-                      <img
-                        className="item-thumb"
-                        src={cat.image_url}
-                        alt={cat.name}
-                      />
-                    ) : (
-                      <span className="item-thumb-placeholder">🍽</span>
-                    )}
+                  {cat.image_url ? (
+                    <img
+                      className="ledger-thumb"
+                      src={cat.image_url}
+                      alt={cat.name}
+                    />
+                  ) : (
+                    <span className="ledger-thumb-placeholder">🍽</span>
+                  )}
 
-                    <span className="item-name">
-                      {cat.name}
-                    </span>
-                  </div>
+                  <span className="ledger-name">{cat.name}</span>
 
-                  <div className="item-actions">
-
+                  <div className="ledger-actions">
                     <button
-                      className="btn-order"
+                      className="icon-btn"
                       onClick={() => handleMoveUp(cat.id)}
                       disabled={index === 0}
                       title="Subir"
+                      aria-label="Subir categoría"
                     >
-                      ▲
+                      <IconChevronUp />
                     </button>
 
                     <button
-                      className="btn-order"
+                      className="icon-btn"
                       onClick={() => handleMoveDown(cat.id)}
                       disabled={index === categories.length - 1}
                       title="Bajar"
+                      aria-label="Bajar categoría"
                     >
-                      ▼
+                      <IconChevronDown />
                     </button>
 
-                    <div className="item-actions-divider" />
+                    <div className="ledger-divider" />
 
                     <button
-                      className="btn-edit"
+                      className="icon-btn"
                       onClick={() => {
                         setEditingId(cat.id)
                         setEditingName(cat.name)
                       }}
+                      title="Editar"
+                      aria-label="Editar categoría"
                     >
-                      Editar
+                      <IconPencil />
                     </button>
 
                     <button
-                      className="btn-delete"
+                      className="icon-btn icon-btn-danger"
                       onClick={() => handleDelete(cat.id)}
+                      title="Eliminar"
+                      aria-label="Eliminar categoría"
                     >
-                      Eliminar
+                      <IconTrash />
                     </button>
-
                   </div>
                 </>
 
               )}
 
-            </div>
+            </li>
 
           ))}
 
-        </div>
+        </ol>
 
       )}
 

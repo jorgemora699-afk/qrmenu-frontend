@@ -11,6 +11,37 @@ import {
   moveProductDown
 } from "../../services/api"
 
+/* ---------- iconos (trazo fino, sin dependencias externas) ---------- */
+
+const IconChevronUp = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="18 15 12 9 6 15" />
+  </svg>
+)
+
+const IconChevronDown = () => (
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="6 9 12 15 18 9" />
+  </svg>
+)
+
+const IconPencil = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M12 20h9" />
+    <path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z" />
+  </svg>
+)
+
+const IconTrash = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="3 6 5 6 21 6" />
+    <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+    <path d="M10 11v6" />
+    <path d="M14 11v6" />
+    <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+  </svg>
+)
+
 function ProductsPage() {
   const navigate = useNavigate()
   const [categories, setCategories] = useState([])
@@ -140,17 +171,21 @@ function ProductsPage() {
 
   return (
     <div className="admin-page">
-      <div className="admin-header">
-        <div>
-          <button className="back-btn" onClick={() => navigate("/admin")}>← Volver</button>
-          <h2>Productos</h2>
-          <p className="admin-header-meta">
-            {products.length} {products.length === 1 ? "producto" : "productos"}
-            {selectedCategoryName ? ` en ${selectedCategoryName}` : ""}
-          </p>
+
+      <header className="panel-header">
+        <button className="back-btn" onClick={() => navigate("/admin")}>← Volver</button>
+
+        <div className="panel-header-top">
+          <h2 className="panel-title">Productos</h2>
+          <button className="btn-primary" onClick={openCreate}>+ Agregar</button>
         </div>
-        <button className="btn-primary" onClick={openCreate}>+ Agregar</button>
-      </div>
+
+        <div className="panel-rule" />
+        <p className="panel-hint">
+          {products.length} {products.length === 1 ? "producto" : "productos"}
+          {selectedCategoryName ? ` en ${selectedCategoryName}` : ""}
+        </p>
+      </header>
 
       <select
         className="filter-select"
@@ -164,76 +199,88 @@ function ProductsPage() {
         ))}
       </select>
 
-      <div className="items-list">
-        {products.length === 0 ? (
-          <div className="items-list-empty">
-            No hay productos en esta categoría todavía.
-          </div>
-        ) : (
-          products.map((product) => (
-            <div key={product.id} className="item-row">
+      {products.length === 0 ? (
+        <div className="empty-state">
+          No hay productos en esta categoría todavía.
+        </div>
+      ) : (
+        <ol className="menu-ledger">
+          {products.map((product) => (
+            <li key={product.id} className="ledger-row">
+
               {product.image_url ? (
                 <img
                   src={product.image_url}
                   alt={product.name}
-                  className="item-thumb"
+                  className="ledger-thumb"
                 />
               ) : (
-                <div className="item-thumb-placeholder">🍽️</div>
+                <span className="ledger-thumb-placeholder">🍽</span>
               )}
 
-              <div className="product-admin-info">
-                <span className="item-name">{product.name}</span>
-                <span style={{ color: "var(--admin-accent)", fontWeight: 700 }}>
-                  {formatPrice(product.price)}
-                </span>
-                <span className={product.available ? "badge-available" : "badge-unavailable"}>
-                  {product.available ? "Disponible" : "No disponible"}
-                </span>
+              <div className="ledger-product-info">
+                <span className="ledger-name">{product.name}</span>
+                <div className="ledger-product-meta">
+                  <span className="price-mono">{formatPrice(product.price)}</span>
+                  <span className={`availability-pill ${product.available ? "availability-pill-on" : "availability-pill-off"}`}>
+                    {product.available ? "Disponible" : "No disponible"}
+                  </span>
+                </div>
               </div>
 
-              <div className="item-actions">
+              <div className="ledger-actions">
 
-                  <button
-                      className="btn-order"
-                      onClick={() => handleMoveUp(product.id)}
-                      title="Subir"
-                  >
-                      ⬆️
-                  </button>
+                <button
+                  className="icon-btn"
+                  onClick={() => handleMoveUp(product.id)}
+                  title="Subir"
+                  aria-label="Subir producto"
+                >
+                  <IconChevronUp />
+                </button>
 
-                  <button
-                      className="btn-order"
-                      onClick={() => handleMoveDown(product.id)}
-                      title="Bajar"
-                  >
-                      ⬇️
-                  </button>
+                <button
+                  className="icon-btn"
+                  onClick={() => handleMoveDown(product.id)}
+                  title="Bajar"
+                  aria-label="Bajar producto"
+                >
+                  <IconChevronDown />
+                </button>
 
-                  <button
-                      className="btn-edit"
-                      onClick={() => openEdit(product)}
-                  >
-                      Editar
-                  </button>
+                <div className="ledger-divider" />
 
-                  <button
-                      className="btn-delete"
-                      onClick={() => handleDelete(product.id)}
-                  >
-                      Eliminar
-                  </button>
+                <button
+                  className="icon-btn"
+                  onClick={() => openEdit(product)}
+                  title="Editar"
+                  aria-label="Editar producto"
+                >
+                  <IconPencil />
+                </button>
+
+                <button
+                  className="icon-btn icon-btn-danger"
+                  onClick={() => handleDelete(product.id)}
+                  title="Eliminar"
+                  aria-label="Eliminar producto"
+                >
+                  <IconTrash />
+                </button>
 
               </div>
-            </div>
-          ))
-        )}
-      </div>
+            </li>
+          ))}
+        </ol>
+      )}
 
       {showForm && (
         <div className="modal-overlay">
           <div className="modal">
-            <h3>{editingProduct ? "Editar producto" : "Nuevo producto"}</h3>
+            <span className="add-card-label">
+              {editingProduct ? "Editar producto" : "Nuevo producto"}
+            </span>
+            <h3>{editingProduct ? editingProduct.name : "Agrega un producto"}</h3>
 
             <input
               placeholder="Nombre"

@@ -1,5 +1,6 @@
 import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
+import { getProfile } from "./services/api"
 import MenuPage from "./pages/MenuPage"
 import CategoryPage from "./pages/CategoryPage"
 import ProductPage from "./pages/ProductPage"
@@ -11,14 +12,63 @@ import RegisterPage from "./pages/RegisterPage"
 import ProfilePage from "./pages/admin/ProfilePage"
 
 const PrivateRoute = ({ children }) => {
-  const token = localStorage.getItem("token")
   const navigate = useNavigate()
 
+  const [loading, setLoading] = useState(true)
+  const [authorized, setAuthorized] = useState(false)
+
   useEffect(() => {
-    if (!token) navigate("/admin/login")
+
+    const validateSession = async () => {
+
+      const token = localStorage.getItem("token")
+
+      if (!token) {
+        navigate("/admin/login")
+        return
+      }
+
+      try {
+
+        await getProfile()
+
+        setAuthorized(true)
+
+      } catch (error) {
+
+        console.error(error)
+
+      } finally {
+
+        setLoading(false)
+
+      }
+
+    }
+
+    validateSession()
+
   }, [])
 
-  if (!token) return null
+  if (loading) {
+    return (
+      <div
+        style={{
+          minHeight: "100vh",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center"
+        }}
+      >
+        Verificando sesión...
+      </div>
+    )
+  }
+
+  if (!authorized) {
+    return null
+  }
+
   return children
 }
 
