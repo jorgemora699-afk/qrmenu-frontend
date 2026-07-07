@@ -10,11 +10,17 @@ function ProductImage({ src, alt, fallbackSrc }) {
   }
 
   return (
-    <img
-      src={imageSrc}
-      alt={alt}
-      className="product-image"
-    />
+    <div className="product-image-frame">
+      <div
+        className="product-image-backdrop"
+        style={{ backgroundImage: `url(${imageSrc})` }}
+      />
+      <img
+        src={imageSrc}
+        alt={alt}
+        className="product-image"
+      />
+    </div>
   )
 }
 
