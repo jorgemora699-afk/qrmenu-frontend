@@ -1,9 +1,14 @@
-function MenuPreview({ name, tagline, logo_url, banner_url }) {
+import { buildThemeVars } from "../../utils/theme"
+
+function MenuPreview({ name, tagline, logo_url, banner_url, accent_color, background_color, text_color, font_key }) {
+  const themeVars = buildThemeVars({ accent_color, background_color, text_color, font_key })
+
   return (
     <div
       className={`menu-preview ${banner_url ? "" : "menu-preview-noimg"}`}
       style={{
         backgroundImage: banner_url ? `url(${banner_url})` : "none",
+        ...themeVars,
       }}
     >
       <div className="menu-preview-overlay">
@@ -16,11 +21,11 @@ function MenuPreview({ name, tagline, logo_url, banner_url }) {
           />
         )}
 
-        <h3>
+        <h3 style={{ fontFamily: "var(--font-display)" }}>
           {name || "Nombre del negocio"}
         </h3>
 
-        <p>
+        <p style={{ fontFamily: "var(--font-display)", fontStyle: "italic" }}>
           {tagline || "Tu slogan aquí"}
         </p>
 

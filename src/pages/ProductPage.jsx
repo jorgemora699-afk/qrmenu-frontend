@@ -24,7 +24,7 @@ function ProductPage() {
   }
 
   return (
-    <PageContainer>
+    <PageContainer business={business}>
 
       <div className="product-page">
 

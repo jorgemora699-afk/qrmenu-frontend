@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@600;700;800&family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@600;700&family=Lora:wght@500;600&family=Space+Grotesk:wght@600;700&family=DM+Serif+Display&family=DM+Sans:wght@400;500;600;700&family=Work+Sans:wght@500;600;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=IBM+Plex+Mono:wght@500;600&display=swap');
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -50,6 +50,7 @@ body {
   min-height: 100vh;
   background: #14110f;
   overflow-x: hidden;
+  font-family: var(--font-body, 'Inter', sans-serif);
 }
 
 /* Capa de imagen fija: cubre TODA la pantalla, no solo el header */
@@ -248,6 +249,7 @@ body {
   background: #14110f;
   overflow-x: hidden;
   padding: 0;
+  font-family: var(--font-body, 'Inter', sans-serif);
 }
 
 .category-back-btn {
@@ -433,6 +435,7 @@ body {
   padding: 0;
   background: #14110f;
   overflow-x: hidden;
+  font-family: var(--font-body, 'Inter', sans-serif);
 }
 
 .product-image-wrap {
@@ -1838,4 +1841,87 @@ body {
 .admin-back-btn:hover {
     background: #111;
     transform: translateY(-2px);
+}
+
+.color-fields-row {
+  display: flex;
+  gap: 14px;
+}
+
+.color-field {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.color-field > label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--rd-ink);
+}
+
+.color-field-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--rd-line);
+  border-radius: 10px;
+  padding: 6px 10px;
+  background: var(--rd-paper);
+}
+
+.color-field-input input[type="color"] {
+  width: 30px;
+  height: 30px;
+  border: none;
+  border-radius: 6px;
+  padding: 0;
+  cursor: pointer;
+  background: none;
+}
+
+.color-field-input span {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--rd-muted);
+}
+
+.font-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.font-picker-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--rd-line);
+  border-radius: 12px;
+  padding: 14px 8px;
+  background: var(--rd-paper);
+  cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+
+.font-picker-card:hover {
+  border-color: var(--rd-brass);
+}
+
+.font-picker-card.selected {
+  border-color: var(--rd-brass);
+  background: var(--rd-brass-soft);
+}
+
+.font-picker-sample {
+  font-size: 1.6rem;
+  color: var(--rd-ink);
+}
+
+.font-picker-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--rd-muted);
 }

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { getProfile, updateProfile, uploadImage } from "../../services/api"
 import MenuPreview from "../../components/admin/MenuPreview"
+import { FONT_THEMES } from "../../config/fontThemes"
 
 function ProfilePage() {
   const navigate = useNavigate()
@@ -11,6 +12,10 @@ function ProfilePage() {
     logo_url: "",
     banner_url: "",
     tagline: "",
+    accent_color: "#9c7a3c",
+    background_color: "#f7f4ee",
+    text_color: "#1b1812",
+    font_key: "editorial",
   })
 
   const [loading, setLoading] = useState(true)
@@ -26,6 +31,10 @@ function ProfilePage() {
         logo_url: res.data.logo_url || "",
         banner_url: res.data.banner_url || "",
         tagline: res.data.tagline || "",
+        accent_color: res.data.accent_color || "#9c7a3c",
+        background_color: res.data.background_color || "#f7f4ee",
+        text_color: res.data.text_color || "#1b1812",
+        font_key: res.data.font_key || "editorial",
       })
 
       setLoading(false)
@@ -114,6 +123,10 @@ function ProfilePage() {
             tagline={form.tagline}
             logo_url={form.logo_url}
             banner_url={form.banner_url}
+            accent_color={form.accent_color}
+            background_color={form.background_color}
+            text_color={form.text_color}
+            font_key={form.font_key}
           />
         </section>
 
@@ -210,6 +223,79 @@ function ProfilePage() {
                 />
               </label>
             </div>
+          </div>
+        </section>
+
+        <section className="profile-card">
+          <span className="add-card-label">Colores</span>
+
+          <div className="color-fields-row">
+
+            <div className="color-field">
+              <label>Acento</label>
+              <div className="color-field-input">
+                <input
+                  type="color"
+                  value={form.accent_color}
+                  onChange={(e) =>
+                    setForm({ ...form, accent_color: e.target.value })
+                  }
+                />
+                <span>{form.accent_color}</span>
+              </div>
+            </div>
+
+            <div className="color-field">
+              <label>Fondo</label>
+              <div className="color-field-input">
+                <input
+                  type="color"
+                  value={form.background_color}
+                  onChange={(e) =>
+                    setForm({ ...form, background_color: e.target.value })
+                  }
+                />
+                <span>{form.background_color}</span>
+              </div>
+            </div>
+
+            <div className="color-field">
+              <label>Texto</label>
+              <div className="color-field-input">
+                <input
+                  type="color"
+                  value={form.text_color}
+                  onChange={(e) =>
+                    setForm({ ...form, text_color: e.target.value })
+                  }
+                />
+                <span>{form.text_color}</span>
+              </div>
+            </div>
+
+          </div>
+        </section>
+
+        <section className="profile-card">
+          <span className="add-card-label">Tipografía</span>
+
+          <div className="font-picker-grid">
+            {Object.entries(FONT_THEMES).map(([key, font]) => (
+              <button
+                key={key}
+                type="button"
+                className={`font-picker-card ${form.font_key === key ? "selected" : ""}`}
+                onClick={() => setForm({ ...form, font_key: key })}
+              >
+                <span
+                  className="font-picker-sample"
+                  style={{ fontFamily: font.display }}
+                >
+                  Aa
+                </span>
+                <span className="font-picker-label">{font.label}</span>
+              </button>
+            ))}
           </div>
         </section>
 

@@ -19,7 +19,7 @@ function CategoryPage() {
   }
 
   return (
-    <PageContainer>
+    <PageContainer business={business}>
       <div className="category-page">
 
         <PageBackground business={business} />

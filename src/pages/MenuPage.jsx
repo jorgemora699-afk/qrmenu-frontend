@@ -21,7 +21,7 @@ function MenuPage() {
 
 
   return (
-    <PageContainer>
+    <PageContainer business={business}>
     <div className="menu-page">
 
       {/* FONDO: la foto del negocio cubre toda la pantalla, no solo el header.
