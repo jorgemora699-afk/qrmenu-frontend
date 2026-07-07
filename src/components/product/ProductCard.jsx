@@ -30,13 +30,19 @@ function ProductCard({ product, onClick }) {
 
         <div className="product-footer">
 
-          <span className="product-price">
+          <span className="product-price price-mono">
             ${product.price.toLocaleString()}
           </span>
 
-          <span className="product-arrow">
-            →
-          </span>
+          {product.available === false ? (
+            <span className="availability-pill availability-pill-off">
+              Agotado
+            </span>
+          ) : (
+            <span className="product-arrow">
+              →
+            </span>
+          )}
 
         </div>
 

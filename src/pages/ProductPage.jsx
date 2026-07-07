@@ -26,17 +26,22 @@ function ProductPage() {
 
       <div className="product-page">
 
-        <button
-          className="back-btn"
-          onClick={() => navigate(`/${slug}/${categoryId}`)}
-        >
-          ← Menú
-        </button>
+        <div className="product-image-wrap">
 
-        <ProductImage
-          src={product.image_url}
-          alt={product.name}
-        />
+          <button
+            className="product-back-btn"
+            onClick={() => navigate(`/${slug}/${categoryId}`)}
+            aria-label="Volver al menú"
+          >
+            ←
+          </button>
+
+          <ProductImage
+            src={product.image_url}
+            alt={product.name}
+          />
+
+        </div>
 
         <div className="product-content">
 
