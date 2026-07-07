@@ -3,6 +3,7 @@ import { useProduct } from "../hooks/useProduct"
 import Loading from "../components/common/Loading"
 import ErrorState from "../components/common/ErrorState"
 import PageContainer from "../components/layout/PageContainer"
+import PageBackground from "../components/layout/PageBackground"
 import ProductImage from "../components/product/ProductImage"
 import ProductPrice from "../components/product/ProductPrice"
 
@@ -11,6 +12,7 @@ function ProductPage() {
   const navigate = useNavigate()
 
   const {
+    business,
     product,
     loading
   } = useProduct(slug, categoryId, productId)
@@ -26,7 +28,9 @@ function ProductPage() {
 
       <div className="product-page">
 
-        <div className="product-image-wrap">
+        <PageBackground business={business} />
+
+        <div className={`product-image-wrap ${!product.image_url ? "is-fallback" : ""}`}>
 
           <button
             className="product-back-btn"
@@ -39,6 +43,7 @@ function ProductPage() {
           <ProductImage
             src={product.image_url}
             alt={product.name}
+            fallbackSrc={business?.banner_url}
           />
 
         </div>

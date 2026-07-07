@@ -1,5 +1,7 @@
-function ProductImage({ src, alt }) {
-  if (!src) {
+function ProductImage({ src, alt, fallbackSrc }) {
+  const imageSrc = src || fallbackSrc
+
+  if (!imageSrc) {
     return (
       <div className="product-image-placeholder">
         🍽
@@ -9,7 +11,7 @@ function ProductImage({ src, alt }) {
 
   return (
     <img
-      src={src}
+      src={imageSrc}
       alt={alt}
       className="product-image"
     />
