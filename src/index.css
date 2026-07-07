@@ -599,54 +599,147 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #f5f5f5;
+  background: var(--rd-paper);
+  padding: 1.5rem;
 }
 
 .login-card {
-  background: white;
-  border-radius: 16px;
-  padding: 2rem;
+  background: var(--rd-surface);
+  border: 1px solid var(--rd-line);
+  border-radius: 20px;
+  padding: 2.25rem 2rem;
   width: 100%;
-  max-width: 360px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  max-width: 380px;
+  box-shadow: 0 18px 45px rgba(27, 24, 18, 0.08);
   display: flex;
   flex-direction: column;
   gap: 1rem;
 }
 
-.login-card h2 { font-size: 1.5rem; }
-.login-card p { color: #888; margin-top: -0.5rem; }
+.login-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--rd-brass-deep);
+}
+
+.login-card h2 {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--rd-ink);
+  letter-spacing: -0.01em;
+  margin-top: -2px;
+}
+
+.login-rule {
+  width: 42px;
+  height: 2px;
+  background: var(--rd-brass);
+  margin: -4px 0 2px;
+}
+
+.login-card p {
+  color: var(--rd-muted);
+  font-size: 0.9rem;
+  margin-top: -8px;
+}
 
 .login-card input {
   padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
+  border: 1px solid var(--rd-line);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
   outline: none;
+  background: var(--rd-paper);
+  color: var(--rd-ink);
+  transition: border-color .15s, background .15s;
 }
 
-.login-card input:focus { border-color: #222; }
+.login-card input:focus {
+  border-color: var(--rd-brass);
+  background: #fff;
+}
 
 .login-card button {
-  background: #222;
+  background: var(--rd-ink);
   color: white;
   border: none;
-  border-radius: 8px;
-  padding: 0.75rem;
-  font-size: 1rem;
+  border-radius: 10px;
+  padding: 0.8rem;
+  font-size: 0.95rem;
+  font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: opacity .15s, transform .15s;
+  margin-top: 4px;
 }
 
-.login-card button:hover { background: #444; }
-.login-card button:disabled { background: #999; cursor: not-allowed; }
+.login-card button:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+.login-card button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
 
 .error-msg {
-  background: #fff0f0;
-  color: #cc0000;
-  padding: 0.75rem;
-  border-radius: 8px;
-  font-size: 0.9rem;
+  background: var(--rd-wine-soft);
+  color: var(--rd-wine);
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  font-size: 0.87rem;
+  font-weight: 500;
+  border: 1px solid rgba(122, 52, 48, 0.15);
+}
+
+.slug-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.slug-field input {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--rd-line);
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-family: 'Inter', sans-serif;
+  outline: none;
+  background: var(--rd-paper);
+  color: var(--rd-ink);
+}
+
+.slug-field input:focus {
+  border-color: var(--rd-brass);
+  background: #fff;
+}
+
+.slug-preview {
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  color: var(--rd-muted);
+  padding-left: 4px;
+}
+
+.login-link {
+  text-align: center;
+  font-size: 0.88rem;
+  color: var(--rd-muted);
+  margin-top: 2px;
+}
+
+.login-link span {
+  color: var(--rd-brass-deep);
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .admin-page {
@@ -1080,41 +1173,6 @@ body {
 }
 
 .modal-actions .btn-primary { flex: 1; }
-
-.slug-field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.slug-field input {
-  padding: 0.75rem 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  font-size: 1rem;
-  outline: none;
-}
-
-.slug-field input:focus { border-color: #222; }
-
-.slug-preview {
-  font-size: 0.8rem;
-  color: #888;
-  padding-left: 4px;
-}
-
-.login-link {
-  text-align: center;
-  font-size: 0.9rem;
-  color: #666;
-}
-
-.login-link span {
-  color: #222;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: underline;
-}
 
 /* ===================== PERFIL ===================== */
 

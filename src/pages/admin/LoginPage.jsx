@@ -27,8 +27,11 @@ function LoginPage() {
   return (
     <div className="admin-login">
       <div className="login-card">
-        <h2>Panel Admin</h2>
-        <p>Ingresa a tu cuenta</p>
+
+        <span className="login-eyebrow">Panel Admin</span>
+        <h2>Bienvenido de nuevo</h2>
+        <div className="login-rule" />
+        <p>Ingresa a tu cuenta para administrar tu menú</p>
 
         {error && <div className="error-msg">{error}</div>}
 

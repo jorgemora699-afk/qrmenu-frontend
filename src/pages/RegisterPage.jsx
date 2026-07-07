@@ -55,8 +55,11 @@ function RegisterPage() {
   return (
     <div className="admin-login">
       <div className="login-card">
-        <h2>Crear cuenta</h2>
-        <p>Registra tu negocio gratis</p>
+
+        <span className="login-eyebrow">Crear cuenta</span>
+        <h2>Registra tu negocio</h2>
+        <div className="login-rule" />
+        <p>Tu menú digital, listo en minutos</p>
 
         {error && <div className="error-msg">{error}</div>}
 
