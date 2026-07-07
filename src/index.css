@@ -1490,6 +1490,7 @@ body {
 .ledger-row {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
   gap: 14px;
   padding: 0.85rem 1.1rem;
   border-bottom: 1px solid var(--rd-line);
@@ -1558,7 +1559,16 @@ body {
 .ledger-product-meta {
   display: flex;
   align-items: center;
-  gap: 10px;
+  flex-wrap: wrap;
+  gap: 8px 10px;
+}
+
+@media (max-width: 420px) {
+  .ledger-actions {
+    flex-basis: 100%;
+    margin-left: 60px; /* alinea bajo el nombre, no bajo la miniatura */
+    justify-content: flex-end;
+  }
 }
 
 .price-mono {
