@@ -950,12 +950,6 @@ body {
 
 /* ===================== PERFIL ===================== */
 
-.profile-form {
-  display: flex;
-  flex-direction: column;
-  gap: 28px;
-}
-
 .form-group {
   display: flex;
   flex-direction: column;
@@ -1000,19 +994,6 @@ body {
   align-items: center;
   gap: 18px;
 }
-
-.upload-btn {
-  background: #222;
-  color: white;
-  border-radius: 12px;
-  padding: 12px 20px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.upload-btn:hover { background: #444; }
 
 .success-msg {
   display: flex;
