@@ -2,7 +2,15 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { getProfile, updateProfile, uploadImage } from "../../services/api"
 import MenuPreview from "../../components/admin/MenuPreview"
-import { FONT_THEMES } from "../../config/fontThemes"
+
+import { FONT_THEMES, DEFAULT_FONT_KEY } from "../../config/fontThemes"
+
+const DEFAULT_THEME = {
+  accent_color: "#9c7a3c",
+  background_color: "#f7f4ee",
+  text_color: "#1b1812",
+  font_key: DEFAULT_FONT_KEY,
+}
 
 function ProfilePage() {
   const navigate = useNavigate()
@@ -85,6 +93,13 @@ function ProfilePage() {
     } finally {
       setSaving(false)
     }
+  }
+
+  const handleResetTheme = () => {
+      setForm((prev) => ({
+        ...prev,
+        ...DEFAULT_THEME,
+      }))
   }
 
   if (loading) {
@@ -297,6 +312,14 @@ function ProfilePage() {
               </button>
             ))}
           </div>
+
+          <button
+            type="button"
+            className="reset-theme-btn"
+            onClick={handleResetTheme}
+          >
+            Restaurar colores y tipografía por defecto
+          </button>
         </section>
 
         <button
