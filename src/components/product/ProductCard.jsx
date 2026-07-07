@@ -31,9 +31,8 @@ function ProductCard({ product, onClick }) {
         <div className="product-footer">
 
           <span className="product-price price-mono">
-            ${product.price.toLocaleString("es-CO", { maximumFractionDigits: 0 })}
+            ${Number(product.price).toLocaleString("es-CO", { maximumFractionDigits: 0 })}
           </span>
-
           {product.available === false ? (
             <span className="availability-pill availability-pill-off">
               Agotado

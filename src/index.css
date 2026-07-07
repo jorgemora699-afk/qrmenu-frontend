@@ -11,6 +11,38 @@ body {
   margin: 0 auto;
 }
 
+:root {
+  --admin-bg: #f7f6f3;
+  --admin-surface: #ffffff;
+  --admin-border: #e8e4dd;
+  --admin-text: #1c1a17;
+  --admin-text-muted: #918b7f;
+  --admin-accent: #9c7a3c;
+  --admin-accent-soft: #f3ecda;
+  --admin-danger: #7a3430;
+  --admin-danger-soft: #f7ebe9;
+
+  /* ---- sistema tipográfico / de carta de restaurante ---- */
+  --font-display: 'Fraunces', serif;
+  --font-body: 'Inter', sans-serif;
+  --font-mono: 'IBM Plex Mono', monospace;
+
+  /* ---- tokens del rediseño (categorías / productos) ---- */
+  --rd-ink: #1b1812;
+  --rd-paper: #f7f4ee;
+  --rd-surface: #ffffff;
+  --rd-line: #e7e1d3;
+  --rd-line-soft: #f0ece1;
+  --rd-muted: #948c7a;
+  --rd-brass: #9c7a3c;
+  --rd-brass-deep: #7c5f2c;
+  --rd-brass-soft: #f3ecda;
+  --rd-wine: #7a3430;
+  --rd-wine-soft: #f7ebe9;
+  --rd-green: #3f6a4e;
+  --rd-green-soft: #eaf2ec;
+}
+
 /* ===================== MENU CLIENTE ===================== */
 
 .menu-page {
@@ -207,77 +239,11 @@ body {
   color: var(--rd-brass);
 }
 
-/* ===================== CATEGORIA Y PRODUCTO (cliente) ===================== */
-/* Estas dos páginas se montan dentro de .page-container, sobre fondo
-   blanco del body — por eso category-title usa color oscuro, no blanco. */
-
-.category-page,
-.product-page {
-  position: relative;
-  z-index: 2;
-  padding: 24px;
-  min-height: 100vh;
-  background: var(--rd-paper);
-}
-
-.product-image-wrap {
-  position: relative;
-}
-
-.product-back-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  z-index: 3;
-
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: none;
-
-  background: rgba(27, 24, 18, 0.55);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  color: #fff;
-
-  font-family: 'Inter', sans-serif;
-  line-height: 1;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 18px;
-
-  cursor: pointer;
-  transition: background .15s, transform .15s;
-}
-
-.product-back-btn:hover {
-  background: rgba(27, 24, 18, 0.8);
-  transform: translateY(-1px);
-}
-
-.back-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: none;
-  border: none;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--admin-text-muted, #555);
-  cursor: pointer;
-  margin-bottom: 14px;
-  padding: 0;
-  transition: color .15s;
-}
-
-.back-btn:hover { color: var(--admin-text, #222); }
-
-/* ----- Categoría (lista de productos) ----- */
+/* ===================== CATEGORIA (cliente) ===================== */
 
 .category-page {
   position: relative;
+  z-index: 2;
   min-height: 100vh;
   background: #14110f;
   overflow-x: hidden;
@@ -328,7 +294,6 @@ body {
   box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.15);
 }
 
-
 .category-eyebrow {
   display: block;
   font-family: var(--font-mono);
@@ -365,25 +330,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 22px;
-}
-
-.product-page {
-  position: relative;
-  padding: 0;
-  background: #14110f;
-  overflow-x: hidden;
-}
-
-.product-image-wrap {
-  position: relative;
-  z-index: 1;
-}
-
-.product-image-wrap.is-fallback::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(27, 24, 18, 0.5);
 }
 
 .product-card {
@@ -479,10 +425,59 @@ body {
   color: #666;
 }
 
-/* ----- Producto (detalle) ----- */
+/* ===================== PRODUCTO (detalle, cliente) ===================== */
 
 .product-page {
+  position: relative;
+  z-index: 2;
   padding: 0;
+  background: #14110f;
+  overflow-x: hidden;
+}
+
+.product-image-wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.product-image-wrap.is-fallback::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(27, 24, 18, 0.5);
+}
+
+.product-back-btn {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  z-index: 3;
+
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+
+  background: rgba(27, 24, 18, 0.55);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fff;
+
+  font-family: 'Inter', sans-serif;
+  line-height: 1;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+
+  cursor: pointer;
+  transition: background .15s, transform .15s;
+}
+
+.product-back-btn:hover {
+  background: rgba(27, 24, 18, 0.8);
+  transform: translateY(-1px);
 }
 
 .product-image,
@@ -494,7 +489,8 @@ body {
 }
 
 .product-image {
-  object-fit: cover;
+  object-fit: contain;
+  background: var(--rd-paper);
   display: block;
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.15);
 }
@@ -506,8 +502,6 @@ body {
   align-items: center;
   justify-content: center;
   font-size: 70px;
-  width: 100%;
-  height: 260px;
   border-radius: 0;
 }
 
@@ -566,6 +560,23 @@ body {
 
 /* ===================== ADMIN ===================== */
 
+.back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--admin-text-muted, #555);
+  cursor: pointer;
+  margin-bottom: 14px;
+  padding: 0;
+  transition: color .15s;
+}
+
+.back-btn:hover { color: var(--admin-text, #222); }
+
 .admin-login {
   min-height: 100vh;
   display: flex;
@@ -619,38 +630,6 @@ body {
   padding: 0.75rem;
   border-radius: 8px;
   font-size: 0.9rem;
-}
-
-:root {
-  --admin-bg: #f7f6f3;
-  --admin-surface: #ffffff;
-  --admin-border: #e8e4dd;
-  --admin-text: #1c1a17;
-  --admin-text-muted: #918b7f;
-  --admin-accent: #9c7a3c;
-  --admin-accent-soft: #f3ecda;
-  --admin-danger: #7a3430;
-  --admin-danger-soft: #f7ebe9;
-
-  /* ---- sistema tipográfico / de carta de restaurante ---- */
-  --font-display: 'Fraunces', serif;
-  --font-body: 'Inter', sans-serif;
-  --font-mono: 'IBM Plex Mono', monospace;
-
-  /* ---- tokens del rediseño (categorías / productos) ---- */
-  --rd-ink: #1b1812;
-  --rd-paper: #f7f4ee;
-  --rd-surface: #ffffff;
-  --rd-line: #e7e1d3;
-  --rd-line-soft: #f0ece1;
-  --rd-muted: #948c7a;
-  --rd-brass: #9c7a3c;
-  --rd-brass-deep: #7c5f2c;
-  --rd-brass-soft: #f3ecda;
-  --rd-wine: #7a3430;
-  --rd-wine-soft: #f7ebe9;
-  --rd-green: #3f6a4e;
-  --rd-green-soft: #eaf2ec;
 }
 
 .admin-page {
@@ -1352,7 +1331,7 @@ body {
 }
 
 /* =====================================================================
-   REDISEÑO — Categorías / Productos
+   REDISEÑO — Categorías / Productos (panel admin)
    Inspirado en cartas de restaurante: tinta casi negra sobre papel
    marfil, serif editorial para nombres, mono para precios/índices,
    y un acento en latón apagado reservado para la regla de firma,
