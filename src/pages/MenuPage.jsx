@@ -11,6 +11,7 @@ function MenuPage() {
   const { slug } = useParams()
   const navigate = useNavigate()
   const { business, categories, loading } = useMenu(slug)
+  const isAdmin = !!localStorage.getItem("token")
 
   if (loading) return <Loading />
 
@@ -27,6 +28,15 @@ function MenuPage() {
           Es 'fixed' para que al hacer scroll de la lista de categorías,
           la imagen se quede fija detrás (efecto de profundidad). */}
       <PageBackground business={business} />
+
+      {isAdmin && (
+        <button
+          className="admin-back-btn"
+          onClick={() => navigate("/admin")}
+        >
+          ← Volver al panel
+        </button>
+      )}
 
       {/* HEADER */}
       <MenuHero business={business} />

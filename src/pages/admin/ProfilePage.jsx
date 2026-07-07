@@ -85,153 +85,133 @@ function ProfilePage() {
   return (
     <div className="admin-page">
 
-      <div className="admin-header">
+      <header className="panel-header">
+        <button className="back-btn" onClick={() => navigate("/admin")}>
+          ← Volver
+        </button>
 
-        <div>
-          <button
-            className="back-btn"
-            onClick={() => navigate("/admin")}
-          >
-            ← Volver
-          </button>
-
-          <h2>Perfil del negocio</h2>
+        <div className="panel-header-top">
+          <h2 className="panel-title">Perfil del negocio</h2>
         </div>
 
-      </div>
+        <div className="panel-rule" />
+        <p className="panel-hint">Así es como tus clientes ven tu negocio al escanear el QR</p>
+      </header>
 
       {success && (
         <div className="success-msg">
-          ✓ Perfil actualizado correctamente
+          <span className="success-msg-dot" />
+          Perfil actualizado correctamente
         </div>
       )}
 
       <div className="profile-form">
 
-        <MenuPreview
-          name={form.name}
-          tagline={form.tagline}
-          logo_url={form.logo_url}
-          banner_url={form.banner_url}
-        />
-
-        <h3 className="section-title">
-          Información
-        </h3>
-
-        <div className="form-group">
-          <label>Nombre del negocio</label>
-
-          <input
-            value={form.name}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                name: e.target.value,
-              })
-            }
-            placeholder="Nombre del negocio"
+        <section className="profile-card profile-card-preview">
+          <span className="add-card-label">Vista previa</span>
+          <MenuPreview
+            name={form.name}
+            tagline={form.tagline}
+            logo_url={form.logo_url}
+            banner_url={form.banner_url}
           />
-        </div>
+        </section>
 
-        <div className="form-group">
-          <label>Slogan</label>
+        <section className="profile-card">
+          <span className="add-card-label">Información</span>
 
-          <input
-            value={form.tagline}
-            onChange={(e) =>
-              setForm({
-                ...form,
-                tagline: e.target.value,
-              })
-            }
-            placeholder="Ej: El mejor café de la ciudad"
-          />
-        </div>
-
-        <h3 className="section-title">
-          Imágenes
-        </h3>
-
-        <div className="form-group">
-          <label>Logo del negocio</label>
-
-          <div className="upload-area">
-
-            {form.logo_url && (
-              <img
-                src={form.logo_url}
-                alt="Logo"
-                className="logo-preview"
-              />
-            )}
-
-            <label className="upload-btn">
-
-              {uploadingLogo
-                ? "Subiendo..."
-                : form.logo_url
-                ? "Cambiar logo"
-                : "Subir logo"}
-
-              <input
-                type="file"
-                accept="image/*"
-                style={{ display: "none" }}
-                disabled={uploadingLogo}
-                onChange={(e) =>
-                  handleUpload(
-                    e,
-                    "logo_url",
-                    setUploadingLogo
-                  )
-                }
-              />
-
-            </label>
-
+          <div className="form-field">
+            <label>Nombre del negocio</label>
+            <input
+              value={form.name}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  name: e.target.value,
+                })
+              }
+              placeholder="Nombre del negocio"
+            />
           </div>
-        </div>
 
-        <div className="form-group">
-          <label>Imagen de fondo</label>
-
-          <div className="upload-area">
-
-            {form.banner_url && (
-              <img
-                src={form.banner_url}
-                alt="Banner"
-                className="banner-preview"
-              />
-            )}
-
-            <label className="upload-btn">
-
-              {uploadingBanner
-                ? "Subiendo..."
-                : form.banner_url
-                ? "Cambiar banner"
-                : "Subir banner"}
-
-              <input
-                type="file"
-                accept="image/*"
-                style={{ display: "none" }}
-                disabled={uploadingBanner}
-                onChange={(e) =>
-                  handleUpload(
-                    e,
-                    "banner_url",
-                    setUploadingBanner
-                  )
-                }
-              />
-
-            </label>
-
+          <div className="form-field">
+            <label>Slogan</label>
+            <input
+              value={form.tagline}
+              onChange={(e) =>
+                setForm({
+                  ...form,
+                  tagline: e.target.value,
+                })
+              }
+              placeholder="Ej: El mejor café de la ciudad"
+            />
           </div>
-        </div>
+        </section>
+
+        <section className="profile-card">
+          <span className="add-card-label">Imágenes</span>
+
+          <div className="form-field">
+            <label>Logo del negocio</label>
+
+            <div className="upload-area">
+              {form.logo_url ? (
+                <img src={form.logo_url} alt="Logo" className="logo-preview" />
+              ) : (
+                <span className="logo-preview logo-preview-empty">🍽</span>
+              )}
+
+              <label className="upload-btn">
+                {uploadingLogo
+                  ? "Subiendo..."
+                  : form.logo_url
+                  ? "Cambiar logo"
+                  : "Subir logo"}
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  disabled={uploadingLogo}
+                  onChange={(e) =>
+                    handleUpload(e, "logo_url", setUploadingLogo)
+                  }
+                />
+              </label>
+            </div>
+          </div>
+
+          <div className="form-field">
+            <label>Imagen de fondo</label>
+
+            <div className="upload-area">
+              {form.banner_url ? (
+                <img src={form.banner_url} alt="Banner" className="banner-preview" />
+              ) : (
+                <span className="banner-preview banner-preview-empty">🖼</span>
+              )}
+
+              <label className="upload-btn">
+                {uploadingBanner
+                  ? "Subiendo..."
+                  : form.banner_url
+                  ? "Cambiar banner"
+                  : "Subir banner"}
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  style={{ display: "none" }}
+                  disabled={uploadingBanner}
+                  onChange={(e) =>
+                    handleUpload(e, "banner_url", setUploadingBanner)
+                  }
+                />
+              </label>
+            </div>
+          </div>
+        </section>
 
         <button
           className="save-profile-btn"
