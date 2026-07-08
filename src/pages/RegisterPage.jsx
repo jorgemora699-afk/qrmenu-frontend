@@ -8,7 +8,7 @@ const BASE_URL = "https://menunegocio-production.up.railway.app"
 function RegisterPage() {
   const navigate = useNavigate()
   const [form, setForm] = useState({
-    name: "", slug: "", email: "", password: "", confirm: ""
+    name: "", slug: "", email: "", password: "", confirm: "", invite_code: ""
   })
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
@@ -20,7 +20,7 @@ function RegisterPage() {
 
   const handleRegister = async () => {
     setError("")
-    if (!form.name || !form.slug || !form.email || !form.password) {
+    if (!form.name || !form.slug || !form.email || !form.password || !form.invite_code) {
       setError("Completa todos los campos")
       return
     }
@@ -39,7 +39,8 @@ function RegisterPage() {
         name: form.name,
         slug: form.slug,
         email: form.email,
-        password: form.password
+        password: form.password,
+        invite_code: form.invite_code.trim().toUpperCase()
       })
       const res = await login(form.email, form.password)
       localStorage.setItem("token", res.data.token)
@@ -97,8 +98,17 @@ function RegisterPage() {
           placeholder="Confirmar contraseña"
           value={form.confirm}
           onChange={(e) => setForm({ ...form, confirm: e.target.value })}
-          onKeyDown={(e) => e.key === "Enter" && handleRegister()}
         />
+
+        <div className="invite-field">
+          <input
+            placeholder="Código de invitación"
+            value={form.invite_code}
+            onChange={(e) => setForm({ ...form, invite_code: e.target.value.toUpperCase() })}
+            onKeyDown={(e) => e.key === "Enter" && handleRegister()}
+          />
+          <span className="invite-hint">Te lo compartimos por WhatsApp al confirmar tu registro</span>
+        </div>
 
         <button onClick={handleRegister} disabled={loading}>
           {loading ? "Registrando..." : "Crear cuenta"}
