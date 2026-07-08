@@ -1531,6 +1531,11 @@ body {
   align-items: center;
 }
 
+.add-card-row input {
+  min-width: 0;
+}
+
+
 .add-card input {
   flex: 1;
   padding: 0.7rem 0.9rem;
@@ -2013,6 +2018,7 @@ body {
   border-radius: 10px;
   padding: 6px 10px;
   background: var(--rd-paper);
+  min-width: 0;
 }
 
 .color-field-input input[type="color"] {
@@ -2029,6 +2035,9 @@ body {
   font-family: var(--font-mono);
   font-size: 0.78rem;
   color: var(--rd-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .font-picker-grid {
@@ -2087,4 +2096,21 @@ body {
   font-size: 0.72rem;
   font-weight: 600;
   color: var(--rd-muted);
+}
+
+@media (max-width: 420px) {
+  .color-fields-row {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 420px) {
+  .add-card-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .thumb-picker {
+    justify-content: center;
+  }
 }
