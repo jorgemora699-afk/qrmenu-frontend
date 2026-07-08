@@ -18,11 +18,16 @@ function CategoryPage() {
     return <ErrorState message="Categoría no encontrada" />
   }
 
+  const backgroundSource = {
+    ...business,
+    banner_url: category.image_url || business?.banner_url,
+  }
+
   return (
     <PageContainer business={business}>
       <div className="category-page">
 
-        <PageBackground business={business} />
+        <PageBackground business={backgroundSource} />
 
         <button
           className="category-back-btn"
