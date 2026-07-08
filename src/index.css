@@ -1690,6 +1690,36 @@ body {
   padding-left: 4px;
 }
 
+/* ---------- Mostrar/ocultar contraseña ---------- */
+
+.password-field {
+  position: relative;
+  display: flex;
+}
+
+.password-field input {
+  width: 100%;
+  padding-right: 42px;
+}
+
+.password-toggle {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--rd-muted, #888);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color .15s;
+}
+
+.password-toggle:hover { color: var(--rd-ink, #222); }
+
 /* ---------- Superadmin: lista de códigos ---------- */
 
 .code-row-main {
