@@ -102,6 +102,14 @@ function ProfilePage() {
       }))
   }
 
+  const isValidHex = (value) => /^#([0-9A-Fa-f]{6}|[0-9A-Fa-f]{3})$/.test(value)
+
+  const handleHexChange = (field, value) => {
+    let hex = value.trim()
+    if (hex && !hex.startsWith("#")) hex = `#${hex}`
+    setForm({ ...form, [field]: hex })
+  }
+
   if (loading) {
     return <div className="loading">Cargando...</div>
   }
@@ -248,47 +256,70 @@ function ProfilePage() {
 
             <div className="color-field">
               <label>Acento</label>
-              <div className="color-field-input">
+              <div className={`color-field-input ${!isValidHex(form.accent_color) ? "invalid" : ""}`}>
                 <input
                   type="color"
-                  value={form.accent_color}
+                  value={isValidHex(form.accent_color) ? form.accent_color : "#9c7a3c"}
                   onChange={(e) =>
                     setForm({ ...form, accent_color: e.target.value })
                   }
                 />
-                <span>{form.accent_color}</span>
+                <input
+                  type="text"
+                  className="hex-input"
+                  value={form.accent_color}
+                  onChange={(e) => handleHexChange("accent_color", e.target.value)}
+                  maxLength={7}
+                  spellCheck={false}
+                />
               </div>
             </div>
 
             <div className="color-field">
               <label>Fondo</label>
-              <div className="color-field-input">
+              <div className={`color-field-input ${!isValidHex(form.background_color) ? "invalid" : ""}`}>
                 <input
                   type="color"
-                  value={form.background_color}
+                  value={isValidHex(form.background_color) ? form.background_color : "#f7f4ee"}
                   onChange={(e) =>
                     setForm({ ...form, background_color: e.target.value })
                   }
                 />
-                <span>{form.background_color}</span>
+                <input
+                  type="text"
+                  className="hex-input"
+                  value={form.background_color}
+                  onChange={(e) => handleHexChange("background_color", e.target.value)}
+                  maxLength={7}
+                  spellCheck={false}
+                />
               </div>
             </div>
 
             <div className="color-field">
               <label>Texto</label>
-              <div className="color-field-input">
+              <div className={`color-field-input ${!isValidHex(form.text_color) ? "invalid" : ""}`}>
                 <input
                   type="color"
-                  value={form.text_color}
+                  value={isValidHex(form.text_color) ? form.text_color : "#1b1812"}
                   onChange={(e) =>
                     setForm({ ...form, text_color: e.target.value })
                   }
                 />
-                <span>{form.text_color}</span>
+                <input
+                  type="text"
+                  className="hex-input"
+                  value={form.text_color}
+                  onChange={(e) => handleHexChange("text_color", e.target.value)}
+                  maxLength={7}
+                  spellCheck={false}
+                />
               </div>
             </div>
 
           </div>
+
+          <p className="color-hint">Toca el círculo para elegir visualmente, o escribe el código directamente</p>
         </section>
 
         <section className="profile-card">

@@ -2031,13 +2031,42 @@ body {
   background: none;
 }
 
-.color-field-input span {
+.color-field-input {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--rd-line);
+  border-radius: 10px;
+  padding: 6px 10px;
+  background: var(--rd-paper);
+  min-width: 0;
+  transition: border-color .15s;
+}
+
+.color-field-input.invalid {
+  border-color: var(--rd-wine);
+}
+
+.hex-input {
+  border: none;
+  background: none;
+  outline: none;
   font-family: var(--font-mono);
   font-size: 0.78rem;
+  color: var(--rd-ink);
+  min-width: 0;
+  width: 100%;
+  padding: 0;
+}
+
+.hex-input::placeholder {
   color: var(--rd-muted);
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+}
+
+.color-hint {
+  font-size: 0.78rem;
+  color: var(--rd-muted);
+  margin-top: -2px;
 }
 
 .font-picker-grid {
