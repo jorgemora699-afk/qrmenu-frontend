@@ -59,46 +59,30 @@ function QRCodePage() {
 
       </div>
 
-      <div
-        className="qr-card"
-        ref={qrRef}
-      >
+      <div className="qr-card" ref={qrRef}>
 
-        {business.logo_url && (
-          <img
-            src={business.logo_url}
-            alt={business.name}
-            className="qr-logo"
-          />
-        )}
+            {business.logo_url && (
+                <img
+                    src={business.logo_url}
+                    alt={business.name}
+                    className="qr-logo"
+                />
+            )}
 
-        <span className="qr-badge">
-          MENÚ DIGITAL
-        </span>
+            <span className="qr-badge">
+                MENÚ DIGITAL
+            </span>
 
-        <h2>{business.name}</h2>
+            <h2 className="qr-name">
+                {business.name}
+            </h2>
 
-        <p className="qr-text">
-          Escanea este código con la cámara de tu celular
-          para consultar nuestro menú.
-        </p>
-
-        <div className="qr-container">
-          <QRCode
-            value={menuUrl}
-            size={250}
-          />
-        </div>
-
-        <p className="qr-url">
-          {menuUrl}
-        </p>
-
-        <div className="qr-divider"></div>
-
-        <small className="qr-footer">
-          Powered by <strong>QR Menú</strong>
-        </small>
+            <div className="qr-container">
+                <QRCode
+                    value={menuUrl}
+                    size={300}
+                />
+            </div>
 
       </div>
 
