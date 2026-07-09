@@ -1,0 +1,127 @@
+import { useNavigate } from "react-router-dom"
+import { useRef } from "react"
+import QRCode from "react-qr-code"
+import { toPng } from "html-to-image"
+
+function QRCodePage() {
+  const navigate = useNavigate()
+  const qrRef = useRef(null)
+
+  const business = JSON.parse(
+    localStorage.getItem("business") || "{}"
+  )
+
+  const menuUrl = `https://qrmenu-frontend-roan.vercel.app/${business.slug}`
+
+  const handleDownload = async () => {
+    if (!qrRef.current) return
+
+    try {
+      const dataUrl = await toPng(qrRef.current, {
+        cacheBust: true,
+        pixelRatio: 3
+      })
+
+      const link = document.createElement("a")
+      link.download = `${business.slug}-qr.png`
+      link.href = dataUrl
+      link.click()
+    } catch (err) {
+      console.error(err)
+    }
+  }
+
+  const handlePrint = () => {
+    window.print()
+  }
+
+  return (
+    <div className="admin-page">
+
+      <div className="admin-header">
+
+        <div>
+
+          <button
+            className="back-btn"
+            onClick={() => navigate("/admin")}
+          >
+            ← Volver
+          </button>
+
+          <h2>Código QR</h2>
+
+          <p>
+            Descarga este código e imprímelo para colocarlo en las mesas.
+          </p>
+
+        </div>
+
+      </div>
+
+      <div
+        className="qr-card"
+        ref={qrRef}
+      >
+
+        {business.logo_url && (
+          <img
+            src={business.logo_url}
+            alt={business.name}
+            className="qr-logo"
+          />
+        )}
+
+        <span className="qr-badge">
+          MENÚ DIGITAL
+        </span>
+
+        <h2>{business.name}</h2>
+
+        <p className="qr-text">
+          Escanea este código con la cámara de tu celular
+          para consultar nuestro menú.
+        </p>
+
+        <div className="qr-container">
+          <QRCode
+            value={menuUrl}
+            size={250}
+          />
+        </div>
+
+        <p className="qr-url">
+          {menuUrl}
+        </p>
+
+        <div className="qr-divider"></div>
+
+        <small className="qr-footer">
+          Powered by <strong>QR Menú</strong>
+        </small>
+
+      </div>
+
+      <div className="qr-buttons">
+
+        <button
+          className="btn-primary"
+          onClick={handleDownload}
+        >
+          Descargar PNG
+        </button>
+
+        <button
+          className="btn-edit"
+          onClick={handlePrint}
+        >
+          Imprimir
+        </button>
+
+      </div>
+
+    </div>
+  )
+}
+
+export default QRCodePage

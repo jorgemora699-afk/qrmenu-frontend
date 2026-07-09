@@ -63,6 +63,22 @@ function DashboardPage() {
           <span className="nav-card-arrow"><IconChevronRight /></span>
         </button>
 
+        <button
+          className="nav-card"
+          onClick={() => navigate("/admin/qr")}
+        >
+          <span className="nav-card-icon">📱</span>
+
+          <span className="nav-card-body">
+            <h3>Código QR</h3>
+            <p>Descarga e imprime el QR de tu menú</p>
+          </span>
+
+          <span className="nav-card-arrow">
+            <IconChevronRight />
+          </span>
+        </button>
+
         <button className="nav-card" onClick={() => navigate(`/${business.slug}`)}>
           <span className="nav-card-icon">👀</span>
           <span className="nav-card-body">

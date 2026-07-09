@@ -11,6 +11,7 @@ import ProductsPage from "./pages/admin/ProductsPage"
 import RegisterPage from "./pages/RegisterPage"
 import ProfilePage from "./pages/admin/ProfilePage"
 import SuperadminPage from "./pages/admin/SuperadminPage"
+import QRCodePage from "./pages/admin/QRCodePage"
 
 const PrivateRoute = ({ children }) => {
   const navigate = useNavigate()
@@ -50,6 +51,7 @@ const PrivateRoute = ({ children }) => {
     validateSession()
 
   }, [])
+  
 
   if (loading) {
     return (
@@ -81,6 +83,7 @@ function App() {
         <Route path="/admin" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
         <Route path="/admin/categories" element={<PrivateRoute><CategoriesPage /></PrivateRoute>} />
         <Route path="/admin/products" element={<PrivateRoute><ProductsPage /></PrivateRoute>} />
+        <Route path="/admin/qr" element={ <PrivateRoute><QRCodePage /></PrivateRoute> } />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/superadmin" element={<SuperadminPage />} />
 
