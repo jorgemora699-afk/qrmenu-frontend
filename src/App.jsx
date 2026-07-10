@@ -89,6 +89,7 @@ function App() {
         <Route path="/:slug/:categoryId" element={<CategoryPage />} />
         <Route path="/:slug/:categoryId/:productId" element={<ProductPage />} />
         <Route path="/admin/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>}/>
+        <Route path="/admin/qr" element={ <PrivateRoute><QRCodePage /> </PrivateRoute> } />
       </Routes>
     </BrowserRouter>
   )
