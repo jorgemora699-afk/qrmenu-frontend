@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { useRef, useState, useEffect } from "react"
 import QRCode from "react-qr-code"
 import { toPng } from "html-to-image"
-import { getProfile } from "../services/api"
+import { getProfile } from "../../services/api"
 
 function QRCodePage() {
   const navigate = useNavigate()
