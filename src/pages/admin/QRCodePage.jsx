@@ -26,8 +26,6 @@ function QRCodePage() {
     if (!qrRef.current) return
 
     try {
-      await document.fonts.ready
-
       const dataUrl = await toPng(qrRef.current, {
         cacheBust: true,
         pixelRatio: 3
@@ -70,38 +68,26 @@ function QRCodePage() {
 
       </div>
 
-      <div className="qr-card-wrap" ref={qrRef}>
+      <div className="qr-card" ref={qrRef}>
 
-        <div className="qr-badge-head">
-          {business.logo_url ? (
-            <img
-                src={business.logo_url}
-                alt={business.name}
-                className="qr-logo"
-            />
-          ) : (
-            <span className="qr-logo qr-logo-empty">🍽</span>
-          )}
-        </div>
+            {business.logo_url && (
+                <img
+                    src={business.logo_url}
+                    alt={business.name}
+                    className="qr-logo"
+                />
+            )}
 
-        <div className="qr-card">
+            <div className="qr-container">
+                <QRCode
+                    value={menuUrl}
+                    size={300}
+                />
+            </div>
 
-              <h2 className="qr-name">
-                {business.name}
-              </h2>
-
-              <div className="qr-container">
-                  <QRCode
-                      value={menuUrl}
-                      size={280}
-                  />
-              </div>
-
-              <span className="qr-badge">
-                  MENÚ
-              </span>
-
-        </div>
+            <span className="qr-badge">
+                MENÚ
+            </span>
 
       </div>
 
