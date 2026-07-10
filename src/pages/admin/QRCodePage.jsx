@@ -68,34 +68,38 @@ function QRCodePage() {
 
       </div>
 
-      <div className="qr-card" ref={qrRef}>
+      <div className="qr-card-wrap" ref={qrRef}>
 
-            <div className="qr-badge-head">
-              {business.logo_url ? (
-                <img
-                    src={business.logo_url}
-                    alt={business.name}
-                    className="qr-logo"
-                />
-              ) : (
-                <span className="qr-logo qr-logo-empty">🍽</span>
-              )}
-            </div>
+        <div className="qr-badge-head">
+          {business.logo_url ? (
+            <img
+                src={business.logo_url}
+                alt={business.name}
+                className="qr-logo"
+            />
+          ) : (
+            <span className="qr-logo qr-logo-empty">🍽</span>
+          )}
+        </div>
 
-            <h2 className="qr-name">
-              {business.name}
-            </h2>
+        <div className="qr-card">
 
-            <div className="qr-container">
-                <QRCode
-                    value={menuUrl}
-                    size={280}
-                />
-            </div>
+              <h2 className="qr-name">
+                {business.name}
+              </h2>
 
-            <span className="qr-badge">
-                MENÚ
-            </span>
+              <div className="qr-container">
+                  <QRCode
+                      value={menuUrl}
+                      size={280}
+                  />
+              </div>
+
+              <span className="qr-badge">
+                  MENÚ
+              </span>
+
+        </div>
 
       </div>
 
