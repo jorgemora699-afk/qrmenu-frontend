@@ -2274,6 +2274,9 @@ body {
     padding:45px 35px;
     text-align:center;
     box-shadow:0 12px 35px rgba(0,0,0,.08);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .qr-logo{
@@ -2281,38 +2284,7 @@ body {
     height:90px;
     border-radius:50%;
     object-fit:cover;
-    margin-bottom:20px;
-}
-
-.qr-badge{
-    display:inline-block;
-    padding:8px 18px;
-    background:#111;
-    color:white;
-    border-radius:999px;
-    font-size:.8rem;
-    font-weight:700;
-    letter-spacing:.15em;
-    margin-bottom:20px;
-}
-
-.qr-card h2{
-  margin:8px 0;
-  font-family:'Sora',sans-serif;
-  font-size:1.7rem;
-}
-
-.qr-text{
-  color:#666;
-  margin:0 auto 22px;
-  max-width:280px;
-  line-height:1.5;
-}
-
-.qr-name{
-    font-family:"Sora",sans-serif;
-    font-size:2rem;
-    margin-bottom:35px;
+    margin-bottom:28px;
 }
 
 .qr-container{
@@ -2323,33 +2295,17 @@ body {
     border-radius:18px;
 }
 
-.qr-url{
-  margin-top:22px;
-  font-size:.8rem;
-  color:#999;
-  word-break:break-all;
+.qr-badge{
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: var(--rd-brass-deep);
+    margin-top: 26px;
+    padding-top: 22px;
+    border-top: 1px solid var(--rd-line);
+    width: 100%;
 }
-
-.qr-divider{
-  width:100%;
-  height:1px;
-  background:#ececec;
-  margin:22px 0;
-}
-
-.qr-footer{
-  color:#777;
-  font-size:.82rem;
-}
-
-.qr-buttons{
-  display:flex;
-  justify-content:center;
-  gap:14px;
-  margin-top:25px;
-  flex-wrap:wrap;
-}
-
 /* ===========================
    IMPRESIÓN
 =========================== */

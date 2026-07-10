@@ -69,20 +69,16 @@ function QRCodePage() {
                 />
             )}
 
-            <span className="qr-badge">
-                MENÚ DIGITAL
-            </span>
-
-            <h2 className="qr-name">
-                {business.name}
-            </h2>
-
             <div className="qr-container">
                 <QRCode
                     value={menuUrl}
                     size={300}
                 />
             </div>
+
+            <span className="qr-badge">
+                MENÚ
+            </span>
 
       </div>
 
