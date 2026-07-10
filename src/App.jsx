@@ -10,7 +10,7 @@ import CategoriesPage from "./pages/admin/CategoriesPage"
 import ProductsPage from "./pages/admin/ProductsPage"
 import RegisterPage from "./pages/RegisterPage"
 import ProfilePage from "./pages/admin/ProfilePage"
-import SuperadminPage from "./pages/SuperadminPage"
+import SuperadminPage from "./pages/admin/SuperadminPage"
 
 const PrivateRoute = ({ children }) => {
   const navigate = useNavigate()
