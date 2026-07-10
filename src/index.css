@@ -2354,7 +2354,8 @@ body {
 
 .qr-card-wrap {
     position: relative;
-    width: 380px;
+    width: 100%;
+    max-width: 380px;
     margin: 50px auto 40px;
     padding-top: 54px;
 }

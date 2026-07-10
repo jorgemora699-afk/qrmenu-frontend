@@ -26,6 +26,8 @@ function QRCodePage() {
     if (!qrRef.current) return
 
     try {
+      await document.fonts.ready
+
       const dataUrl = await toPng(qrRef.current, {
         cacheBust: true,
         pixelRatio: 3
