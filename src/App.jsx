@@ -11,6 +11,7 @@ import ProductsPage from "./pages/admin/ProductsPage"
 import RegisterPage from "./pages/RegisterPage"
 import ProfilePage from "./pages/admin/ProfilePage"
 import SuperadminPage from "./pages/admin/SuperadminPage"
+import QRCodePage from "./pages/admin/QRCodePage"
 
 const PrivateRoute = ({ children }) => {
   const navigate = useNavigate()
