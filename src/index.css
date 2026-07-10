@@ -2296,16 +2296,37 @@ body {
 }
 
 .qr-badge{
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
     font-weight: 700;
-    letter-spacing: 0.18em;
-    color: var(--rd-brass-deep);
+    letter-spacing: 0.08em;
+    color: var(--rd-ink);
     margin-top: 26px;
     padding-top: 22px;
     border-top: 1px solid var(--rd-line);
     width: 100%;
 }
+
+.qr-divider{
+  width:100%;
+  height:1px;
+  background:#ececec;
+  margin:22px 0;
+}
+
+.qr-footer{
+  color:#777;
+  font-size:.82rem;
+}
+
+.qr-buttons{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  margin-top:25px;
+  flex-wrap:wrap;
+}
+
 /* ===========================
    IMPRESIÓN
 =========================== */

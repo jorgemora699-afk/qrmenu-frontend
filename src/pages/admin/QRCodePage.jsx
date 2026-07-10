@@ -1,15 +1,24 @@
 import { useNavigate } from "react-router-dom"
-import { useRef } from "react"
+import { useRef, useState, useEffect } from "react"
 import QRCode from "react-qr-code"
 import { toPng } from "html-to-image"
+import { getProfile } from "../services/api"
 
 function QRCodePage() {
   const navigate = useNavigate()
   const qrRef = useRef(null)
 
-  const business = JSON.parse(
-    localStorage.getItem("business") || "{}"
-  )
+  const [business, setBusiness] = useState(null)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    getProfile().then((res) => {
+      setBusiness(res.data)
+      setLoading(false)
+    })
+  }, [])
+
+  if (loading) return <div className="loading">Cargando...</div>
 
   const menuUrl = `https://qrmenu-frontend-roan.vercel.app/${business.slug}`
 
