@@ -1780,8 +1780,51 @@ body {
   gap: 8px;
 }
 
-/* ---------- Superadmin: lista de códigos ---------- */
 
+/* ---------- Login: olvidé mi contraseña ---------- */
+ 
+.forgot-password-link {
+  background: none;
+  border: none;
+  padding: 0;
+  align-self: flex-end;
+  margin-top: -6px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--rd-muted, #888);
+  cursor: pointer;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+ 
+.forgot-password-link:hover { color: var(--rd-brass-deep, #7c5f2c); }
+ 
+.forgot-password-box {
+  background: var(--rd-brass-soft, #f3ecda);
+  border: 1px solid var(--rd-brass, #9c7a3c);
+  border-radius: 12px;
+  padding: 0.9rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+ 
+.forgot-password-box p {
+  font-size: 0.85rem;
+  color: var(--rd-ink, #222);
+  line-height: 1.4;
+}
+ 
+.forgot-whatsapp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  text-align: center;
+}
+ 
+/* ---------- Superadmin: lista de códigos ---------- */
+ 
 .code-row-main {
   flex: 1;
   min-width: 0;
@@ -1789,7 +1832,7 @@ body {
   flex-direction: column;
   gap: 3px;
 }
-
+ 
 .code-mono {
   font-family: var(--font-mono);
   font-weight: 700;
@@ -1797,16 +1840,90 @@ body {
   color: var(--rd-ink);
   letter-spacing: 0.04em;
 }
-
+ 
 .code-label {
   font-size: 0.85rem;
   color: var(--rd-muted);
 }
-
+ 
 .code-meta {
   font-family: var(--font-mono);
   font-size: 0.68rem;
   color: var(--rd-muted);
+}
+ 
+/* ---------- Superadmin: pestañas ---------- */
+ 
+.superadmin-tabs {
+  display: flex;
+  gap: 6px;
+  margin-top: 0.4rem;
+}
+ 
+.superadmin-tab {
+  background: none;
+  border: 1px solid var(--rd-line);
+  border-radius: 999px;
+  padding: 0.4rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--rd-muted);
+  cursor: pointer;
+  transition: border-color .15s, color .15s, background .15s;
+}
+ 
+.superadmin-tab:hover { border-color: var(--rd-brass); color: var(--rd-ink); }
+ 
+.superadmin-tab-active {
+  background: var(--rd-ink);
+  border-color: var(--rd-ink);
+  color: #fff;
+}
+ 
+.superadmin-tab-active:hover { color: #fff; }
+ 
+/* ---------- Superadmin: fila de negocio ---------- */
+ 
+.business-row {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 10px;
+}
+ 
+.business-row-content {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  width: 100%;
+}
+ 
+.business-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+ 
+.reset-result {
+  background: var(--rd-brass-soft);
+  border: 1px solid var(--rd-brass);
+  border-radius: 12px;
+  padding: 0.75rem 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+ 
+.reset-result-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+ 
+.reset-result-row .code-mono {
+  font-size: 1.05rem;
+  letter-spacing: 0.06em;
 }
 
 /* ---------- Perfil del negocio ---------- */

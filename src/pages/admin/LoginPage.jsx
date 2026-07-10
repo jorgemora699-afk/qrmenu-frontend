@@ -2,6 +2,9 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { login } from "../../services/api"
 
+// 👉 Mismo número que en SuperadminPage.jsx (con código de país, sin +, sin espacios)
+const SUPPORT_WHATSAPP = "573127189560"
+
 const IconEye = () => (
   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
@@ -24,6 +27,7 @@ function LoginPage() {
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [showForgot, setShowForgot] = useState(false)
 
   const handleLogin = async () => {
     setLoading(true)
@@ -38,6 +42,13 @@ function LoginPage() {
     } finally {
       setLoading(false)
     }
+  }
+
+  const forgotWhatsappLink = () => {
+    const text = email
+      ? `Hola! Olvidé mi contraseña de mi panel. Mi correo registrado es: ${email}`
+      : `Hola! Olvidé mi contraseña de mi panel, ¿me ayudas a restablecerla?`
+    return `https://wa.me/${SUPPORT_WHATSAPP}?text=${encodeURIComponent(text)}`
   }
 
   return (
@@ -76,6 +87,28 @@ function LoginPage() {
             {showPassword ? <IconEyeOff /> : <IconEye />}
           </button>
         </div>
+
+        <button
+          type="button"
+          className="forgot-password-link"
+          onClick={() => setShowForgot(!showForgot)}
+        >
+          ¿Olvidaste tu contraseña?
+        </button>
+
+        {showForgot && (
+          <div className="forgot-password-box">
+            <p>Escríbenos por WhatsApp con tu correo registrado y te ayudamos a restablecerla.</p>
+            <a
+              className="btn-primary forgot-whatsapp-btn"
+              href={forgotWhatsappLink()}
+              target="_blank"
+              rel="noreferrer"
+            >
+              Escribir por WhatsApp
+            </a>
+          </div>
+        )}
 
         <button onClick={handleLogin} disabled={loading}>
           {loading ? "Ingresando..." : "Ingresar"}
