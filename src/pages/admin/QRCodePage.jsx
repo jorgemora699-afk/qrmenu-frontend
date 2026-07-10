@@ -81,7 +81,7 @@ function QRCodePage() {
             <div className="qr-container">
                 <QRCode
                     value={menuUrl}
-                    size={300}
+                    size={270}
                 />
             </div>
 
