@@ -2361,3 +2361,6 @@ body {
   }
 
 }
+.product-description{
+    white-space: pre-line;
+}
