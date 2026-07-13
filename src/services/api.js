@@ -97,9 +97,19 @@ export const uploadImage = (file) => {
   const formData = new FormData()
   formData.append("file", file)
 
+
   return api.post("/api/uploads/image", formData, {
     headers: {
       "Content-Type": "multipart/form-data"
     }
   })
 }
+
+export const searchRecipeProducts = (q) =>
+  api.get("/api/recipes/search", { params: { q } })
+
+export const getRecipe = (productId) =>
+  api.get(`/api/recipes/product/${productId}`)
+
+export const saveRecipe = (productId, data) =>
+  api.put(`/api/recipes/product/${productId}`, data)

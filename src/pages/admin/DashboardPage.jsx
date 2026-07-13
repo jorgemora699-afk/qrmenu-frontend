@@ -88,6 +88,24 @@ function DashboardPage() {
           </span>
         </button>
 
+        {business.recipes_enabled && (
+          <button
+            className="nav-card"
+            onClick={() => navigate("/admin/recipes")}
+          >
+            <span className="nav-card-icon">📖</span>
+
+            <span className="nav-card-body">
+              <h3>Recetas</h3>
+              <p>Consulta la preparación de tus productos</p>
+            </span>
+
+            <span className="nav-card-arrow">
+              <IconChevronRight />
+            </span>
+          </button>
+        )}
+
       </div>
 
     </div>
