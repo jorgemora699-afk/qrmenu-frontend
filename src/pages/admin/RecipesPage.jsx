@@ -22,6 +22,7 @@ function RecipesPage() {
   const [showPinModal, setShowPinModal] = useState(false)
   const [pinValue, setPinValue] = useState("")
   const [pin, setPin] = useState("")
+  const [pinError, setPinError] = useState("")
 
   const debounceRef = useRef(null)
   const skipSearchRef = useRef(false)
@@ -73,24 +74,27 @@ function RecipesPage() {
     setEditProcedure(recipe?.procedure || "")
     setPinValue("")
     setPin("")
+    setPinError("")
     setShowPinModal(true)
   }
 
   const confirmPin = async () => {
-    if (pinValue.length !== 4) return;
+    if (pinValue.length !== 4) return
+
+    setPinError("")
 
     try {
-        await verifyRecipePin(pinValue);
+        await verifyRecipePin(pinValue)
 
-        setPin(pinValue);
-        setShowPinModal(false);
-        setEditing(true);
+        setPin(pinValue)
+        setShowPinModal(false)
+        setEditing(true)
 
     } catch (err) {
-        alert(err.response?.data?.error || "PIN incorrecto");
-        setPinValue("");
+        setPinError(err.response?.data?.error || "PIN incorrecto")
+        setPinValue("")
     }
-  };
+  }
 
   const handleSave = async () => {
     if (!selectedProduct) return
@@ -271,6 +275,12 @@ function RecipesPage() {
               onKeyDown={(e) => e.key === "Enter" && confirmPin()}
               autoFocus
             />
+
+            {pinError && (
+                <div className="error-msg">
+                    {pinError}
+                </div>
+            )}
 
             <div className="modal-actions">
               <button className="btn-primary" onClick={confirmPin} disabled={pinValue.length !== 4}>
