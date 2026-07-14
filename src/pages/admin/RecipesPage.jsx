@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { searchRecipeProducts, getRecipe, saveRecipe, verifyRecipePin } from "../../services/api"
 
+
 function RecipesPage() {
   const navigate = useNavigate()
 
@@ -232,6 +233,16 @@ function RecipesPage() {
                 {recipe.has_recipe ? "Editar" : "Agregar receta"}
               </button>
             </div>
+
+            {recipe.image_url && (
+                <div className="recipe-image-wrap">
+                    <img
+                    src={recipe.image_url}
+                    alt={selectedProduct.name}
+                    className="recipe-image"
+                    />
+                </div>
+            )}
 
             {!recipe.has_recipe ? (
               <div className="empty-state">
