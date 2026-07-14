@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useState, useRef, useEffect } from "react"
-import ChangePasswordModal from "../../components/admin/ChangePasswordModal"
+import ChangePasswordModal from "../../pages/admin/ChangePasswordModal"
 
 const IconChevronRight = () => (
   <svg
