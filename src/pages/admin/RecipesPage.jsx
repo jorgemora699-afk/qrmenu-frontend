@@ -24,29 +24,36 @@ function RecipesPage() {
   const [pin, setPin] = useState("")
 
   const debounceRef = useRef(null)
+  const skipSearchRef = useRef(false)
 
   useEffect(() => {
+    if (skipSearchRef.current) {
+        skipSearchRef.current = false
+        return
+    }
+
     if (debounceRef.current) clearTimeout(debounceRef.current)
 
     if (!query.trim()) {
-      setResults([])
-      return
+        setResults([])
+        return
     }
 
     debounceRef.current = setTimeout(async () => {
-      setSearching(true)
-      try {
+        setSearching(true)
+        try {
         const res = await searchRecipeProducts(query.trim())
         setResults(res.data)
-      } finally {
+        } finally {
         setSearching(false)
-      }
+        }
     }, 300)
 
     return () => clearTimeout(debounceRef.current)
-  }, [query])
+    }, [query])
 
   const handleSelectProduct = async (product) => {
+    skipSearchRef.current = true
     setSelectedProduct(product)
     setQuery(product.name)
     setResults([])
@@ -54,10 +61,10 @@ function RecipesPage() {
     setLoadingRecipe(true)
 
     try {
-      const res = await getRecipe(product.id)
-      setRecipe(res.data)
+        const res = await getRecipe(product.id)
+        setRecipe(res.data)
     } finally {
-      setLoadingRecipe(false)
+        setLoadingRecipe(false)
     }
   }
 
