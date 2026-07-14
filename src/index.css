@@ -2422,6 +2422,14 @@ body {
   font-size: 0.92rem;
 }
 
+.recipe-result-name mark{
+    background:#ffe082;
+    color:inherit;
+    padding:0 2px;
+    border-radius:4px;
+    font-weight:700;
+}
+
 .recipe-result-category {
   font-family: var(--font-mono);
   font-size: 0.7rem;
