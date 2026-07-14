@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import { useState, useRef, useEffect } from "react"
 import ChangePasswordModal from "../../pages/admin/ChangePasswordModal"
+import ChangePinModal from "../../pages/admin/ChangePinModal"
 
 const IconChevronRight = () => (
   <svg
@@ -26,6 +27,7 @@ function DashboardPage() {
 
   const [showUserMenu, setShowUserMenu] = useState(false)
   const [showPasswordModal, setShowPasswordModal] = useState(false)
+  const [showPinModal, setShowPinModal] = useState(false)
 
   const menuRef = useRef(null)
 
@@ -103,8 +105,8 @@ function DashboardPage() {
 
               <button
                 onClick={() => {
+                  setShowPinModal(true)
                   setShowUserMenu(false)
-                  navigate("/admin/pin")
                 }}
               >
                 🔑 Cambiar PIN
@@ -231,6 +233,11 @@ function DashboardPage() {
       <ChangePasswordModal
         open={showPasswordModal}
         onClose={() => setShowPasswordModal(false)}
+      />
+
+      <ChangePinModal
+        open={showPinModal}
+        onClose={() => setShowPinModal(false)}
       />
 
     </div>

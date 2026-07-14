@@ -52,6 +52,9 @@ export const login = (email, password) =>
 export const changePassword = (current_password, new_password) =>
   api.put("/api/auth/change-password", { current_password, new_password })
 
+export const changePin = (current_pin, new_pin) =>
+  api.put("/api/auth/change-pin", { current_pin, new_pin })
+
 export const getCategories = () =>
   api.get("/api/categories/")
 
