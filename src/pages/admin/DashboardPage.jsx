@@ -2,6 +2,7 @@ import { useNavigate } from "react-router-dom"
 import { useState, useRef, useEffect } from "react"
 import ChangePasswordModal from "../../pages/admin/ChangePasswordModal"
 import ChangePinModal from "../../pages/admin/ChangePinModal"
+import PinVerificationModal from "../../pages/admin/PinVerificationModal"
 
 const IconChevronRight = () => (
   <svg
@@ -28,8 +29,15 @@ function DashboardPage() {
   const [showUserMenu, setShowUserMenu] = useState(false)
   const [showPasswordModal, setShowPasswordModal] = useState(false)
   const [showPinModal, setShowPinModal] = useState(false)
+  const [showPinVerification, setShowPinVerification] = useState(false)
+  const [pendingRoute, setPendingRoute] = useState("")
 
   const menuRef = useRef(null)
+
+  const requestPin = (route) => {
+    setPendingRoute(route)
+    setShowPinVerification(true)
+  }
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -132,7 +140,7 @@ function DashboardPage() {
 
         <button
           className="nav-card"
-          onClick={() => navigate("/admin/categories")}
+          onClick={() => requestPin("/admin/categories")}
         >
           <span className="nav-card-icon">🗂️</span>
 
@@ -148,7 +156,7 @@ function DashboardPage() {
 
         <button
           className="nav-card"
-          onClick={() => navigate("/admin/products")}
+          onClick={() => requestPin("/admin/products")}
         >
           <span className="nav-card-icon">🍽️</span>
 
@@ -164,7 +172,7 @@ function DashboardPage() {
 
         <button
           className="nav-card"
-          onClick={() => navigate("/admin/profile")}
+          onClick={() => requestPin("/admin/profile")}
         >
           <span className="nav-card-icon">⚙️</span>
 
@@ -238,6 +246,15 @@ function DashboardPage() {
       <ChangePinModal
         open={showPinModal}
         onClose={() => setShowPinModal(false)}
+      />
+
+      <PinVerificationModal
+        open={showPinVerification}
+        onClose={() => setShowPinVerification(false)}
+        onSuccess={() => {
+          navigate(pendingRoute)
+          setPendingRoute("")
+        }}
       />
 
     </div>
