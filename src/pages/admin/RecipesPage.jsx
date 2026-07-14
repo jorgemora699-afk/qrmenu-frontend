@@ -76,12 +76,20 @@ function RecipesPage() {
     setShowPinModal(true)
   }
 
-  const confirmPin = () => {
-    if (pinValue.length !== 4) return
-    setPin(pinValue)
-    setShowPinModal(false)
-    setEditing(true)
-  }
+  const confirmPin = async () => {
+    if (pinValue.length !== 4) return;
+
+    try {
+        await verifyRecipePin(pinValue);
+
+        setPin(pinValue);
+        setShowPinModal(false);
+        setEditing(true);
+
+    } catch (err) {
+        alert(err.response?.data?.error || "PIN incorrecto");
+    }
+  };
 
   const handleSave = async () => {
     if (!selectedProduct) return
