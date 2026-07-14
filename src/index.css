@@ -2444,6 +2444,46 @@ body {
   color: var(--rd-ink);
 }
 
+.recipe-search-box{
+    position:relative;
+}
+
+.recipe-search-input{
+    width:100%;
+    padding-right:46px;
+}
+
+.recipe-search-clear{
+    position:absolute;
+    right:12px;
+    top:50%;
+    transform:translateY(-50%);
+    border:none;
+    background:none;
+    cursor:pointer;
+    color:#999;
+    font-size:18px;
+    transition:.2s;
+}
+
+.recipe-search-clear:hover{
+    color:#111;
+}
+
+.recipe-status{
+    margin:8px 0 18px;
+}
+
+.recipe-status-ok{
+    color:#1a8f3f;
+    font-weight:600;
+}
+
+.recipe-status-empty{
+    color:#d68b00;
+    font-weight:600;
+}
+
 .recipe-section {
   display: flex;
   flex-direction: column;
