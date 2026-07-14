@@ -236,11 +236,19 @@ function RecipesPage() {
 
             {recipe.image_url && (
                 <div className="recipe-image-wrap">
+
                     <img
-                    src={recipe.image_url}
-                    alt={selectedProduct.name}
-                    className="recipe-image"
+                        src={recipe.image_url}
+                        alt=""
+                        className="recipe-image-bg"
                     />
+
+                    <img
+                        src={recipe.image_url}
+                        alt={selectedProduct.name}
+                        className="recipe-image"
+                    />
+
                 </div>
             )}
 
