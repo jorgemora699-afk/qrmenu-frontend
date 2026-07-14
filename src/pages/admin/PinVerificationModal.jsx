@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { verifyRecipePin } from "../services/api"
+import { verifyRecipePin } from "../../services/api"
 
 function PinVerificationModal({
   open,
