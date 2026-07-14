@@ -50,7 +50,7 @@ export const login = (email, password) =>
   api.post("/api/auth/login", { email, password })
 
 export const verifyRecipePin = (pin) =>
-  api.post("/recipes/verify-pin", { pin })
+  api.post("/api/recipes/verify-pin", { pin })
 
 export const changePassword = (current_password, new_password) =>
   api.put("/api/auth/change-password", { current_password, new_password })

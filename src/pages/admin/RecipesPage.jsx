@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
-import { searchRecipeProducts, getRecipe, saveRecipe } from "../../services/api"
+import { searchRecipeProducts, getRecipe, saveRecipe, verifyRecipePin } from "../../services/api"
 
 function RecipesPage() {
   const navigate = useNavigate()
@@ -88,6 +88,7 @@ function RecipesPage() {
 
     } catch (err) {
         alert(err.response?.data?.error || "PIN incorrecto");
+        setPinValue("");
     }
   };
 
