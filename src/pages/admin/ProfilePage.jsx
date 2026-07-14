@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import { getProfile, updateProfile, uploadImage } from "../../services/api"
+import { getProfile, updateProfile, uploadImage, changePassword } from "../../services/api"
 import MenuPreview from "../../components/admin/MenuPreview"
 
 import { FONT_THEMES, DEFAULT_FONT_KEY } from "../../config/fontThemes"
@@ -11,6 +11,21 @@ const DEFAULT_THEME = {
   text_color: "#1b1812",
   font_key: DEFAULT_FONT_KEY,
 }
+
+const IconEye = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8Z" />
+    <circle cx="12" cy="12" r="3" />
+  </svg>
+)
+
+const IconEyeOff = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-3.09 2.7A9.12 9.12 0 0 1 12 20c-7 0-11-8-11-8a18.5 18.5 0 0 1 4.22-5.94" />
+    <path d="M14.12 14.12a3 3 0 1 1-4.24-4.24" />
+    <line x1="1" y1="1" x2="23" y2="23" />
+  </svg>
+)
 
 function ProfilePage() {
   const navigate = useNavigate()
@@ -31,6 +46,19 @@ function ProfilePage() {
   const [uploadingLogo, setUploadingLogo] = useState(false)
   const [uploadingBanner, setUploadingBanner] = useState(false)
   const [success, setSuccess] = useState(false)
+
+  // ---- Seguridad: cambio de contraseña ----
+  const [passwordForm, setPasswordForm] = useState({
+    current_password: "",
+    new_password: "",
+    confirm_password: "",
+  })
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false)
+  const [showNewPassword, setShowNewPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  const [changingPassword, setChangingPassword] = useState(false)
+  const [passwordError, setPasswordError] = useState("")
+  const [passwordSuccess, setPasswordSuccess] = useState(false)
 
   useEffect(() => {
     getProfile().then((res) => {
@@ -108,6 +136,43 @@ function ProfilePage() {
     let hex = value.trim()
     if (hex && !hex.startsWith("#")) hex = `#${hex}`
     setForm({ ...form, [field]: hex })
+  }
+
+  const handleChangePassword = async () => {
+    setPasswordError("")
+    setPasswordSuccess(false)
+
+    if (!passwordForm.current_password || !passwordForm.new_password || !passwordForm.confirm_password) {
+      setPasswordError("Completa los tres campos")
+      return
+    }
+
+    if (passwordForm.new_password.length < 6) {
+      setPasswordError("La nueva contraseña debe tener al menos 6 caracteres")
+      return
+    }
+
+    if (passwordForm.new_password !== passwordForm.confirm_password) {
+      setPasswordError("Las contraseñas nuevas no coinciden")
+      return
+    }
+
+    setChangingPassword(true)
+
+    try {
+      await changePassword(passwordForm.current_password, passwordForm.new_password)
+
+      setPasswordSuccess(true)
+      setPasswordForm({ current_password: "", new_password: "", confirm_password: "" })
+
+      setTimeout(() => {
+        setPasswordSuccess(false)
+      }, 3000)
+    } catch (err) {
+      setPasswordError(err.response?.data?.error || "No se pudo cambiar la contraseña")
+    } finally {
+      setChangingPassword(false)
+    }
   }
 
   if (loading) {
@@ -360,6 +425,97 @@ function ProfilePage() {
         >
           {saving ? "Guardando..." : "Guardar cambios"}
         </button>
+
+        <section className="profile-card">
+          <span className="add-card-label">Seguridad</span>
+
+          {passwordSuccess && (
+            <div className="success-msg">
+              <span className="success-msg-dot" />
+              Contraseña actualizada correctamente
+            </div>
+          )}
+
+          {passwordError && <div className="error-msg">{passwordError}</div>}
+
+          <div className="form-field">
+            <label>Contraseña actual</label>
+            <div className="password-field">
+              <input
+                type={showCurrentPassword ? "text" : "password"}
+                value={passwordForm.current_password}
+                onChange={(e) =>
+                  setPasswordForm({ ...passwordForm, current_password: e.target.value })
+                }
+                placeholder="Tu contraseña actual"
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                aria-label={showCurrentPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                tabIndex={-1}
+              >
+                {showCurrentPassword ? <IconEyeOff /> : <IconEye />}
+              </button>
+            </div>
+          </div>
+
+          <div className="form-field">
+            <label>Nueva contraseña</label>
+            <div className="password-field">
+              <input
+                type={showNewPassword ? "text" : "password"}
+                value={passwordForm.new_password}
+                onChange={(e) =>
+                  setPasswordForm({ ...passwordForm, new_password: e.target.value })
+                }
+                placeholder="Mínimo 6 caracteres"
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowNewPassword(!showNewPassword)}
+                aria-label={showNewPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                tabIndex={-1}
+              >
+                {showNewPassword ? <IconEyeOff /> : <IconEye />}
+              </button>
+            </div>
+          </div>
+
+          <div className="form-field">
+            <label>Confirmar nueva contraseña</label>
+            <div className="password-field">
+              <input
+                type={showConfirmPassword ? "text" : "password"}
+                value={passwordForm.confirm_password}
+                onChange={(e) =>
+                  setPasswordForm({ ...passwordForm, confirm_password: e.target.value })
+                }
+                placeholder="Repite la nueva contraseña"
+                onKeyDown={(e) => e.key === "Enter" && handleChangePassword()}
+              />
+              <button
+                type="button"
+                className="password-toggle"
+                onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                aria-label={showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                tabIndex={-1}
+              >
+                {showConfirmPassword ? <IconEyeOff /> : <IconEye />}
+              </button>
+            </div>
+          </div>
+
+          <button
+            className="btn-primary"
+            onClick={handleChangePassword}
+            disabled={changingPassword}
+          >
+            {changingPassword ? "Cambiando..." : "Cambiar contraseña"}
+          </button>
+        </section>
 
       </div>
 
