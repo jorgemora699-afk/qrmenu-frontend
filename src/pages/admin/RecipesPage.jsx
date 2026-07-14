@@ -70,20 +70,6 @@ function RecipesPage() {
     }
   }
 
-  const highlight = (text) => {
-    if (!query) return text
-
-    const parts = text.split(new RegExp(`(${query})`, "gi"))
-
-    return parts.map((part, i) =>
-        part.toLowerCase() === query.toLowerCase() ? (
-        <mark key={i}>{part}</mark>
-        ) : (
-        part
-        )
-    )
-  }
-
   const openEdit = () => {
     setEditIngredients(recipe?.ingredients || "")
     setEditProcedure(recipe?.procedure || "")
@@ -193,26 +179,6 @@ function RecipesPage() {
             </button>
         )}
       </div>
-
-      {results.length > 0 && (
-        <ul className="recipe-search-results">
-            {results.map((p) => (
-            <li
-                key={p.id}
-                className="recipe-search-result-item"
-                onClick={() => handleSelectProduct(p)}
-            >
-                <span className="recipe-result-name">
-                {highlight(p.name)}
-                </span>
-
-                <span className="recipe-result-category">
-                {p.category_name}
-                </span>
-            </li>
-            ))}
-        </ul>
-      )}
 
       {loadingRecipe && <p className="panel-hint">Cargando receta...</p>}
 
