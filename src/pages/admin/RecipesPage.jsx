@@ -79,20 +79,6 @@ function RecipesPage() {
     setShowPinModal(true)
   }
 
-  const highlight = (text) => {
-    if (!query) return text
-
-    const parts = text.split(new RegExp(`(${query})`, "gi"))
-
-    return parts.map((part, i) =>
-        part.toLowerCase() === query.toLowerCase() ? (
-        <mark key={i}>{part}</mark>
-        ) : (
-        part
-        )
-    )
-  }
-
   const confirmPin = async () => {
     if (pinValue.length !== 4) return
 
@@ -165,17 +151,17 @@ function RecipesPage() {
         <p className="panel-hint">Busca un producto para ver su preparación</p>
       </header>
 
-      <div className="recipe-search-box">
+      <div className="recipe-search-wrap">
         <input
-            className="recipe-search-input"
-            placeholder="Escribe el nombre del producto..."
-            value={query}
-            onChange={(e) => {
+          className="recipe-search-input"
+          placeholder="Escribe el nombre del producto..."
+          value={query}
+          onChange={(e) => {
             setQuery(e.target.value)
             setSelectedProduct(null)
             setRecipe(null)
             setEditing(false)
-            }}
+          }}
         />
 
         {query && (
@@ -192,27 +178,22 @@ function RecipesPage() {
             ✕
             </button>
         )}
-      </div>
 
-      {results.length > 0 && (
-        <ul className="recipe-search-results">
+        {results.length > 0 && (
+          <ul className="recipe-search-results">
             {results.map((p) => (
-            <li
+              <li
                 key={p.id}
                 className="recipe-search-result-item"
                 onClick={() => handleSelectProduct(p)}
-            >
-                <span className="recipe-result-name">
-                {highlight(p.name)}
-                </span>
-
-                <span className="recipe-result-category">
-                {p.category_name}
-                </span>
-            </li>
+              >
+                <span className="recipe-result-name">{p.name}</span>
+                <span className="recipe-result-category">{p.category_name}</span>
+              </li>
             ))}
-        </ul>
-      )}
+          </ul>
+        )}
+      </div>
 
       {loadingRecipe && <p className="panel-hint">Cargando receta...</p>}
 
