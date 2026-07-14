@@ -17,6 +17,24 @@ const EyeIcon = () => (
   </svg>
 )
 
+const EyeOffIcon = () => (
+  <svg
+    width="20"
+    height="20"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M17.94 17.94A10.94 10.94 0 0 1 12 20C5 20 1 12 1 12a21.77 21.77 0 0 1 5.06-5.94" />
+    <path d="M9.9 4.24A10.94 10.94 0 0 1 12 4c7 0 11 8 11 8a21.8 21.8 0 0 1-3.17 4.36" />
+    <path d="M1 1l22 22" />
+    <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24" />
+  </svg>
+)
+
 function ChangePasswordModal({ open, onClose }) {
   const [currentPassword, setCurrentPassword] = useState("")
   const [newPassword, setNewPassword] = useState("")
@@ -86,8 +104,8 @@ function ChangePasswordModal({ open, onClose }) {
             type="button"
             className="password-toggle"
             onClick={() => setShowCurrent(!showCurrent)}
-          >
-            <EyeIcon />
+            >
+            {showCurrent ? <EyeOffIcon /> : <EyeIcon />}
           </button>
         </div>
 
@@ -103,8 +121,8 @@ function ChangePasswordModal({ open, onClose }) {
             type="button"
             className="password-toggle"
             onClick={() => setShowNew(!showNew)}
-          >
-            <EyeIcon />
+            >
+            {showNew ? <EyeOffIcon /> : <EyeIcon />}
           </button>
         </div>
 
@@ -120,8 +138,8 @@ function ChangePasswordModal({ open, onClose }) {
             type="button"
             className="password-toggle"
             onClick={() => setShowConfirm(!showConfirm)}
-          >
-            <EyeIcon />
+            >
+            {showConfirm ? <EyeOffIcon /> : <EyeIcon />}
           </button>
         </div>
 
