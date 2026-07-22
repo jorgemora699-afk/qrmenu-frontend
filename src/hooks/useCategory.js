@@ -1,36 +1,52 @@
 import { useEffect, useState } from "react"
-import { getMenu } from "../services/api"
+import {
+  getCategory,
+  getCategoryChildren
+} from "../services/api"
 
 export function useCategory(slug, categoryId) {
   const [business, setBusiness] = useState(null)
   const [category, setCategory] = useState(null)
+  const [children, setChildren] = useState([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     setLoading(true)
 
-    getMenu(slug)
-      .then((res) => {
+    getCategory(slug, categoryId)
+      .then(async (res) => {
+
         setBusiness(res.data.business)
+        setCategory(res.data.category)
 
-        const found = res.data.categories.find(
-          (cat) => cat.id === Number(categoryId)
-        )
+        if (res.data.category.has_subcategories) {
 
-        setCategory(found || null)
+          const childrenRes = await getCategoryChildren(categoryId)
+
+          setChildren(childrenRes.data)
+
+        } else {
+
+          setChildren([])
+
+        }
+
       })
       .catch(() => {
         setBusiness(null)
         setCategory(null)
+        setChildren([])
       })
       .finally(() => {
         setLoading(false)
       })
+
   }, [slug, categoryId])
 
   return {
     business,
     category,
+    children,
     loading,
   }
 }

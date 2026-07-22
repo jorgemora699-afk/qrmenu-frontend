@@ -10,7 +10,12 @@ function CategoryPage() {
   const { slug, categoryId } = useParams()
   const navigate = useNavigate()
 
-  const { business, category, loading } = useCategory(slug, categoryId)
+  const {
+    business,
+    category,
+    children,
+    loading
+  } = useCategory(slug, categoryId)
 
   if (loading) return <Loading />
 
@@ -48,25 +53,72 @@ function CategoryPage() {
           <div className="category-rule" />
 
           <p className="category-subtitle">
-            {category.products.length} {category.products.length === 1 ? "producto disponible" : "productos disponibles"}
+            {category.has_subcategories
+              ? `${children.length} ${children.length === 1 ? "subcategoría" : "subcategorías"}`
+              : `${category.products.length} ${category.products.length === 1 ? "producto disponible" : "productos disponibles"}`
+            }
           </p>
 
-          {category.products.length === 0 ? (
-            <div className="empty-state">
-              Todavía no hay productos en esta categoría.
-            </div>
+          {category.has_subcategories ? (
+
+            children.length === 0 ? (
+
+              <div className="empty-state">
+                No hay subcategorías.
+              </div>
+
+            ) : (
+
+              <div className="products-list">
+
+                {children.map((child) => (
+
+                  <ProductCard
+                    key={child.id}
+                    product={{
+                      name: child.name,
+                      description: "",
+                      image_url: child.image_url
+                    }}
+                    onClick={() =>
+                      navigate(`/${slug}/${child.id}`)
+                    }
+                  />
+
+                ))}
+
+              </div>
+
+            )
+
           ) : (
-            <div className="products-list">
-              {category.products.map((product) => (
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onClick={() =>
-                    navigate(`/${slug}/${categoryId}/${product.id}`)
-                  }
-                />
-              ))}
-            </div>
+
+            category.products.length === 0 ? (
+
+              <div className="empty-state">
+                Todavía no hay productos en esta categoría.
+              </div>
+
+            ) : (
+
+              <div className="products-list">
+
+                {category.products.map((product) => (
+
+                  <ProductCard
+                    key={product.id}
+                    product={product}
+                    onClick={() =>
+                      navigate(`/${slug}/${categoryId}/${product.id}`)
+                    }
+                  />
+
+                ))}
+
+              </div>
+
+            )
+
           )}
 
         </div>

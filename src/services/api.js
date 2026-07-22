@@ -46,6 +46,9 @@ api.interceptors.response.use(
 export const getMenu = (slug) =>
   axios.get(`${BASE_URL}/api/menu/${slug}`)
 
+export const getCategory = (slug, categoryId) =>
+  axios.get(`${BASE_URL}/api/menu/${slug}/category/${categoryId}`)
+
 export const login = (email, password) =>
   api.post("/api/auth/login", { email, password })
 
@@ -75,6 +78,9 @@ export const moveCategoryUp = (id) =>
 
 export const moveCategoryDown = (id) =>
   api.put(`/api/categories/${id}/move-down`)
+
+export const getCategoryChildren = (categoryId) =>
+  api.get(`/api/categories/${categoryId}/children`)
 
 // ======================
 // SUBCATEGORÍAS

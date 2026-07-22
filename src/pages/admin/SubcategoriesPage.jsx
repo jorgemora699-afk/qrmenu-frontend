@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import {
+  getCategories,
   getSubcategories,
   createSubcategory,
   updateSubcategory,
@@ -11,68 +12,119 @@ import {
 
 function SubcategoriesPage() {
   const navigate = useNavigate()
-  const { categoryId } = useParams()
 
+  const [categories, setCategories] = useState([])
+  const [selectedCategory, setSelectedCategory] = useState("")
   const [subcategories, setSubcategories] = useState([])
-  const [newName, setNewName] = useState("")
 
+  const [newName, setNewName] = useState("")
   const [editingId, setEditingId] = useState(null)
   const [editingName, setEditingName] = useState("")
 
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetchSubcategories()
+    fetchCategories()
   }, [])
 
-  const fetchSubcategories = async () => {
+  useEffect(() => {
+    if (selectedCategory) {
+      fetchSubcategories(selectedCategory)
+    }
+  }, [selectedCategory])
+
+  const fetchCategories = async () => {
+    try {
+      const res = await getCategories()
+
+      setCategories(res.data)
+
+      if (res.data.length > 0) {
+        setSelectedCategory(String(res.data[0].id))
+      }
+    } catch (err) {
+      console.error(err)
+      alert("No se pudieron cargar las categorías.")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const fetchSubcategories = async (categoryId) => {
     try {
       const res = await getSubcategories(categoryId)
       setSubcategories(res.data)
-    } finally {
-      setLoading(false)
+    } catch (err) {
+      console.error(err)
+      setSubcategories([])
     }
   }
 
   const handleCreate = async () => {
     if (!newName.trim()) return
 
-    await createSubcategory({
-      category_id: categoryId,
-      name: newName
-    })
+    try {
+      await createSubcategory({
+        category_id: selectedCategory,
+        name: newName
+      })
 
-    setNewName("")
-    fetchSubcategories()
+      setNewName("")
+      fetchSubcategories(selectedCategory)
+    } catch (err) {
+      console.error(err)
+      alert("No se pudo crear la subcategoría.")
+    }
   }
 
   const handleUpdate = async (id) => {
-    await updateSubcategory(id, {
-      name: editingName
-    })
+    try {
+      await updateSubcategory(id, {
+        name: editingName
+      })
 
-    setEditingId(null)
-    fetchSubcategories()
+      setEditingId(null)
+      setEditingName("")
+      fetchSubcategories(selectedCategory)
+    } catch (err) {
+      console.error(err)
+      alert("No se pudo actualizar la subcategoría.")
+    }
   }
 
   const handleDelete = async (id) => {
     if (!window.confirm("¿Eliminar esta subcategoría?")) return
 
-    await deleteSubcategory(id)
-    fetchSubcategories()
+    try {
+      await deleteSubcategory(id)
+      fetchSubcategories(selectedCategory)
+    } catch (err) {
+      console.error(err)
+      alert("No se pudo eliminar.")
+    }
   }
 
   const moveUp = async (id) => {
-    await moveSubcategoryUp(id)
-    fetchSubcategories()
+    try {
+      await moveSubcategoryUp(id)
+      fetchSubcategories(selectedCategory)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
   const moveDown = async (id) => {
-    await moveSubcategoryDown(id)
-    fetchSubcategories()
+    try {
+      await moveSubcategoryDown(id)
+      fetchSubcategories(selectedCategory)
+    } catch (err) {
+      console.error(err)
+    }
   }
 
-  if (loading) return <div>Cargando...</div>
+  if (loading) {
+    return <div className="loading">Cargando...</div>
+  }
 
   return (
     <div className="admin-page">
@@ -81,7 +133,7 @@ function SubcategoriesPage() {
 
         <button
           className="back-btn"
-          onClick={() => navigate("/admin/categories")}
+          onClick={() => navigate("/admin")}
         >
           ← Volver
         </button>
@@ -91,6 +143,21 @@ function SubcategoriesPage() {
         </div>
 
       </header>
+
+      <select
+        className="filter-select"
+        value={selectedCategory}
+        onChange={(e) => setSelectedCategory(e.target.value)}
+      >
+        {categories.map((cat) => (
+          <option
+            key={cat.id}
+            value={cat.id}
+          >
+            {cat.name}
+          </option>
+        ))}
+      </select>
 
       <section className="add-card">
 
@@ -104,7 +171,11 @@ function SubcategoriesPage() {
             value={newName}
             placeholder="Ej. Empanadas x6"
             onChange={(e) => setNewName(e.target.value)}
-            onKeyDown={(e)=>e.key==="Enter" && handleCreate()}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                handleCreate()
+              }
+            }}
           />
 
         </div>
@@ -118,94 +189,99 @@ function SubcategoriesPage() {
 
       </section>
 
-      <ol className="menu-ledger">
+      {subcategories.length === 0 ? (
+        <div className="empty-state">
+          No hay subcategorías en esta categoría.
+        </div>
+      ) : (
+        <ol className="menu-ledger">
 
-        {subcategories.map((sub,index)=>(
+          {subcategories.map((sub, index) => (
 
-          <li
-            key={sub.id}
-            className="ledger-row"
-          >
+            <li
+              key={sub.id}
+              className="ledger-row"
+            >
 
-            {editingId===sub.id ? (
-
-              <>
-                <input
-                  value={editingName}
-                  onChange={(e)=>setEditingName(e.target.value)}
-                />
-
-                <button
-                  className="btn-primary"
-                  onClick={()=>handleUpdate(sub.id)}
-                >
-                  Guardar
-                </button>
-
-                <button
-                  className="btn-cancel"
-                  onClick={()=>setEditingId(null)}
-                >
-                  Cancelar
-                </button>
-              </>
-
-            ) : (
-
-              <>
-                <span className="ledger-index">
-                  {index+1}
-                </span>
-
-                <span className="ledger-name">
-                  {sub.name}
-                </span>
-
-                <div className="ledger-actions">
+              {editingId === sub.id ? (
+                <>
+                  <input
+                    value={editingName}
+                    onChange={(e) => setEditingName(e.target.value)}
+                  />
 
                   <button
-                    className="icon-btn"
-                    onClick={()=>moveUp(sub.id)}
-                    disabled={index===0}
+                    className="btn-primary"
+                    onClick={() => handleUpdate(sub.id)}
                   >
-                    ↑
+                    Guardar
                   </button>
 
                   <button
-                    className="icon-btn"
-                    onClick={()=>moveDown(sub.id)}
-                    disabled={index===subcategories.length-1}
-                  >
-                    ↓
-                  </button>
-
-                  <button
-                    className="icon-btn"
-                    onClick={()=>{
-                      setEditingId(sub.id)
-                      setEditingName(sub.name)
+                    className="btn-cancel"
+                    onClick={() => {
+                      setEditingId(null)
+                      setEditingName("")
                     }}
                   >
-                    ✎
+                    Cancelar
                   </button>
+                </>
+              ) : (
+                <>
+                  <span className="ledger-index">
+                    {index + 1}
+                  </span>
 
-                  <button
-                    className="icon-btn icon-btn-danger"
-                    onClick={()=>handleDelete(sub.id)}
-                  >
-                    🗑
-                  </button>
+                  <span className="ledger-name">
+                    {sub.name}
+                  </span>
 
-                </div>
+                  <div className="ledger-actions">
 
-              </>
-            )}
+                    <button
+                      className="icon-btn"
+                      onClick={() => moveUp(sub.id)}
+                      disabled={index === 0}
+                    >
+                      ↑
+                    </button>
 
-          </li>
+                    <button
+                      className="icon-btn"
+                      onClick={() => moveDown(sub.id)}
+                      disabled={index === subcategories.length - 1}
+                    >
+                      ↓
+                    </button>
 
-        ))}
+                    <button
+                      className="icon-btn"
+                      onClick={() => {
+                        setEditingId(sub.id)
+                        setEditingName(sub.name)
+                      }}
+                    >
+                      ✎
+                    </button>
 
-      </ol>
+                    <button
+                      className="icon-btn icon-btn-danger"
+                      onClick={() => handleDelete(sub.id)}
+                    >
+                      🗑
+                    </button>
+
+                  </div>
+                </>
+              )}
+
+            </li>
+
+          ))}
+
+        </ol>
+      )}
 
     </div>
   )
