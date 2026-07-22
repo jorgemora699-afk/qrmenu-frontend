@@ -44,7 +44,9 @@ function CategoryPage() {
 
         <div className="category-content">
 
-          <span className="category-eyebrow">Carta</span>
+          <span className="category-eyebrow">
+            Carta
+          </span>
 
           <h1 className="category-title">
             {category.name}
@@ -53,72 +55,60 @@ function CategoryPage() {
           <div className="category-rule" />
 
           <p className="category-subtitle">
-            {category.has_subcategories
-              ? `${children.length} ${children.length === 1 ? "subcategoría" : "subcategorías"}`
-              : `${category.products.length} ${category.products.length === 1 ? "producto disponible" : "productos disponibles"}`
-            }
+            {children.length + category.products.length}{" "}
+            {children.length + category.products.length === 1
+              ? "elemento"
+              : "elementos"}
           </p>
 
-          {category.has_subcategories ? (
+          {/* SUBCATEGORÍAS */}
+          {children.length > 0 && (
+            <div className="products-list">
 
-            children.length === 0 ? (
+              {children.map((child) => (
 
-              <div className="empty-state">
-                No hay subcategorías.
-              </div>
+                <ProductCard
+                  key={child.id}
+                  product={{
+                    name: child.name,
+                    description: "",
+                    image_url: child.image_url
+                  }}
+                  isCategory
+                  onClick={() =>
+                    navigate(`/${slug}/${child.id}`)
+                  }
+                />
 
-            ) : (
+              ))}
 
-              <div className="products-list">
+            </div>
+          )}
 
-                {children.map((child) => (
+          {/* PRODUCTOS */}
+          {category.products.length > 0 && (
+            <div className="products-list">
 
-                  <ProductCard
-                    key={child.id}
-                    product={{
-                      name: child.name,
-                      description: "",
-                      image_url: child.image_url
-                    }}
-                    onClick={() =>
-                      navigate(`/${slug}/${child.id}`)
-                    }
-                  />
+              {category.products.map((product) => (
 
-                ))}
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onClick={() =>
+                    navigate(`/${slug}/${categoryId}/${product.id}`)
+                  }
+                />
 
-              </div>
+              ))}
 
-            )
+            </div>
+          )}
 
-          ) : (
-
-            category.products.length === 0 ? (
-
-              <div className="empty-state">
-                Todavía no hay productos en esta categoría.
-              </div>
-
-            ) : (
-
-              <div className="products-list">
-
-                {category.products.map((product) => (
-
-                  <ProductCard
-                    key={product.id}
-                    product={product}
-                    onClick={() =>
-                      navigate(`/${slug}/${categoryId}/${product.id}`)
-                    }
-                  />
-
-                ))}
-
-              </div>
-
-            )
-
+          {/* VACÍO */}
+          {children.length === 0 && category.products.length === 0 && (
+            <div className="empty-state">
+              Todavía no hay elementos en esta categoría.
+            </div>
           )}
 
         </div>
