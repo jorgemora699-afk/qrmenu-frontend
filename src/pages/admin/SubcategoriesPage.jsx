@@ -2,12 +2,12 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import {
   getCategories,
-  getSubcategories,
-  createSubcategory,
-  updateSubcategory,
-  deleteSubcategory,
-  moveSubcategoryUp,
-  moveSubcategoryDown
+  getCategoryChildren,
+  createCategory,
+  updateCategory,
+  deleteCategory,
+  moveCategoryUp,
+  moveCategoryDown
 } from "../../services/api"
 
 function SubcategoriesPage() {
@@ -52,7 +52,7 @@ function SubcategoriesPage() {
 
   const fetchSubcategories = async (categoryId) => {
     try {
-      const res = await getSubcategories(categoryId)
+      const res = await getCategoryChildren(categoryId)
       setSubcategories(res.data)
     } catch (err) {
       console.error(err)
@@ -64,8 +64,8 @@ function SubcategoriesPage() {
     if (!newName.trim()) return
 
     try {
-      await createSubcategory({
-        category_id: selectedCategory,
+      await createCategory({
+        parent_id: Number(selectedCategory),
         name: newName
       })
 
@@ -79,7 +79,7 @@ function SubcategoriesPage() {
 
   const handleUpdate = async (id) => {
     try {
-      await updateSubcategory(id, {
+      await updateCategory(id, {
         name: editingName
       })
 
@@ -96,7 +96,7 @@ function SubcategoriesPage() {
     if (!window.confirm("¿Eliminar esta subcategoría?")) return
 
     try {
-      await deleteSubcategory(id)
+      await deleteCategory(id)
       fetchSubcategories(selectedCategory)
     } catch (err) {
       console.error(err)
@@ -106,7 +106,7 @@ function SubcategoriesPage() {
 
   const moveUp = async (id) => {
     try {
-      await moveSubcategoryUp(id)
+      await moveCategoryUp(id)
       fetchSubcategories(selectedCategory)
     } catch (err) {
       console.error(err)
@@ -115,7 +115,7 @@ function SubcategoriesPage() {
 
   const moveDown = async (id) => {
     try {
-      await moveSubcategoryDown(id)
+      await moveCategoryDown(id)
       fetchSubcategories(selectedCategory)
     } catch (err) {
       console.error(err)

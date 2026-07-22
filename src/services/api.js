@@ -82,30 +82,6 @@ export const moveCategoryDown = (id) =>
 export const getCategoryChildren = (categoryId) =>
   api.get(`/api/categories/${categoryId}/children`)
 
-// ======================
-// SUBCATEGORÍAS
-// ======================
-
-export const getSubcategories = (categoryId) =>
-  api.get("/api/subcategories/", {
-    params: { category_id: categoryId }
-  })
-
-export const createSubcategory = (data) =>
-  api.post("/api/subcategories/", data)
-
-export const updateSubcategory = (id, data) =>
-  api.put(`/api/subcategories/${id}`, data)
-
-export const deleteSubcategory = (id) =>
-  api.delete(`/api/subcategories/${id}`)
-
-export const moveSubcategoryUp = (id) =>
-  api.put(`/api/subcategories/${id}/move-up`)
-
-export const moveSubcategoryDown = (id) =>
-  api.put(`/api/subcategories/${id}/move-down`)
-
 export const getProducts = (category_id) =>
   api.get("/api/products/", {
     params: category_id ? { category_id } : {}

@@ -2,14 +2,14 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import {
   getCategories,
+  getCategoryChildren,
   getProducts,
   createProduct,
   updateProduct,
   deleteProduct,
   uploadImage,
   moveProductUp,
-  moveProductDown,
-  getSubcategories
+  moveProductDown
 } from "../../services/api"
 
 /* ---------- iconos (trazo fino, sin dependencias externas) ---------- */
@@ -93,7 +93,7 @@ function ProductsPage() {
     }
 
     try {
-      const res = await getSubcategories(categoryId)
+      const res = await getCategoryChildren(categoryId)
       setSubcategories(res.data)
     } catch (err) {
       console.error(err)
@@ -134,23 +134,23 @@ function ProductsPage() {
 
   const openEdit = async (product) => {
 
-    await fetchSubcategories(product.category_id)
+  await fetchSubcategories(product.category_id)
 
-    setEditingProduct(product)
-    setFormError("")
+  setEditingProduct(product)
+  setFormError("")
 
-    setForm({
-      name: product.name,
-      description: product.description || "",
-      price: product.price,
-      image_url: product.image_url || "",
-      available: product.available,
-      category_id: product.category_id,
-      subcategory_id: product.subcategory_id || ""
-    })
+  setForm({
+    name: product.name,
+    description: product.description || "",
+    price: product.price,
+    image_url: product.image_url || "",
+    available: product.available,
+    category_id: product.category_id,
+    subcategory_id: product.subcategory_id || ""
+  })
 
-    setShowForm(true)
-  }
+  setShowForm(true)
+}
 
   const closeForm = () => {
     setShowForm(false)
