@@ -1,4 +1,4 @@
-function ProductCard({ product, onClick }) {
+function ProductCard({ product, onClick, isCategory = false }) {
   return (
     <div className="product-card" onClick={onClick}>
 
@@ -11,7 +11,7 @@ function ProductCard({ product, onClick }) {
           />
         ) : (
           <div className="product-placeholder">
-            🍽
+            {isCategory ? "📁" : "🍽"}
           </div>
         )}
       </div>
@@ -30,10 +30,19 @@ function ProductCard({ product, onClick }) {
 
         <div className="product-footer">
 
-          <span className="product-price price-mono">
-            ${Number(product.price).toLocaleString("es-CO", { maximumFractionDigits: 0 })}
-          </span>
-          {product.available === false ? (
+          {!isCategory && (
+            <span className="product-price price-mono">
+              ${Number(product.price).toLocaleString("es-CO", {
+                maximumFractionDigits: 0,
+              })}
+            </span>
+          )}
+
+          {isCategory ? (
+            <span className="product-arrow">
+              →
+            </span>
+          ) : product.available === false ? (
             <span className="availability-pill availability-pill-off">
               Agotado
             </span>
