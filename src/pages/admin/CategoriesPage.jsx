@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import {
   getCategories,
   createCategory,
@@ -46,6 +46,21 @@ const IconImage = () => (
     <rect x="3" y="3" width="18" height="18" rx="3" />
     <circle cx="8.5" cy="8.5" r="1.5" />
     <path d="M21 15l-5-5L5 21" />
+  </svg>
+)
+
+const IconFolder = () => (
+  <svg
+    width="15"
+    height="15"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.8"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+  >
+    <path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
   </svg>
 )
 
@@ -332,6 +347,14 @@ function CategoriesPage() {
                     </button>
 
                     <div className="ledger-divider" />
+
+                    <Link
+                        to={`/admin/categories/${cat.id}/subcategories`}
+                        className="icon-btn"
+                        title="Subcategorías"
+                    >
+                        <IconFolder />
+                    </Link>
 
                     <button
                       className="icon-btn"

@@ -13,6 +13,7 @@ import ProfilePage from "./pages/admin/ProfilePage"
 import SuperadminPage from "./pages/admin/SuperadminPage"
 import QRCodePage from "./pages/admin/QRCodePage"
 import RecipesPage from "./pages/admin/RecipesPage"
+import SubcategoriesPage from "./pages/admin/SubcategoriesPage"
 
 const PrivateRoute = ({ children }) => {
   const navigate = useNavigate()
@@ -92,6 +93,7 @@ function App() {
         <Route path="/admin/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>}/>
         <Route path="/admin/qr" element={ <PrivateRoute><QRCodePage /> </PrivateRoute> } />
         <Route path="/admin/recipes" element={<PrivateRoute><RecipesPage /></PrivateRoute>} />
+        <Route path="/admin/categories/:categoryId/subcategories"element={<PrivateRoute><SubcategoriesPage /></PrivateRoute>}/>
       </Routes>
     </BrowserRouter>
   )

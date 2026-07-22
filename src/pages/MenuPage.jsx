@@ -44,11 +44,17 @@ function MenuPage() {
       {/* CATEGORÍAS */}
       <CategoriesGrid
         categories={categories}
-        onCategoryClick={(category) =>
-          navigate(`/${slug}/${category.id}`, {
-            state: { category },
-          })
-        }
+        onCategoryClick={(category) => {
+          if (category.has_subcategories) {
+            navigate(`/${slug}/${category.id}/subcategories`, {
+              state: { category },
+            })
+          } else {
+            navigate(`/${slug}/${category.id}`, {
+              state: { category },
+            })
+          }
+        }}
       />
     </div>
     </PageContainer>

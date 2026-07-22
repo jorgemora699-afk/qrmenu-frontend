@@ -8,7 +8,8 @@ import {
   deleteProduct,
   uploadImage,
   moveProductUp,
-  moveProductDown
+  moveProductDown,
+  getSubcategories
 } from "../../services/api"
 
 /* ---------- iconos (trazo fino, sin dependencias externas) ---------- */
@@ -45,14 +46,16 @@ const IconTrash = () => (
 function ProductsPage() {
   const navigate = useNavigate()
   const [categories, setCategories] = useState([])
+  const [subcategories, setSubcategories] = useState([])
   const [products, setProducts] = useState([])
   const [selectedCategory, setSelectedCategory] = useState("")
   const [loading, setLoading] = useState(true)
   const [uploading, setUploading] = useState(false)
   const [showForm, setShowForm] = useState(false)
   const [editingProduct, setEditingProduct] = useState(null)
+  const [formError, setFormError] = useState("")
   const [form, setForm] = useState({
-    name: "", description: "", price: "", image_url: "", available: true, category_id: ""
+    name: "", description: "", price: "", image_url: "", available: true, category_id: "", subcategory_id: ""
   })
 
   useEffect(() => {
@@ -63,28 +66,58 @@ function ProductsPage() {
     fetchProducts()
   }, [selectedCategory])
 
+  useEffect(() => {
+    fetchSubcategories(form.category_id)
+  }, [form.category_id])
+
   const fetchCategories = async () => {
-    const res = await getCategories()
+    try {
+      const res = await getCategories()
+      setCategories(res.data)
 
-    setCategories(res.data)
+      if (res.data.length > 0) {
+        setSelectedCategory(String(res.data[0].id))
+      }
+    } catch (err) {
+      console.error(err)
+      alert("No se pudieron cargar las categorías.")
+    } finally {
+      setLoading(false)
+    }
+  }
 
-    if (res.data.length > 0) {
-      setSelectedCategory(String(res.data[0].id))
+  const fetchSubcategories = async (categoryId) => {
+    if (!categoryId) {
+      setSubcategories([])
+      return
     }
 
-    setLoading(false)
+    try {
+      const res = await getSubcategories(categoryId)
+      setSubcategories(res.data)
+    } catch (err) {
+      console.error(err)
+      setSubcategories([])
+    }
   }
 
   const fetchProducts = async () => {
     if (!selectedCategory) return
 
-    const res = await getProducts(selectedCategory)
-
-    setProducts(res.data)
+    try {
+      const res = await getProducts(selectedCategory)
+      setProducts(res.data)
+    } catch (err) {
+      console.error(err)
+      alert("No se pudieron cargar los productos.")
+    }
   }
 
-  const openCreate = () => {
+  const openCreate = async () => {
     setEditingProduct(null)
+    setFormError("")
+
+    await fetchSubcategories(selectedCategory)
 
     setForm({
       name: "",
@@ -92,41 +125,80 @@ function ProductsPage() {
       price: "",
       image_url: "",
       available: true,
-      category_id: selectedCategory
+      category_id: selectedCategory,
+      subcategory_id: ""
     })
 
     setShowForm(true)
   }
 
-  const openEdit = (product) => {
+  const openEdit = async (product) => {
+
+    await fetchSubcategories(product.category_id)
+
     setEditingProduct(product)
+    setFormError("")
+
     setForm({
       name: product.name,
       description: product.description || "",
       price: product.price,
       image_url: product.image_url || "",
       available: product.available,
-      category_id: product.category_id
+      category_id: product.category_id,
+      subcategory_id: product.subcategory_id || ""
     })
+
     setShowForm(true)
   }
 
-  const handleSubmit = async () => {
-    if (!form.name.trim() || !form.price || !form.category_id) return
-    const data = { ...form, price: parseFloat(form.price) }
-    if (editingProduct) {
-      await updateProduct(editingProduct.id, data)
-    } else {
-      await createProduct(data)
-    }
+  const closeForm = () => {
     setShowForm(false)
-    fetchProducts()
+    setFormError("")
+    setEditingProduct(null)
+  }
+
+  const handleSubmit = async () => {
+    if (!form.name.trim()) {
+      setFormError("El nombre es obligatorio.")
+      return
+    }
+    if (!form.price) {
+      setFormError("El precio es obligatorio.")
+      return
+    }
+    if (!form.category_id) {
+      setFormError("Selecciona una categoría.")
+      return
+    }
+
+    setFormError("")
+
+    try {
+      const data = { ...form, price: parseFloat(form.price) }
+      if (editingProduct) {
+        await updateProduct(editingProduct.id, data)
+      } else {
+        await createProduct(data)
+      }
+      setShowForm(false)
+      setEditingProduct(null)
+      fetchProducts()
+    } catch (err) {
+      console.error(err)
+      setFormError("No se pudo guardar el producto. Intenta de nuevo.")
+    }
   }
 
   const handleDelete = async (id) => {
     if (!confirm("¿Eliminar este producto?")) return
-    await deleteProduct(id)
-    fetchProducts()
+    try {
+      await deleteProduct(id)
+      fetchProducts()
+    } catch (err) {
+      console.error(err)
+      alert("No se pudo eliminar el producto.")
+    }
   }
 
   const handleMoveUp = async (id) => {
@@ -155,9 +227,13 @@ function ProductsPage() {
     setUploading(true)
     try {
       const res = await uploadImage(file)
-      setForm({ ...form, image_url: res.data.url })
+      setForm((prev) => ({ ...prev, image_url: res.data.url }))
+    } catch (err) {
+      console.error(err)
+      alert("No se pudo subir la imagen.")
     } finally {
       setUploading(false)
+      e.target.value = "" // permite volver a subir el mismo archivo
     }
   }
 
@@ -282,6 +358,10 @@ function ProductsPage() {
             </span>
             <h3>{editingProduct ? editingProduct.name : "Agrega un producto"}</h3>
 
+            {formError && (
+              <p className="form-error">{formError}</p>
+            )}
+
             <input
               placeholder="Nombre"
               value={form.name}
@@ -320,12 +400,28 @@ function ProductsPage() {
 
             <select
               value={form.category_id}
-              onChange={(e) => setForm({ ...form, category_id: e.target.value })}
+              onChange={(e) =>
+                setForm({ ...form, category_id: e.target.value, subcategory_id: "" })
+              }
             >
               {categories.map((cat) => (
                 <option key={cat.id} value={cat.id}>{cat.name}</option>
               ))}
             </select>
+
+            {subcategories.length > 0 && (
+              <select
+                value={form.subcategory_id}
+                onChange={(e) => setForm({ ...form, subcategory_id: e.target.value })}
+              >
+                <option value="">Sin subcategoría</option>
+                {subcategories.map((sub) => (
+                  <option key={sub.id} value={sub.id}>
+                    {sub.name}
+                  </option>
+                ))}
+              </select>
+            )}
 
             <label className="toggle-label">
               <input
@@ -340,7 +436,7 @@ function ProductsPage() {
               <button className="btn-primary" onClick={handleSubmit}>
                 {editingProduct ? "Guardar cambios" : "Crear producto"}
               </button>
-              <button className="btn-cancel" onClick={() => setShowForm(false)}>Cancelar</button>
+              <button className="btn-cancel" onClick={closeForm}>Cancelar</button>
             </div>
           </div>
         </div>
