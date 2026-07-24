@@ -52,6 +52,7 @@ function ProductsPage() {
   const [loading, setLoading] = useState(true)
   const [uploading, setUploading] = useState(false)
   const [showForm, setShowForm] = useState(false)
+  const [categoryTree, setCategoryTree] = useState([])
   const [editingProduct, setEditingProduct] = useState(null)
   const [formError, setFormError] = useState("")
   const [form, setForm] = useState({
@@ -73,10 +74,20 @@ function ProductsPage() {
   const fetchCategories = async () => {
     try {
       const res = await getCategories()
-      setCategories(res.data)
+      const cats = res.data
 
-      if (res.data.length > 0) {
-        setSelectedCategory(String(res.data[0].id))
+      const tree = await Promise.all(
+        cats.map(async (cat) => {
+          const childRes = await getCategoryChildren(cat.id)
+          return { ...cat, children: childRes.data }
+        })
+      )
+
+      setCategories(cats)
+      setCategoryTree(tree)
+
+      if (cats.length > 0) {
+        setSelectedCategory(String(cats[0].id))
       }
     } catch (err) {
       console.error(err)
@@ -268,9 +279,9 @@ function ProductsPage() {
 
   const formatPrice = (price) => `$${Number(price).toLocaleString()}`
 
-  const selectedCategoryName = categories.find(
-    (cat) => String(cat.id) === String(selectedCategory)
-  )?.name
+  const selectedCategoryName = categoryTree
+    .flatMap((cat) => [cat, ...cat.children])
+    .find((cat) => String(cat.id) === String(selectedCategory))?.name
 
   if (loading) return <div className="loading">Cargando...</div>
 
@@ -297,10 +308,15 @@ function ProductsPage() {
         value={selectedCategory}
         onChange={(e) => setSelectedCategory(e.target.value)}
       >
-        {categories.map((cat) => (
-          <option key={cat.id} value={cat.id}>
-            {cat.name}
-          </option>
+        {categoryTree.map((cat) => (
+          <optgroup key={cat.id} label={cat.name}>
+            <option value={cat.id}>{cat.name}</option>
+            {cat.children.map((child) => (
+              <option key={child.id} value={child.id}>
+                &nbsp;&nbsp;↳ {child.name}
+              </option>
+            ))}
+          </optgroup>
         ))}
       </select>
 
