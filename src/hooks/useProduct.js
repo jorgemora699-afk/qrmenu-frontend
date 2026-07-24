@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { getMenu } from "../services/api"
+import { getCategory } from "../services/api"
 
 export function useProduct(slug, categoryId, productId) {
   const [business, setBusiness] = useState(null)
@@ -10,23 +10,12 @@ export function useProduct(slug, categoryId, productId) {
   useEffect(() => {
     setLoading(true)
 
-    getMenu(slug)
+    getCategory(slug, categoryId)
       .then((res) => {
         setBusiness(res.data.business)
+        setCategory(res.data.category)
 
-        const foundCategory = res.data.categories.find(
-          (cat) => cat.id === Number(categoryId)
-        )
-
-        if (!foundCategory) {
-          setCategory(null)
-          setProduct(null)
-          return
-        }
-
-        setCategory(foundCategory)
-
-        const foundProduct = foundCategory.products.find(
+        const foundProduct = res.data.category?.products?.find(
           (p) => p.id === Number(productId)
         )
 
