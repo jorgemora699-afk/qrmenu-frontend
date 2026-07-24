@@ -93,6 +93,13 @@ function CategoryPage() {
             </div>
           )}
 
+          {/* SEPARADOR ENTRE SUBCATEGORÍAS Y PRODUCTOS */}
+          {children.length > 0 && category.products.length > 0 && (
+            <p className="category-subtitle" style={{ margin: "22px 0 4px" }}>
+              Productos
+            </p>
+          )}
+
           {/* PRODUCTOS */}
           {category.products.length > 0 && (
             <div className="products-list">
