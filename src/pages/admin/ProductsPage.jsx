@@ -133,24 +133,46 @@ function ProductsPage() {
   }
 
   const openEdit = async (product) => {
+    setEditingProduct(product)
+    setFormError("")
 
-  await fetchSubcategories(product.category_id)
+    const isRoot = categories.some(
+      (cat) => String(cat.id) === String(product.category_id)
+    )
 
-  setEditingProduct(product)
-  setFormError("")
+    let parentCategoryId = product.category_id
+    let subcategoryId = ""
 
-  setForm({
-    name: product.name,
-    description: product.description || "",
-    price: product.price,
-    image_url: product.image_url || "",
-    available: product.available,
-    category_id: product.category_id,
-    subcategory_id: product.subcategory_id || ""
-  })
+    if (!isRoot) {
+      // el producto está en una subcategoría: hay que encontrar a qué
+      // categoría raíz pertenece, buscando entre los hijos de cada una
+      for (const cat of categories) {
+        const res = await getCategoryChildren(cat.id)
+        const match = res.data.find(
+          (child) => String(child.id) === String(product.category_id)
+        )
+        if (match) {
+          parentCategoryId = cat.id
+          subcategoryId = product.category_id
+          break
+        }
+      }
+    }
 
-  setShowForm(true)
-}
+    await fetchSubcategories(parentCategoryId)
+
+    setForm({
+      name: product.name,
+      description: product.description || "",
+      price: product.price,
+      image_url: product.image_url || "",
+      available: product.available,
+      category_id: parentCategoryId,
+      subcategory_id: subcategoryId
+    })
+
+    setShowForm(true)
+  }
 
   const closeForm = () => {
     setShowForm(false)
@@ -175,7 +197,14 @@ function ProductsPage() {
     setFormError("")
 
     try {
-      const data = { ...form, price: parseFloat(form.price) }
+      const { subcategory_id, ...rest } = form
+
+      const data = {
+        ...rest,
+        price: parseFloat(form.price),
+        category_id: subcategory_id || form.category_id
+      }
+
       if (editingProduct) {
         await updateProduct(editingProduct.id, data)
       } else {
