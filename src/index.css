@@ -326,6 +326,7 @@ body {
 .category-subtitle {
   color: var(--rd-muted);
   font-size: 0.88rem;
+  margin-bottom: 18px;
 }
 
 .products-list {
