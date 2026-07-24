@@ -288,9 +288,13 @@ function CategoriesPage() {
                     />
                   </label>
 
-                  <label className="field-label">
-                    Convertir en subcategoría de:
+                  <div className="parent-select-card">
+                    <span className="add-card-label parent-select-label">
+                      <IconFolder />
+                      Categoría padre
+                    </span>
                     <select
+                      className="filter-select"
                       value={editingParentId}
                       onChange={(e) => setEditingParentId(e.target.value)}
                     >
@@ -303,7 +307,7 @@ function CategoriesPage() {
                           </option>
                         ))}
                     </select>
-                  </label>
+                  </div>
 
                   <div className="ledger-edit-actions">
                     <button

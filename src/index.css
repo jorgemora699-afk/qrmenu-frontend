@@ -2452,6 +2452,23 @@ body {
   color: var(--rd-ink);
 }
 
+.parent-select-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 4px 0;
+}
+
+.parent-select-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.parent-select-label svg {
+  color: var(--rd-accent, #9c7a3c);
+}
+
 .recipe-search-box{
     position:relative;
 }

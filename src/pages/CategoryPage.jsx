@@ -28,6 +28,14 @@ function CategoryPage() {
     banner_url: category.image_url || business?.banner_url,
   }
 
+  const handleBack = () => {
+    if (category.parent_id) {
+      navigate(`/${slug}/${category.parent_id}`)
+    } else {
+      navigate(`/${slug}`)
+    }
+  }
+
   return (
     <PageContainer business={business}>
       <div className="category-page">
@@ -36,8 +44,8 @@ function CategoryPage() {
 
         <button
           className="category-back-btn"
-          onClick={() => navigate(`/${slug}`)}
-          aria-label="Volver al menú"
+          onClick={handleBack}
+          aria-label="Volver"
         >
           ←
         </button>
