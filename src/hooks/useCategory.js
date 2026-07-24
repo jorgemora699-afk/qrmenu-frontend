@@ -1,8 +1,5 @@
 import { useEffect, useState } from "react"
-import {
-  getCategory,
-  getCategoryChildren
-} from "../services/api"
+import { getCategory } from "../services/api"
 
 export function useCategory(slug, categoryId) {
   const [business, setBusiness] = useState(null)
@@ -14,23 +11,10 @@ export function useCategory(slug, categoryId) {
     setLoading(true)
 
     getCategory(slug, categoryId)
-      .then(async (res) => {
-
+      .then((res) => {
         setBusiness(res.data.business)
         setCategory(res.data.category)
-
-        if (res.data.category.has_subcategories) {
-
-          const childrenRes = await getCategoryChildren(categoryId)
-
-          setChildren(childrenRes.data)
-
-        } else {
-
-          setChildren([])
-
-        }
-
+        setChildren(res.data.category.children || [])
       })
       .catch(() => {
         setBusiness(null)
