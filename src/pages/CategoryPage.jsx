@@ -69,6 +69,31 @@ function CategoryPage() {
               : "elementos"}
           </p>
 
+          {/* PRODUCTOS */}
+          {category.products.length > 0 && (
+            <div className="products-list">
+
+              {category.products.map((product) => (
+
+                <ProductCard
+                  key={product.id}
+                  product={product}
+                  onClick={() =>
+                    navigate(`/${slug}/${categoryId}/${product.id}`)
+                  }
+                />
+
+              ))}
+
+            </div>
+          )}
+
+          {/* SEPARADOR ENTRE SUBCATEGORÍAS Y PRODUCTOS */}
+          {children.length > 0 && category.products.length > 0 && (
+            <p className="category-subtitle" style={{ margin: "22px 0 4px" }}>
+            </p>
+          )}
+
           {/* SUBCATEGORÍAS */}
           {children.length > 0 && (
             <div className="products-list">
@@ -85,31 +110,6 @@ function CategoryPage() {
                   isCategory
                   onClick={() =>
                     navigate(`/${slug}/${child.id}`)
-                  }
-                />
-
-              ))}
-
-            </div>
-          )}
-
-          {/* SEPARADOR ENTRE SUBCATEGORÍAS Y PRODUCTOS */}
-          {children.length > 0 && category.products.length > 0 && (
-            <p className="category-subtitle" style={{ margin: "22px 0 4px" }}>
-            </p>
-          )}
-
-          {/* PRODUCTOS */}
-          {category.products.length > 0 && (
-            <div className="products-list">
-
-              {category.products.map((product) => (
-
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onClick={() =>
-                    navigate(`/${slug}/${categoryId}/${product.id}`)
                   }
                 />
 
