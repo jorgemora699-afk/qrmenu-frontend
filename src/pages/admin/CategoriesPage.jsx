@@ -74,6 +74,7 @@ function CategoriesPage() {
   const [editingId, setEditingId] = useState(null)
   const [editingName, setEditingName] = useState("")
   const [editingImage, setEditingImage] = useState(null)
+  const [editingParentId, setEditingParentId] = useState("")
 
   const [loading, setLoading] = useState(true)
   const [uploading, setUploading] = useState(false)
@@ -130,7 +131,8 @@ function CategoriesPage() {
       setSavingEdit(true)
 
       const payload = {
-        name: editingName.trim()
+        name: editingName.trim(),
+        parent_id: editingParentId ? Number(editingParentId) : null
       }
 
       if (editingImage) {
@@ -142,6 +144,7 @@ function CategoriesPage() {
 
       setEditingId(null)
       setEditingImage(null)
+      setEditingParentId("")
       fetchCategories()
     } catch (err) {
       console.error(err)
@@ -285,6 +288,23 @@ function CategoriesPage() {
                     />
                   </label>
 
+                  <label className="field-label">
+                    Convertir en subcategoría de:
+                    <select
+                      value={editingParentId}
+                      onChange={(e) => setEditingParentId(e.target.value)}
+                    >
+                      <option value="">— Categoría principal (sin padre) —</option>
+                      {categories
+                        .filter((c) => c.id !== cat.id)
+                        .map((c) => (
+                          <option key={c.id} value={c.id}>
+                            {c.name}
+                          </option>
+                        ))}
+                    </select>
+                  </label>
+
                   <div className="ledger-edit-actions">
                     <button
                       className="btn-primary"
@@ -299,6 +319,7 @@ function CategoriesPage() {
                       onClick={() => {
                         setEditingId(null)
                         setEditingImage(null)
+                        setEditingParentId("")
                       }}
                     >
                       Cancelar
@@ -361,6 +382,7 @@ function CategoriesPage() {
                       onClick={() => {
                         setEditingId(cat.id)
                         setEditingName(cat.name)
+                        setEditingParentId(cat.parent_id ? String(cat.parent_id) : "")
                       }}
                       title="Editar"
                       aria-label="Editar categoría"
