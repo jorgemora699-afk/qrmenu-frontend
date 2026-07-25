@@ -594,6 +594,7 @@ body {
 .back-btn {
   display: inline-flex;
   align-items: center;
+  align-self: flex-start;
   gap: 6px;
   background: var(--rd-surface);
   border: 1px solid var(--rd-line);
