@@ -467,9 +467,10 @@ body {
 
 .category-back-btn,
 .product-back-btn {
-  width: 40px;
+  width: auto;
   height: 40px;
-  border-radius: 50%;
+  padding: 0 16px 0 14px;
+  border-radius: 999px;
   border: 1px solid var(--rd-line);
   background: var(--rd-surface);
   color: var(--rd-muted);
@@ -477,6 +478,10 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
   cursor: pointer;
   transition: color .15s, border-color .15s, background .15s, transform .15s;
 }
