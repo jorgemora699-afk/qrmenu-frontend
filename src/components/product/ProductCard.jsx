@@ -1,3 +1,18 @@
+const IconFolderPlaceholder = () => (
+  <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+    <path d="M3 7.5a2 2 0 0 1 2-2h4.2l1.6 2H19a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="currentColor" opacity="0.16" />
+    <path d="M3 7.5a2 2 0 0 1 2-2h4.2l1.6 2H19a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round" />
+  </svg>
+)
+
+const IconDishPlaceholder = () => (
+  <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="9" fill="currentColor" opacity="0.16" />
+    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.3" />
+    <circle cx="12" cy="12" r="4" stroke="currentColor" strokeWidth="1.3" />
+  </svg>
+)
+
 function ProductCard({ product, onClick, isCategory = false }) {
   return (
     <div className="product-card" onClick={onClick}>
@@ -11,7 +26,7 @@ function ProductCard({ product, onClick, isCategory = false }) {
           />
         ) : (
           <div className="product-placeholder">
-            {isCategory ? "📁" : "🍽"}
+            {isCategory ? <IconFolderPlaceholder /> : <IconDishPlaceholder />}
           </div>
         )}
       </div>
