@@ -56,7 +56,6 @@ function ProductPage() {
           <ProductImage
             src={product.image_url}
             alt={product.name}
-            fallbackSrc={business?.banner_url}
           />
 
         </div>
