@@ -196,7 +196,7 @@ function RecipesPage() {
         )}
       </div>
 
-      if (loading) return <Loading />
+      {loadingRecipe && <Loading />}
 
       {selectedProduct && recipe && !loadingRecipe && (
 
