@@ -278,6 +278,7 @@ function ProductsPage() {
   }
 
   const handleRemoveImage = () => {
+    if (!window.confirm("¿Quitar la imagen de este producto?")) return
     setForm((prev) => ({ ...prev, image_url: "" }))
   }
 
