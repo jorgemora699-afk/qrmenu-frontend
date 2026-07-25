@@ -55,6 +55,7 @@ function ProductsPage() {
   const [categoryTree, setCategoryTree] = useState([])
   const [editingProduct, setEditingProduct] = useState(null)
   const [formError, setFormError] = useState("")
+  const [showImageZoom, setShowImageZoom] = useState(false)
   const [form, setForm] = useState({
     name: "", description: "", price: "", image_url: "", available: true, category_id: "", subcategory_id: ""
   })
@@ -189,6 +190,7 @@ function ProductsPage() {
     setShowForm(false)
     setFormError("")
     setEditingProduct(null)
+    setShowImageZoom(false)
   }
 
   const handleSubmit = async () => {
@@ -426,7 +428,13 @@ function ProductsPage() {
 
             <div className="upload-area">
               {form.image_url && (
-                <img src={form.image_url} alt="Producto" className="logo-preview" />
+                <img
+                  src={form.image_url}
+                  alt="Producto"
+                  className="logo-preview"
+                  style={{ cursor: "zoom-in" }}
+                  onClick={() => setShowImageZoom(true)}
+                />
               )}
 
               <div className="upload-area-actions">
@@ -502,6 +510,38 @@ function ProductsPage() {
               <button className="btn-cancel" onClick={closeForm}>Cancelar</button>
             </div>
           </div>
+        </div>
+      )}
+
+      {showImageZoom && form.image_url && (
+        <div
+          className="modal-overlay"
+          onClick={() => setShowImageZoom(false)}
+        >
+          <button
+            className="icon-btn"
+            style={{
+              position: "absolute",
+              top: 24,
+              right: 24,
+              background: "#fff"
+            }}
+            onClick={() => setShowImageZoom(false)}
+            aria-label="Cerrar"
+          >
+            ✕
+          </button>
+          <img
+            src={form.image_url}
+            alt="Producto en grande"
+            style={{
+              maxWidth: "90vw",
+              maxHeight: "90vh",
+              objectFit: "contain",
+              borderRadius: 8
+            }}
+            onClick={(e) => e.stopPropagation()}
+          />
         </div>
       )}
     </div>
