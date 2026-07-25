@@ -1,5 +1,6 @@
 import { useParams, useNavigate } from "react-router-dom"
 import { useProduct } from "../hooks/useProduct"
+import { useCategory } from "../hooks/useCategory"
 import Loading from "../components/common/Loading"
 import ErrorState from "../components/common/ErrorState"
 import PageContainer from "../components/layout/PageContainer"
@@ -14,8 +15,15 @@ function ProductPage() {
   const {
     business,
     product,
-    loading
+    loading: productLoading
   } = useProduct(slug, categoryId, productId)
+
+  const {
+    category,
+    loading: categoryLoading
+  } = useCategory(slug, categoryId)
+
+  const loading = productLoading || categoryLoading
 
   if (loading) return <Loading />
 
@@ -23,12 +31,17 @@ function ProductPage() {
     return <ErrorState message="Producto no encontrado" />
   }
 
+  const backgroundSource = {
+    ...business,
+    banner_url: category?.image_url || business?.banner_url,
+  }
+
   return (
     <PageContainer business={business}>
 
       <div className="product-page">
 
-        <PageBackground business={business} />
+        <PageBackground business={backgroundSource} />
 
         <div className={`product-image-wrap ${!product.image_url ? "is-fallback" : ""}`}>
 
