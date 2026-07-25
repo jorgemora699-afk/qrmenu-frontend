@@ -315,16 +315,16 @@ function ProductsPage() {
         value={selectedCategory}
         onChange={(e) => setSelectedCategory(e.target.value)}
       >
-        {categoryTree.map((cat) => (
-          <optgroup key={cat.id} label={cat.name}>
-            <option value={cat.id}>{cat.name}</option>
-            {cat.children.map((child) => (
-              <option key={child.id} value={child.id}>
-                &nbsp;&nbsp;↳ {child.name}
-              </option>
-            ))}
-          </optgroup>
-        ))}
+        {categoryTree.flatMap((cat) => [
+          <option key={cat.id} value={cat.id}>
+            {cat.name}
+          </option>,
+          ...cat.children.map((child) => (
+            <option key={child.id} value={child.id}>
+              &nbsp;&nbsp;↳ {child.name}
+            </option>
+          ))
+        ])}
       </select>
 
       {products.length === 0 ? (
