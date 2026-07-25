@@ -2005,6 +2005,30 @@ body {
 
 .upload-btn:hover { opacity: 0.88; background: var(--rd-ink); }
 
+.upload-area-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.remove-image-btn {
+  background: var(--rd-wine-soft);
+  color: var(--rd-wine);
+  border: 1px solid transparent;
+  border-radius: 10px;
+  padding: 11px 18px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  text-align: center;
+  transition: background .15s, opacity .15s;
+}
+
+.remove-image-btn:hover:not(:disabled) { background: #f5d8d4; }
+.remove-image-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
 /* ---------- Dashboard ---------- */
 
 .nav-list {
@@ -2697,3 +2721,4 @@ body {
     height: 100%;
     object-fit: contain;
 }
+

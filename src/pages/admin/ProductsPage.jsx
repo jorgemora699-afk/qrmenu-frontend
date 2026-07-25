@@ -452,7 +452,7 @@ function ProductsPage() {
                 {form.image_url && (
                   <button
                     type="button"
-                    className="btn-cancel"
+                    className="remove-image-btn"
                     onClick={handleRemoveImage}
                     disabled={uploading}
                   >
