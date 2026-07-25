@@ -26,12 +26,6 @@ const IconChevronDown = () => (
   </svg>
 )
 
-const IconChevronLeft = () => (
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <polyline points="15 18 9 12 15 6" />
-  </svg>
-)
-
 const IconPencil = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
     <path d="M12 20h9" />
@@ -302,10 +296,7 @@ function ProductsPage() {
     <div className="admin-page">
 
       <header className="panel-header">
-        <button className="back-btn" onClick={() => navigate("/admin")}>
-          <IconChevronLeft />
-          Volver
-        </button>
+        <button className="back-btn" onClick={() => navigate("/admin")}>← Volver</button>
 
         <div className="panel-header-top">
           <h2 className="panel-title">Productos</h2>

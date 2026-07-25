@@ -598,7 +598,7 @@ body {
   background: var(--rd-surface);
   border: 1px solid var(--rd-line);
   border-radius: 999px;
-  padding: 0.45rem 0.95rem 0.45rem 0.7rem;
+  padding: 0.45rem 1rem;
   font-size: 0.85rem;
   font-weight: 600;
   color: var(--rd-muted);
@@ -612,8 +612,6 @@ body {
   border-color: var(--rd-brass);
   background: var(--rd-brass-soft);
 }
-
-.back-btn svg { flex-shrink: 0; }
 
 .admin-login {
   min-height: 100vh;
