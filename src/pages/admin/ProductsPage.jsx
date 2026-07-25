@@ -277,6 +277,10 @@ function ProductsPage() {
     }
   }
 
+  const handleRemoveImage = () => {
+    setForm((prev) => ({ ...prev, image_url: "" }))
+  }
+
   const formatPrice = (price) => `$${Number(price).toLocaleString()}`
 
   const selectedCategoryName = categoryTree
@@ -424,16 +428,29 @@ function ProductsPage() {
                 <img src={form.image_url} alt="Producto" className="logo-preview" />
               )}
 
-              <label className="upload-btn">
-                {uploading ? "Subiendo..." : form.image_url ? "Cambiar imagen" : "Subir imagen"}
-                <input
-                  type="file"
-                  accept="image/*"
-                  onChange={handleImageUpload}
-                  style={{ display: "none" }}
-                  disabled={uploading}
-                />
-              </label>
+              <div className="upload-area-actions">
+                <label className="upload-btn">
+                  {uploading ? "Subiendo..." : form.image_url ? "Cambiar imagen" : "Subir imagen"}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    style={{ display: "none" }}
+                    disabled={uploading}
+                  />
+                </label>
+
+                {form.image_url && (
+                  <button
+                    type="button"
+                    className="btn-cancel"
+                    onClick={handleRemoveImage}
+                    disabled={uploading}
+                  >
+                    Quitar imagen
+                  </button>
+                )}
+              </div>
             </div>
 
             <input
