@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 import { searchRecipeProducts, getRecipe, saveRecipe, verifyRecipePin } from "../../services/api"
+import Loading from "../../components/common/Loading"
 
 
 function RecipesPage() {
@@ -195,7 +196,7 @@ function RecipesPage() {
         )}
       </div>
 
-      {loadingRecipe && <p className="panel-hint">Cargando receta...</p>}
+      if (loading) return <Loading />
 
       {selectedProduct && recipe && !loadingRecipe && (
 

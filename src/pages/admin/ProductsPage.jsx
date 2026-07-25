@@ -11,6 +11,7 @@ import {
   moveProductUp,
   moveProductDown
 } from "../../services/api"
+import Loading from "../../components/common/Loading"
 
 /* ---------- iconos (trazo fino, sin dependencias externas) ---------- */
 
@@ -290,7 +291,7 @@ function ProductsPage() {
     .flatMap((cat) => [cat, ...cat.children])
     .find((cat) => String(cat.id) === String(selectedCategory))?.name
 
-  if (loading) return <div className="loading">Cargando...</div>
+  if (loading) return <Loading />
 
   return (
     <div className="admin-page">

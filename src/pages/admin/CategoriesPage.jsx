@@ -9,6 +9,7 @@ import {
   moveCategoryUp,
   moveCategoryDown
 } from "../../services/api"
+import Loading from "../../components/common/Loading"
 
 /* ---------- iconos (trazo fino, sin dependencias externas) ---------- */
 
@@ -186,7 +187,7 @@ function CategoriesPage() {
     }
   }
 
-  if (loading) return <div className="loading">Cargando...</div>
+  if (loading) return <Loading />
 
   return (
     <div className="admin-page">

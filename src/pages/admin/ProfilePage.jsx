@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { getProfile, updateProfile, uploadImage } from "../../services/api"
 import MenuPreview from "../../components/admin/MenuPreview"
+import Loading from "../../components/common/Loading"
 
 import { FONT_THEMES, DEFAULT_FONT_KEY } from "../../config/fontThemes"
 
@@ -110,9 +111,7 @@ function ProfilePage() {
     setForm({ ...form, [field]: hex })
   }
 
-  if (loading) {
-    return <div className="loading">Cargando...</div>
-  }
+  if (loading) return <Loading />
 
   return (
     <div className="admin-page">

@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from "react"
 import QRCode from "react-qr-code"
 import { toPng } from "html-to-image"
 import { getProfile } from "../../services/api"
+import Loading from "../../components/common/Loading"
 
 function QRCodePage() {
   const navigate = useNavigate()
@@ -18,7 +19,7 @@ function QRCodePage() {
     })
   }, [])
 
-  if (loading) return <div className="loading">Cargando...</div>
+  if (loading) return <Loading />
 
   const menuUrl = `https://qrmenu-frontend-roan.vercel.app/${business.slug}`
 
