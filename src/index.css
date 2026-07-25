@@ -595,18 +595,25 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  background: none;
-  border: none;
+  background: var(--rd-surface);
+  border: 1px solid var(--rd-line);
+  border-radius: 999px;
+  padding: 0.45rem 0.95rem 0.45rem 0.7rem;
   font-size: 0.85rem;
   font-weight: 600;
-  color: var(--admin-text-muted, #555);
+  color: var(--rd-muted);
   cursor: pointer;
   margin-bottom: 14px;
-  padding: 0;
-  transition: color .15s;
+  transition: color .15s, border-color .15s, background .15s;
 }
 
-.back-btn:hover { color: var(--admin-text, #222); }
+.back-btn:hover {
+  color: var(--rd-brass-deep);
+  border-color: var(--rd-brass);
+  background: var(--rd-brass-soft);
+}
+
+.back-btn svg { flex-shrink: 0; }
 
 .admin-login {
   min-height: 100vh;
