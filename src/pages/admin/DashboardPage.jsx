@@ -214,7 +214,7 @@ function DashboardPage() {
           className="nav-card"
           onClick={() => requestPin("/admin/categories")}
         >
-          <span className="nav-card-icon">
+          <span className="nav-card-icon nav-card-icon-brass">
             <IconFolder />
           </span>
 
@@ -232,7 +232,7 @@ function DashboardPage() {
           className="nav-card"
           onClick={() => requestPin("/admin/products")}
         >
-          <span className="nav-card-icon">
+          <span className="nav-card-icon nav-card-icon-wine">
             <IconDish />
           </span>
 
@@ -250,7 +250,7 @@ function DashboardPage() {
           className="nav-card"
           onClick={() => requestPin("/admin/profile")}
         >
-          <span className="nav-card-icon">
+          <span className="nav-card-icon nav-card-icon-slate">
             <IconSettings />
           </span>
 
@@ -268,7 +268,7 @@ function DashboardPage() {
           className="nav-card"
           onClick={() => navigate(`/${business.slug}`)}
         >
-          <span className="nav-card-icon">
+          <span className="nav-card-icon nav-card-icon-green">
             <IconEye />
           </span>
 
@@ -286,7 +286,7 @@ function DashboardPage() {
           className="nav-card"
           onClick={() => navigate("/admin/qr")}
         >
-          <span className="nav-card-icon">
+          <span className="nav-card-icon nav-card-icon-plum">
             <IconQr />
           </span>
 
@@ -305,7 +305,7 @@ function DashboardPage() {
             className="nav-card"
             onClick={() => navigate("/admin/recipes")}
           >
-            <span className="nav-card-icon">
+            <span className="nav-card-icon nav-card-icon-teal">
               <IconBook />
             </span>
 

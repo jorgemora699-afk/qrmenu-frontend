@@ -41,7 +41,20 @@ body {
   --rd-wine-soft: #f7ebe9;
   --rd-green: #3f6a4e;
   --rd-green-soft: #eaf2ec;
+  --rd-slate: #46586b;
+  --rd-slate-soft: #e9eef3;
+  --rd-plum: #6d4a6e;
+  --rd-plum-soft: #f1e8f1;
+  --rd-teal: #3f6a6a;
+  --rd-teal-soft: #e7f0ef;
 }
+
+.nav-card-icon-brass { background: var(--rd-brass-soft); border: 1px solid var(--rd-brass); color: var(--rd-brass-deep); }
+.nav-card-icon-wine  { background: var(--rd-wine-soft);  border: 1px solid var(--rd-wine);  color: var(--rd-wine); }
+.nav-card-icon-slate { background: var(--rd-slate-soft); border: 1px solid var(--rd-slate); color: var(--rd-slate); }
+.nav-card-icon-green { background: var(--rd-green-soft); border: 1px solid var(--rd-green); color: var(--rd-green); }
+.nav-card-icon-plum  { background: var(--rd-plum-soft);  border: 1px solid var(--rd-plum);  color: var(--rd-plum); }
+.nav-card-icon-teal  { background: var(--rd-teal-soft);  border: 1px solid var(--rd-teal);  color: var(--rd-teal); }
 
 /* ===================== MENU CLIENTE ===================== */
 
