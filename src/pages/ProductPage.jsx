@@ -50,7 +50,7 @@ function ProductPage() {
             onClick={() => navigate(`/${slug}/${categoryId}`)}
             aria-label="Volver al menú"
           >
-            ←
+            ← Volver
           </button>
 
           <ProductImage

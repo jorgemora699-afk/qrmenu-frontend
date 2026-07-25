@@ -47,7 +47,7 @@ function CategoryPage() {
           onClick={handleBack}
           aria-label="Volver"
         >
-          ←
+          ← Volver
         </button>
 
         <div className="category-content">
