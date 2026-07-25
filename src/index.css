@@ -56,9 +56,6 @@ body {
 .nav-card-icon-plum  { background: var(--rd-plum-soft);  border: 1px solid var(--rd-plum);  color: var(--rd-plum); }
 .nav-card-icon-teal  { background: var(--rd-teal-soft);  border: 1px solid var(--rd-teal);  color: var(--rd-teal); }
 
-.nav-card-icon {
-  box-shadow: 0 3px 8px rgba(27, 24, 18, 0.08);
-}
 
 /* ===================== MENU CLIENTE ===================== */
 
@@ -2083,12 +2080,11 @@ body {
   height: 52px;
   min-width: 52px;
   border-radius: 50%;
-  background: var(--rd-brass-soft);
-  border: 1px solid var(--rd-brass);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 23px;
+  box-shadow: 0 3px 8px rgba(27, 24, 18, 0.08);
 }
 
 .nav-card-body {
