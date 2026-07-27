@@ -116,13 +116,15 @@ body {
 }
 
 .hero-logo {
-  width: 100px;
-  height: 100px;
+  width: 108px;
+  height: 108px;
   border-radius: 50%;
   object-fit: contain;
   border: 3px solid rgba(255, 255, 255, 0.85);
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.35);
   margin-bottom: 0.6rem;
+  padding: 4px;
+  background: #fff;
 }
 
 .hero-title {
