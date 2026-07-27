@@ -116,8 +116,8 @@ body {
 }
 
 .hero-logo {
-  width: 108px;
-  height: 108px;
+  width: 100px;
+  height: 100px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid rgba(255, 255, 255, 0.85);
@@ -2290,10 +2290,10 @@ body {
 }
 
 .qr-logo{
-    width:90px;
-    height:90px;
+    width:130px;
+    height:130px;
     border-radius:50%;
-    object-fit:cover;
+    object-fit:contain;
     margin-bottom:28px;
 }
 
