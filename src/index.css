@@ -116,8 +116,8 @@ body {
 }
 
 .hero-logo {
-  width: 84px;
-  height: 84px;
+  width: 108px;
+  height: 108px;
   border-radius: 50%;
   object-fit: cover;
   border: 3px solid rgba(255, 255, 255, 0.85);
