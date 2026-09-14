@@ -1,0 +1,124 @@
+/* ---------- pantalla de PIN ---------- */
+
+.hor-pin-screen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 70vh;
+}
+
+.hor-pin-card {
+  background: var(--rd-surface);
+  border: 1px solid var(--rd-line);
+  border-radius: 20px;
+  padding: 2.25rem 2rem;
+  width: 100%;
+  max-width: 340px;
+  box-shadow: 0 18px 45px rgba(27, 24, 18, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  text-align: center;
+}
+
+.hor-pin-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--rd-brass-soft);
+  color: var(--rd-brass-deep);
+  margin-bottom: 4px;
+}
+
+.hor-pin-card h2 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--rd-ink);
+  letter-spacing: -0.01em;
+}
+
+.hor-pin-card > p {
+  color: var(--rd-muted);
+  font-size: 0.88rem;
+  margin-top: -4px;
+  margin-bottom: 4px;
+}
+
+.hor-pin-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-top: 6px;
+}
+
+/* ---------- pantalla de marcar horario ---------- */
+
+.hor-estado {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.9rem 1.1rem;
+  border-radius: 14px;
+  background: var(--rd-line-soft);
+  color: var(--rd-muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin: 1rem 0 1.25rem;
+}
+
+.hor-estado-activo {
+  background: var(--rd-brass-soft);
+  color: var(--rd-brass-deep);
+}
+
+.hor-botones {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hor-btn-entrada,
+.hor-btn-salida {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 1rem;
+  border-radius: 14px;
+  border: none;
+  font-size: 0.98rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .15s, opacity .15s;
+  box-shadow: 0 10px 22px rgba(27, 24, 18, 0.1);
+}
+
+.hor-btn-entrada {
+  background: var(--rd-green);
+  color: #fff;
+}
+
+.hor-btn-salida {
+  background: var(--rd-wine);
+  color: #fff;
+}
+
+.hor-btn-entrada:hover:not(:disabled),
+.hor-btn-salida:hover:not(:disabled) {
+  transform: translateY(-2px);
+  opacity: 0.94;
+}
+
+.hor-btn-entrada:disabled,
+.hor-btn-salida:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}

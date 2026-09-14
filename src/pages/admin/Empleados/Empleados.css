@@ -1,0 +1,416 @@
+/* ===================== resumen destacado ===================== */
+
+.emp-stats-row {
+  display: flex;
+  gap: 0.85rem;
+  margin-bottom: 1.5rem;
+}
+
+.emp-stat-card {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--rd-surface);
+  border: 1px solid var(--rd-line);
+  border-radius: 16px;
+  padding: 1rem 1.1rem;
+  box-shadow: 0 1px 2px rgba(27, 24, 18, 0.03);
+  min-width: 0;
+}
+
+.emp-stat-card-brass {
+  background: var(--rd-brass-soft);
+  border-color: var(--rd-brass);
+}
+
+.emp-stat-icon {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.emp-stat-icon-slate {
+  background: var(--rd-slate-soft);
+  color: var(--rd-slate);
+}
+
+.emp-stat-icon-brass {
+  background: #fff;
+  color: var(--rd-brass-deep);
+}
+
+.emp-stat-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.emp-stat-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 0.64rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--rd-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.emp-stat-value {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--rd-ink);
+  line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.emp-stat-sub {
+  font-size: 0.74rem;
+  color: var(--rd-muted);
+  margin-top: 1px;
+}
+
+/* ===================== tarjetas de sección ===================== */
+
+.emp-card {
+  margin-bottom: 1.5rem;
+}
+
+.emp-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.9rem;
+}
+
+.emp-section-title {
+  margin: 0;
+}
+
+.emp-btn-add-inline {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.45rem 0.9rem;
+  border-radius: 999px;
+  border: none;
+  background: var(--rd-brass-soft);
+  color: var(--rd-brass-deep);
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background .15s;
+}
+
+.emp-btn-add-inline:hover {
+  background: var(--rd-brass);
+  color: #fff;
+}
+
+.emp-inline-form {
+  margin-bottom: 0.5rem;
+}
+
+.emp-loading-text {
+  text-align: center;
+  padding: 1.5rem 0;
+}
+
+/* ===================== lista limpia (empleados y salarios) ===================== */
+
+.emp-lista-limpia {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.emp-fila {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0.7rem 0.75rem;
+  border-radius: 12px;
+  background: var(--rd-paper);
+  transition: background .15s;
+}
+
+.emp-fila-btn {
+  width: 100%;
+  border: none;
+  cursor: pointer;
+  font-family: 'Inter', sans-serif;
+  text-align: left;
+}
+
+.emp-fila-btn:hover {
+  background: var(--rd-brass-soft);
+}
+
+.emp-avatar {
+  width: 38px;
+  height: 38px;
+  min-width: 38px;
+  border-radius: 50%;
+  background: var(--rd-brass);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.emp-fila-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.emp-fila-nombre {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.98rem;
+  color: var(--rd-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.emp-fila-horas {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.78rem;
+  color: var(--rd-muted);
+}
+
+.emp-fila-derecha {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--rd-muted);
+  flex-shrink: 0;
+}
+
+/* ===================== control segmentado (período) ===================== */
+
+.emp-segmented {
+  display: flex;
+  background: var(--rd-paper);
+  border: 1px solid var(--rd-line);
+  border-radius: 12px;
+  padding: 4px;
+  gap: 4px;
+  margin-bottom: 1.1rem;
+}
+
+.emp-segmented-btn {
+  flex: 1;
+  padding: 0.5rem 0.4rem;
+  border: none;
+  border-radius: 9px;
+  background: none;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--rd-muted);
+  cursor: pointer;
+  transition: color .15s;
+}
+
+.emp-segmented-btn.activo {
+  color: var(--rd-ink);
+}
+
+.emp-segmented-highlight {
+  position: absolute;
+  inset: 0;
+  background: var(--rd-surface);
+  border-radius: 9px;
+  box-shadow: 0 1px 3px rgba(27, 24, 18, 0.1);
+  z-index: 0;
+}
+
+.emp-fechas {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 1.1rem;
+}
+
+.emp-fechas .form-field {
+  flex: 1;
+}
+
+.emp-fechas input {
+  padding: 0.6rem 0.8rem;
+  border: 1px solid var(--rd-line);
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  width: 100%;
+}
+
+/* ===================== detalle expandido por día ===================== */
+
+.emp-salario-item {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.emp-detalle {
+  padding: 0.2rem 0.4rem 0.6rem 3.5rem;
+}
+
+.emp-detalle-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin: 0.6rem 0 0.55rem;
+}
+
+.emp-detalle-titulo {
+  font-family: var(--font-mono);
+  font-size: 0.66rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--rd-muted);
+  margin: 0;
+}
+
+.emp-btn-pdf {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0.4rem 0.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--rd-brass);
+  background: var(--rd-brass-soft);
+  color: var(--rd-brass-deep);
+  font-size: 0.76rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background .15s, color .15s;
+}
+
+.emp-btn-pdf:hover:not(:disabled) {
+  background: var(--rd-brass);
+  color: #fff;
+}
+
+.emp-btn-pdf:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.emp-dias-lista {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.emp-dia-fila {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  background: var(--rd-surface);
+  border: 1px solid var(--rd-line);
+  font-size: 0.83rem;
+}
+
+.emp-dia-fecha {
+  color: var(--rd-brass-deep);
+  min-width: 40px;
+}
+
+.emp-dia-rango {
+  flex: 1;
+  color: var(--rd-muted);
+}
+
+.emp-dia-horas {
+  font-weight: 600;
+  color: var(--rd-ink);
+}
+
+.emp-dia-editar-btn {
+  width: 26px;
+  height: 26px;
+}
+
+.emp-dia-fila-edit {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0.5rem 0.65rem;
+  border-radius: 8px;
+  background: var(--rd-surface);
+  border: 1px solid var(--rd-brass);
+}
+
+.emp-dia-edit-inputs {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex: 1;
+}
+
+.emp-dia-edit-inputs input {
+  padding: 0.32rem 0.45rem;
+  border: 1px solid var(--rd-line);
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.82rem;
+}
+
+.emp-dia-edit-inputs span {
+  color: var(--rd-muted);
+}
+
+.emp-dia-edit-botones {
+  display: flex;
+  gap: 6px;
+}
+
+.icon-btn-success:hover:not(:disabled) {
+  background: var(--rd-green-soft);
+  border-color: var(--rd-green);
+  color: var(--rd-green);
+}
+
+/* ===================== responsive ===================== */
+
+@media (max-width: 420px) {
+  .emp-stats-row {
+    flex-direction: column;
+  }
+
+  .emp-fechas {
+    flex-direction: column;
+  }
+
+  .emp-detalle {
+    padding-left: 0.6rem;
+  }
+
+  .emp-segmented-btn {
+    font-size: 0.74rem;
+    padding: 0.5rem 0.2rem;
+  }
+}

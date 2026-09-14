@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom"
 import { useState, useRef, useEffect } from "react"
+import { motion, AnimatePresence } from "motion/react"
 import ChangePasswordModal from "../../pages/admin/ChangePasswordModal"
 import ChangePinModal from "../../pages/admin/ChangePinModal"
 import PinVerificationModal from "../../pages/admin/PinVerificationModal"
@@ -12,10 +13,27 @@ const IconChevronRight = () => (
   </svg>
 )
 
+const IconUsers = () => (
+  <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+  </svg>
+)
+
 const IconFolder = () => (
   <svg width="23" height="23" viewBox="0 0 24 24" fill="none">
     <path d="M3 7.5a2 2 0 0 1 2-2h4.2l1.6 2H19a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="currentColor" opacity="0.16" />
     <path d="M3 7.5a2 2 0 0 1 2-2h4.2l1.6 2H19a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" stroke="currentColor" strokeWidth="1.6" strokeLinejoin="round" />
+  </svg>
+)
+
+const IconClock = () => (
+  <svg width="23" height="23" viewBox="0 0 24 24" fill="none">
+    <circle cx="12" cy="12" r="9" fill="currentColor" opacity="0.16" />
+    <circle cx="12" cy="12" r="9" stroke="currentColor" strokeWidth="1.6" />
+    <path d="M12 7v5l3.5 2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
   </svg>
 )
 
@@ -100,6 +118,45 @@ const IconLogout = () => (
   </svg>
 )
 
+/* ---------- variantes de animación ---------- */
+
+const listContainer = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.06, delayChildren: 0.05 } },
+}
+
+const cardItem = {
+  hidden: { opacity: 0, y: 14 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.28, ease: "easeOut" } },
+}
+
+/* ---------- tarjeta de navegación reutilizable ---------- */
+
+function NavCard({ icon, iconClass, title, subtitle, onClick }) {
+  return (
+    <motion.button
+      className="nav-card"
+      onClick={onClick}
+      variants={cardItem}
+      whileTap={{ scale: 0.98 }}
+      whileHover={{ y: -2 }}
+    >
+      <span className={`nav-card-icon ${iconClass}`}>
+        {icon}
+      </span>
+
+      <span className="nav-card-body">
+        <h3>{title}</h3>
+        <p>{subtitle}</p>
+      </span>
+
+      <motion.span className="nav-card-arrow" whileHover={{ x: 3 }}>
+        <IconChevronRight />
+      </motion.span>
+    </motion.button>
+  )
+}
+
 function DashboardPage() {
   const navigate = useNavigate()
 
@@ -148,7 +205,12 @@ function DashboardPage() {
   return (
     <div className="admin-page">
 
-      <div className="dashboard-hero">
+      <motion.div
+        className="dashboard-hero"
+        initial={{ opacity: 0, y: -10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3, ease: "easeOut" }}
+      >
 
         <div>
           <span className="dashboard-label">
@@ -171,172 +233,141 @@ function DashboardPage() {
           ref={menuRef}
         >
 
-          <button
+          <motion.button
             className="user-btn"
             onClick={() =>
               setShowUserMenu(!showUserMenu)
             }
             style={{ display: "flex", alignItems: "center", justifyContent: "center" }}
+            whileTap={{ scale: 0.9 }}
           >
             <IconUser />
-          </button>
+          </motion.button>
 
-          {showUserMenu && (
-            <div className="user-dropdown">
-
-              <button
-                onClick={() => {
-                  setShowPasswordModal(true)
-                  setShowUserMenu(false)
-                }}
-                style={{ display: "flex", alignItems: "center", gap: 10 }}
+          <AnimatePresence>
+            {showUserMenu && (
+              <motion.div
+                className="user-dropdown"
+                initial={{ opacity: 0, scale: 0.95, y: -6 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.95, y: -6 }}
+                transition={{ duration: 0.15, ease: "easeOut" }}
               >
-                <IconLock />
-                Cambiar contraseña
-              </button>
 
-              <button
-                onClick={() => {
-                  setShowPinModal(true)
-                  setShowUserMenu(false)
-                }}
-                style={{ display: "flex", alignItems: "center", gap: 10 }}
-              >
-                <IconKey />
-                Cambiar PIN
-              </button>
+                <button
+                  onClick={() => {
+                    setShowPasswordModal(true)
+                    setShowUserMenu(false)
+                  }}
+                  style={{ display: "flex", alignItems: "center", gap: 10 }}
+                >
+                  <IconLock />
+                  Cambiar contraseña
+                </button>
 
-              <hr />
+                <button
+                  onClick={() => {
+                    setShowPinModal(true)
+                    setShowUserMenu(false)
+                  }}
+                  style={{ display: "flex", alignItems: "center", gap: 10 }}
+                >
+                  <IconKey />
+                  Cambiar PIN
+                </button>
 
-              <button
-                className="logout-option"
-                onClick={handleLogout}
-                style={{ display: "flex", alignItems: "center", gap: 10 }}
-              >
-                <IconLogout />
-                Cerrar sesión
-              </button>
+                <hr />
 
-            </div>
-          )}
+                <button
+                  className="logout-option"
+                  onClick={handleLogout}
+                  style={{ display: "flex", alignItems: "center", gap: 10 }}
+                >
+                  <IconLogout />
+                  Cerrar sesión
+                </button>
+
+              </motion.div>
+            )}
+          </AnimatePresence>
 
         </div>
 
-      </div>
+      </motion.div>
 
-      <div className="nav-list">
+      <motion.div className="nav-list" initial="hidden" animate="show" variants={listContainer}>
 
-        <button
-          className="nav-card"
+        <NavCard
+          icon={<IconFolder />}
+          iconClass="nav-card-icon-brass"
+          title="Categorías"
+          subtitle="Organiza tu carta por secciones"
           onClick={() => requestPin("/admin/categories")}
-        >
-          <span className="nav-card-icon nav-card-icon-brass">
-            <IconFolder />
-          </span>
+        />
 
-          <span className="nav-card-body">
-            <h3>Categorías</h3>
-            <p>Organiza tu carta por secciones</p>
-          </span>
-
-          <span className="nav-card-arrow">
-            <IconChevronRight />
-          </span>
-        </button>
-
-        <button
-          className="nav-card"
+        <NavCard
+          icon={<IconDish />}
+          iconClass="nav-card-icon-wine"
+          title="Productos"
+          subtitle="Agrega y administra tus productos"
           onClick={() => requestPin("/admin/products")}
-        >
-          <span className="nav-card-icon nav-card-icon-wine">
-            <IconDish />
-          </span>
+        />
 
-          <span className="nav-card-body">
-            <h3>Productos</h3>
-            <p>Agrega y administra tus productos</p>
-          </span>
-
-          <span className="nav-card-arrow">
-            <IconChevronRight />
-          </span>
-        </button>
-
-        <button
-          className="nav-card"
+        <NavCard
+          icon={<IconSettings />}
+          iconClass="nav-card-icon-slate"
+          title="Perfil del negocio"
+          subtitle="Logo, banner, colores y datos"
           onClick={() => requestPin("/admin/profile")}
-        >
-          <span className="nav-card-icon nav-card-icon-slate">
-            <IconSettings />
-          </span>
+        />
 
-          <span className="nav-card-body">
-            <h3>Perfil del negocio</h3>
-            <p>Logo, banner, colores y datos</p>
-          </span>
-
-          <span className="nav-card-arrow">
-            <IconChevronRight />
-          </span>
-        </button>
-
-        <button
-          className="nav-card"
+        <NavCard
+          icon={<IconEye />}
+          iconClass="nav-card-icon-green"
+          title="Ver menú"
+          subtitle="Previsualiza tu menú público"
           onClick={() => navigate(`/${business.slug}`)}
-        >
-          <span className="nav-card-icon nav-card-icon-green">
-            <IconEye />
-          </span>
+        />
 
-          <span className="nav-card-body">
-            <h3>Ver menú</h3>
-            <p>Previsualiza tu menú público</p>
-          </span>
-
-          <span className="nav-card-arrow">
-            <IconChevronRight />
-          </span>
-        </button>
-
-        <button
-          className="nav-card"
+        <NavCard
+          icon={<IconQr />}
+          iconClass="nav-card-icon-plum"
+          title="Código QR"
+          subtitle="Descarga e imprime el QR de tu menú"
           onClick={() => navigate("/admin/qr")}
-        >
-          <span className="nav-card-icon nav-card-icon-plum">
-            <IconQr />
-          </span>
-
-          <span className="nav-card-body">
-            <h3>Código QR</h3>
-            <p>Descarga e imprime el QR de tu menú</p>
-          </span>
-
-          <span className="nav-card-arrow">
-            <IconChevronRight />
-          </span>
-        </button>
+        />
 
         {business.recipes_enabled && (
-          <button
-            className="nav-card"
+          <NavCard
+            icon={<IconBook />}
+            iconClass="nav-card-icon-teal"
+            title="Recetas"
+            subtitle="Consulta la preparación de tus productos"
             onClick={() => navigate("/admin/recipes")}
-          >
-            <span className="nav-card-icon nav-card-icon-teal">
-              <IconBook />
-            </span>
-
-            <span className="nav-card-body">
-              <h3>Recetas</h3>
-              <p>Consulta la preparación de tus productos</p>
-            </span>
-
-            <span className="nav-card-arrow">
-              <IconChevronRight />
-            </span>
-          </button>
+          />
         )}
 
-      </div>
+        {business.horario_enabled && (
+          <NavCard
+            icon={<IconClock />}
+            iconClass="nav-card-icon-brass"
+            title="Horarios"
+            subtitle="Registro de entrada y salida de empleados"
+            onClick={() => navigate("/admin/horario")}
+          />
+        )}
+
+        {business.horario_enabled && (
+          <NavCard
+            icon={<IconUsers />}
+            iconClass="nav-card-icon-slate"
+            title="Empleados"
+            subtitle="Administra tu equipo y calcula salarios"
+            onClick={() => requestPin("/admin/empleados")}
+          />
+        )}
+
+      </motion.div>
 
       <ChangePasswordModal
         open={showPasswordModal}

@@ -87,6 +87,30 @@ export const getProducts = (category_id) =>
     params: category_id ? { category_id } : {}
   })
 
+export const verificarPinHorario = (slug, pin) =>
+  axios.post(`${BASE_URL}/api/horarios/verificar-pin`, { slug, pin })
+
+export const listarEmpleadosHorario = (token) =>
+  axios.get(`${BASE_URL}/api/horarios/empleados`, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+
+export const obtenerEstadoTurno = (token, empleadoId) =>
+  axios.get(`${BASE_URL}/api/horarios/estado`, {
+    params: { empleado_id: empleadoId },
+    headers: { Authorization: `Bearer ${token}` }
+  })
+
+export const marcarEntradaHorario = (token, empleadoId) =>
+  axios.post(`${BASE_URL}/api/horarios/entrada`, { empleado_id: empleadoId }, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+
+export const marcarSalidaHorario = (token, empleadoId) =>
+  axios.post(`${BASE_URL}/api/horarios/salida`, { empleado_id: empleadoId }, {
+    headers: { Authorization: `Bearer ${token}` }
+  })
+
 export const createProduct = (data) =>
   api.post("/api/products/", data)
 
@@ -128,3 +152,36 @@ export const getRecipe = (productId) =>
 
 export const saveRecipe = (productId, data) =>
   api.put(`/api/recipes/product/${productId}`, data)
+
+export const getEmpleados = () =>
+  api.get("/api/empleados/")
+
+export const createEmpleado = (data) =>
+  api.post("/api/empleados/", data)
+
+export const updateEmpleado = (id, data) =>
+  api.put(`/api/empleados/${id}`, data)
+
+export const deleteEmpleado = (id) =>
+  api.delete(`/api/empleados/${id}`)
+
+export const calcularSalariosEmpleados = (desde, hasta) =>
+  api.get("/api/empleados/salarios", { params: { desde, hasta } })
+
+export const listarTurnosEmpleado = (empleadoId, desde, hasta) =>
+  api.get(`/api/empleados/${empleadoId}/turnos`, { params: { desde, hasta } })
+
+export const actualizarTurno = (turnoId, data) =>
+  api.put(`/api/empleados/turnos/${turnoId}`, data)
+
+export const generarPdfEmpleado = (empleadoId, desde, hasta) =>
+  api.get(`/api/empleados/${empleadoId}/pdf`, {
+    params: { desde, hasta },
+    responseType: "blob",
+  })
+
+  export const generarReporteGeneralPdf = (desde, hasta) =>
+  api.get("/api/empleados/reporte-general/pdf", {
+    params: { desde, hasta },
+    responseType: "blob",
+  })
