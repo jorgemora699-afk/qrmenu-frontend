@@ -359,12 +359,12 @@ export default function Empleados() {
     setError(null)
     try {
       await deleteEmpleado(empleadoId)
-      setMensaje("Empleado eliminado")
+      setMensaje("Empleado desactivado")
       setConfirmandoEliminar(null)
       cargarEmpleados()
       cargarSalarios()
     } catch (err) {
-      setError("No se pudo eliminar el empleado")
+      setError("No se pudo desactivar el empleado")
     } finally {
       setGuardando(false)
     }
@@ -619,7 +619,7 @@ export default function Empleados() {
                           No
                         </button>
                         <button className="btn-delete" onClick={() => confirmarEliminar(emp.id)} disabled={guardando}>
-                          Sí
+                          Sí, desactivar
                         </button>
                       </div>
                     ) : (
