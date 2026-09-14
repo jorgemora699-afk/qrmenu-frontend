@@ -445,7 +445,7 @@ export default function Empleados() {
   }
 
   const formularioAbierto = creando || editandoId !== null
-  const empleadosActivos = empleados.filter((e) => e.activo).length
+  const empleadosActivos = empleados.filter((e) => e.activo)
   const periodoKey = periodoTipo === "personalizado" ? `personalizado-${desde}-${hasta}` : periodoTipo
 
   return (
@@ -501,8 +501,8 @@ export default function Empleados() {
         <motion.div className="emp-stat-card" variants={listItem}>
           <span className="emp-stat-icon emp-stat-icon-slate"><IconUsers /></span>
           <div className="emp-stat-body">
-            <span className="emp-stat-eyebrow">{empleadosActivos === 1 ? "Empleado activo" : "Empleados activos"}</span>
-            <span className="emp-stat-value">{empleadosActivos}</span>
+            <span className="emp-stat-eyebrow">{empleadosActivos.length === 1 ? "Empleado activo" : "Empleados activos"}</span>
+            <span className="emp-stat-value">{empleadosActivos.length}</span>
           </div>
         </motion.div>
 
@@ -591,12 +591,12 @@ export default function Empleados() {
         {!formularioAbierto && (
           cargandoEmpleados ? (
             <p className="panel-hint emp-loading-text">Cargando...</p>
-          ) : empleados.length === 0 ? (
+          ) : empleadosActivos.length === 0 ? (
             <div className="empty-state">Todavía no hay empleados registrados</div>
           ) : (
             <motion.ul className="emp-lista-limpia" initial="hidden" animate="show" variants={listContainer}>
               <AnimatePresence>
-                {empleados.map((emp) => (
+                {empleadosActivos.map((emp) => (
                   <motion.li
                     key={emp.id}
                     className="emp-fila"
@@ -608,9 +608,6 @@ export default function Empleados() {
 
                     <div className="emp-fila-info">
                       <span className="emp-fila-nombre">{emp.nombre}</span>
-                      <span className={`availability-pill ${emp.activo ? "availability-pill-on" : "availability-pill-off"}`}>
-                        {emp.activo ? "Activo" : "Inactivo"}
-                      </span>
                     </div>
 
                     {confirmandoEliminar === emp.id ? (
@@ -749,7 +746,7 @@ export default function Empleados() {
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
                       transition={{ duration: 0.25, ease: "easeOut" }}
-                      style={{ overflow: "hidden" }}
+                      style={{ overflowY: "hidden" }}
                     >
                       <div className="emp-detalle-header">
                         <p className="emp-detalle-titulo">Detalle por día</p>
