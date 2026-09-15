@@ -185,3 +185,9 @@ export const generarPdfEmpleado = (empleadoId, desde, hasta) =>
     params: { desde, hasta },
     responseType: "blob",
   })
+
+  export const getTarifaGeneral = () =>
+  api.get("/api/empleados/tarifa-general")
+
+  export const updateTarifaGeneral = (data) =>
+    api.put("/api/empleados/tarifa-general", data)
