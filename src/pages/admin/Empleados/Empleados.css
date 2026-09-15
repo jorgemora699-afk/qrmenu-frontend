@@ -511,3 +511,62 @@
     width: auto;
   }
 }
+
+/* ===================== detalle por día en móvil ===================== */
+
+@media (max-width: 600px) {
+  .emp-dia-fila {
+    display: grid;
+    grid-template-columns: 48px minmax(0, 1fr) 30px;
+    grid-template-rows: auto auto;
+    column-gap: 12px;
+    row-gap: 3px;
+    align-items: center;
+    padding: 0.65rem 0.7rem;
+  }
+
+  .emp-dia-fecha {
+    grid-column: 1;
+    grid-row: 1 / 3;
+    min-width: 48px;
+    font-weight: 600;
+  }
+
+  .emp-dia-rango {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    line-height: 1.25;
+  }
+
+  .emp-dia-horas {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 0.78rem;
+  }
+
+  .emp-dia-editar-btn {
+    grid-column: 3;
+    grid-row: 1 / 3;
+    width: 30px;
+    height: 30px;
+  }
+
+   .emp-detalle {
+    padding: 0.4rem 0.1rem 0.8rem;
+  }
+
+  .emp-detalle-header {
+    padding: 0 0.2rem;
+    margin-bottom: 0.7rem;
+  }
+
+  .emp-btn-pdf {
+    padding: 0.45rem 0.7rem;
+  }
+
+  .emp-dias-lista {
+    gap: 8px;
+  }
+
+}
