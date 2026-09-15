@@ -467,24 +467,23 @@
   color: var(--rd-brass-deep);
 }
 
-/* ===================== equipo en celular ===================== */
+/* ===================== corrección equipo móvil ===================== */
 
 @media (max-width: 600px) {
-  .emp-lista-limpia {
-    width: 100%;
-  }
-
   .emp-fila {
+    display: grid;
+    grid-template-columns: 40px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
     width: 100%;
     box-sizing: border-box;
-    padding: 0.7rem 0.55rem;
-    gap: 9px;
   }
 
   .emp-fila-info {
-    flex: 1;
     min-width: 0;
-    overflow: visible;
+    width: auto;
+    flex: none;
+    overflow: hidden;
   }
 
   .emp-fila-nombre {
@@ -492,22 +491,23 @@
     width: 100%;
     white-space: normal;
     overflow: visible;
-    text-overflow: clip;
-    word-break: break-word;
+    text-overflow: unset;
+    word-break: normal;
+    overflow-wrap: break-word;
     line-height: 1.25;
   }
 
   .emp-avatar {
-    flex-shrink: 0;
+    width: 40px;
+    min-width: 40px;
+    height: 40px;
   }
 
   .emp-fila .ledger-actions {
-    flex-shrink: 0;
     display: flex;
+    align-items: center;
     gap: 4px;
-  }
-
-  .emp-fila .icon-btn {
     flex-shrink: 0;
+    width: auto;
   }
 }
