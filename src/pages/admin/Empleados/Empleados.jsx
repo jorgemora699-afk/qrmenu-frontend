@@ -106,9 +106,15 @@ const IconDownload = () => (
 )
 
 const IconSettings = () => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="3" />
     <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+  </svg>
+)
+
+const IconChevronRight = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <polyline points="9 18 15 12 9 6" />
   </svg>
 )
 
@@ -539,6 +545,78 @@ export default function Empleados() {
         <p className="panel-hint">Gestiona tu equipo y calcula el salario a pagar</p>
       </motion.div>
 
+      <AnimatePresence mode="wait" initial={false}>
+        {!editandoTarifa ? (
+          <motion.button
+            key="ver"
+            className="nav-card emp-tarifa-general-card"
+            onClick={iniciarEdicionTarifa}
+            initial={{ opacity: 0, y: 6 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -6 }}
+            transition={{ duration: 0.2 }}
+            whileTap={{ scale: 0.98 }}
+          >
+            <span className="nav-card-icon nav-card-icon-slate">
+              <IconSettings />
+            </span>
+            <span className="nav-card-body">
+              <h3>Tarifa general</h3>
+              <p>
+                {tarifaGeneral
+                  ? `${formatearMoneda(tarifaGeneral.tarifa_entre_semana)} entre semana · ${formatearMoneda(tarifaGeneral.tarifa_fin_semana)} fin de semana`
+                  : "Cargando..."}
+              </p>
+            </span>
+            <span className="nav-card-arrow">
+              <IconChevronRight />
+            </span>
+          </motion.button>
+        ) : (
+          <motion.div
+            key="editar"
+            className="add-card emp-tarifa-general-form"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.2 }}
+            style={{ overflowY: "hidden" }}
+          >
+            <span className="add-card-label">Tarifa general del negocio</span>
+            <div className="emp-tarifa-row">
+              <div className="form-field">
+                <label>Entre semana</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={tarifaSemanaForm}
+                  onChange={(e) => setTarifaSemanaForm(e.target.value)}
+                  autoFocus
+                />
+              </div>
+              <div className="form-field">
+                <label>Fin de semana</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={tarifaFinSemanaForm}
+                  onChange={(e) => setTarifaFinSemanaForm(e.target.value)}
+                />
+              </div>
+            </div>
+            <p className="emp-tarifa-hint">Aplica a todos los empleados que no tengan una tarifa personalizada</p>
+            <div className="ledger-edit-actions">
+              <button className="btn-cancel" onClick={cancelarEdicionTarifa} disabled={guardandoTarifa}>
+                Cancelar
+              </button>
+              <button className="btn-primary" onClick={guardarTarifaGeneral} disabled={guardandoTarifa}>
+                {guardandoTarifa ? "Guardando..." : "Guardar"}
+              </button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <AnimatePresence mode="popLayout">
         {mensaje && (
           <motion.div
@@ -759,71 +837,6 @@ export default function Empleados() {
             </motion.button>
           )}
         </div>
-
-        <AnimatePresence mode="wait" initial={false}>
-          {!editandoTarifa ? (
-            <motion.button
-              key="ver"
-              className="emp-tarifa-general-row"
-              onClick={iniciarEdicionTarifa}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-            >
-              <IconSettings />
-              {tarifaGeneral ? (
-                <span>
-                  Tarifa general: <strong>{formatearMoneda(tarifaGeneral.tarifa_entre_semana)}</strong> entre semana ·{" "}
-                  <strong>{formatearMoneda(tarifaGeneral.tarifa_fin_semana)}</strong> fin de semana
-                </span>
-              ) : (
-                <span>Cargando tarifa general...</span>
-              )}
-              <span className="emp-tarifa-general-editar">Editar</span>
-            </motion.button>
-          ) : (
-            <motion.div
-              key="editar"
-              className="add-card emp-tarifa-general-form"
-              initial={{ opacity: 0, height: 0 }}
-              animate={{ opacity: 1, height: "auto" }}
-              exit={{ opacity: 0, height: 0 }}
-              transition={{ duration: 0.2 }}
-              style={{ overflowY: "hidden" }}
-            >
-              <span className="add-card-label">Tarifa general del negocio</span>
-              <div className="emp-tarifa-row">
-                <div className="form-field">
-                  <label>Entre semana</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={tarifaSemanaForm}
-                    onChange={(e) => setTarifaSemanaForm(e.target.value)}
-                  />
-                </div>
-                <div className="form-field">
-                  <label>Fin de semana</label>
-                  <input
-                    type="number"
-                    min="0"
-                    value={tarifaFinSemanaForm}
-                    onChange={(e) => setTarifaFinSemanaForm(e.target.value)}
-                  />
-                </div>
-              </div>
-              <p className="emp-tarifa-hint">Aplica a todos los empleados que no tengan una tarifa personalizada</p>
-              <div className="ledger-edit-actions">
-                <button className="btn-cancel" onClick={cancelarEdicionTarifa} disabled={guardandoTarifa}>
-                  Cancelar
-                </button>
-                <button className="btn-primary" onClick={guardarTarifaGeneral} disabled={guardandoTarifa}>
-                  {guardandoTarifa ? "Guardando..." : "Guardar"}
-                </button>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
 
         <div className="emp-segmented">
           {PERIODOS.map((p) => (

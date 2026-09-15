@@ -505,5 +505,9 @@
 }
 
 .emp-tarifa-general-form {
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.emp-tarifa-general-card {
+  margin-bottom: 1.5rem;
 }
