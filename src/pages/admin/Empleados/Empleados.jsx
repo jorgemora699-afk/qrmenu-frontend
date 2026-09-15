@@ -214,6 +214,8 @@ export default function Empleados() {
   const [creando, setCreando] = useState(false)
   const [editandoId, setEditandoId] = useState(null)
   const [nombreForm, setNombreForm] = useState("")
+  const [valorSemanaForm, setValorSemanaForm] = useState("")
+  const [valorFinSemanaForm, setValorFinSemanaForm] = useState("")
   const [confirmandoEliminar, setConfirmandoEliminar] = useState(null)
 
   const [guardando, setGuardando] = useState(false)
@@ -310,6 +312,8 @@ export default function Empleados() {
     setCreando(true)
     setEditandoId(null)
     setNombreForm("")
+    setValorSemanaForm("")
+    setValorFinSemanaForm("")
     setMensaje(null)
     setError(null)
   }
@@ -318,6 +322,8 @@ export default function Empleados() {
     setEditandoId(empleado.id)
     setCreando(false)
     setNombreForm(empleado.nombre)
+    setValorSemanaForm(empleado.valor_hora_semana ?? "")
+    setValorFinSemanaForm(empleado.valor_hora_fin_semana ?? "")
     setMensaje(null)
     setError(null)
   }
@@ -326,6 +332,8 @@ export default function Empleados() {
     setCreando(false)
     setEditandoId(null)
     setNombreForm("")
+    setValorSemanaForm("")
+    setValorFinSemanaForm("")
   }
 
   async function guardar() {
@@ -337,16 +345,23 @@ export default function Empleados() {
     setGuardando(true)
     setError(null)
 
+    const payload = {
+      nombre: nombreForm,
+      valor_hora_semana: valorSemanaForm ? Number(valorSemanaForm) : null,
+      valor_hora_fin_semana: valorFinSemanaForm ? Number(valorFinSemanaForm) : null,
+    }
+
     try {
       if (editandoId) {
-        await updateEmpleado(editandoId, { nombre: nombreForm })
+        await updateEmpleado(editandoId, payload)
         setMensaje("Empleado actualizado")
       } else {
-        await createEmpleado({ nombre: nombreForm })
+        await createEmpleado(payload)
         setMensaje("Empleado creado")
       }
       cancelar()
       cargarEmpleados()
+      cargarSalarios()
     } catch (err) {
       setError(err.response?.data?.error || "No se pudo guardar el empleado")
     } finally {
@@ -576,6 +591,32 @@ export default function Empleados() {
                   onKeyDown={(e) => e.key === "Enter" && guardar()}
                 />
               </div>
+
+              <span className="add-card-label emp-tarifa-label">Tarifa personalizada (opcional)</span>
+              <div className="emp-tarifa-row">
+                <div className="form-field">
+                  <label>Entre semana</label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={valorSemanaForm}
+                    onChange={(e) => setValorSemanaForm(e.target.value)}
+                    placeholder="10.000"
+                  />
+                </div>
+                <div className="form-field">
+                  <label>Fin de semana</label>
+                  <input
+                    type="number"
+                    min="0"
+                    value={valorFinSemanaForm}
+                    onChange={(e) => setValorFinSemanaForm(e.target.value)}
+                    placeholder="12.000"
+                  />
+                </div>
+              </div>
+              <p className="emp-tarifa-hint">Déjalo vacío para usar la tarifa general del negocio</p>
+
               <div className="ledger-edit-actions">
                 <button className="btn-cancel" onClick={cancelar} disabled={guardando}>
                   Cancelar
@@ -608,6 +649,9 @@ export default function Empleados() {
 
                     <div className="emp-fila-info">
                       <span className="emp-fila-nombre">{emp.nombre}</span>
+                      {(emp.valor_hora_semana != null || emp.valor_hora_fin_semana != null) && (
+                        <span className="emp-tarifa-badge">Tarifa personalizada</span>
+                      )}
                     </div>
 
                     {confirmandoEliminar === emp.id ? (

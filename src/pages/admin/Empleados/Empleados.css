@@ -419,3 +419,50 @@
     padding: 0.5rem 0.2rem;
   }
 }
+
+/* ---------- tarifa personalizada por empleado ---------- */
+
+.emp-tarifa-label {
+  margin-top: 4px;
+}
+
+.emp-tarifa-row {
+  display: flex;
+  gap: 10px;
+}
+
+.emp-tarifa-row .form-field {
+  flex: 1;
+}
+
+.emp-tarifa-row .form-field label {
+  font-size: 0.76rem;
+  color: var(--rd-muted);
+  font-weight: 500;
+}
+
+.emp-tarifa-row input {
+  padding: 0.6rem 0.75rem;
+  border: 1px solid var(--rd-line);
+  border-radius: 8px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  width: 100%;
+}
+
+.emp-tarifa-hint {
+  font-size: 0.76rem;
+  color: var(--rd-muted);
+  margin: -2px 0 4px;
+}
+
+.emp-tarifa-badge {
+  display: inline-flex;
+  width: fit-content;
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--rd-brass-soft);
+  color: var(--rd-brass-deep);
+}
