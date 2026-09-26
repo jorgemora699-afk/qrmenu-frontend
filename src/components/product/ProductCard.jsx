@@ -1,3 +1,5 @@
+import { motion } from "framer-motion"
+
 const IconFolderPlaceholder = () => (
   <svg width="34" height="34" viewBox="0 0 24 24" fill="none">
     <path d="M3 7.5a2 2 0 0 1 2-2h4.2l1.6 2H19a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" fill="currentColor" opacity="0.16" />
@@ -14,12 +16,23 @@ const IconDishPlaceholder = () => (
 )
 
 function ProductCard({ product, onClick, isCategory = false }) {
+  // El shared element transition solo aplica hacia ProductPage,
+  // que solo existe para productos reales (no subcategorías).
+  const imageLayoutId = !isCategory ? `product-image-${product.id}` : undefined
+
   return (
-    <div className="product-card" onClick={onClick}>
+    <motion.div
+      className="product-card"
+      onClick={onClick}
+      whileHover={{ y: -4 }}
+      whileTap={{ scale: 0.97 }}
+      transition={{ type: "spring", stiffness: 400, damping: 28 }}
+    >
 
       <div className="product-image-container">
         {product.image_url ? (
-          <img
+          <motion.img
+            layoutId={imageLayoutId}
             src={product.image_url}
             alt={product.name}
             className="product-thumb"
@@ -71,7 +84,7 @@ function ProductCard({ product, onClick, isCategory = false }) {
 
       </div>
 
-    </div>
+    </motion.div>
   )
 }
 

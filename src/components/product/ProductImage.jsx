@@ -1,3 +1,5 @@
+import { motion } from "framer-motion"
+
 const IconDishPlaceholder = () => (
   <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
     <circle cx="12" cy="12" r="9" />
@@ -5,7 +7,7 @@ const IconDishPlaceholder = () => (
   </svg>
 )
 
-function ProductImage({ src, alt, fallbackSrc }) {
+function ProductImage({ src, alt, fallbackSrc, productId }) {
   const imageSrc = src || fallbackSrc
 
   if (!imageSrc) {
@@ -22,7 +24,8 @@ function ProductImage({ src, alt, fallbackSrc }) {
         className="product-image-backdrop"
         style={{ backgroundImage: `url(${imageSrc})` }}
       />
-      <img
+      <motion.img
+        layoutId={`product-image-${productId}`}
         src={imageSrc}
         alt={alt}
         className="product-image"

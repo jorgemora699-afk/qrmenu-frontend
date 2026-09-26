@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom"
+import { motion } from "framer-motion"
 import MenuHero from "../components/menu/MenuHero"
 import CategoriesGrid from "../components/menu/CategoriesGrid"
 import { useMenu } from "../hooks/useMenu"
@@ -19,36 +20,33 @@ function MenuPage() {
     return <ErrorState message="Negocio no encontrado" />
   }
 
-
   return (
     <PageContainer business={business}>
-    <div className="menu-page">
+      <div className="menu-page">
 
-      {/* FONDO: la foto del negocio cubre toda la pantalla, no solo el header.
-          Es 'fixed' para que al hacer scroll de la lista de categorías,
-          la imagen se quede fija detrás (efecto de profundidad). */}
-      <PageBackground business={business} />
+        <PageBackground business={business} />
 
-      {isAdmin && (
-        <button
-          className="admin-back-btn"
-          onClick={() => navigate("/admin")}
+        {isAdmin && (
+          <button className="admin-back-btn" onClick={() => navigate("/admin")}>
+            ← Volver al panel
+          </button>
+        )}
+
+        {/* HERO: entra con blur→foco + leve subida, como si la cámara
+            enfocara la foto del negocio al cargar */}
+        <motion.div
+          initial={{ opacity: 0, filter: "blur(8px)", y: 12 }}
+          animate={{ opacity: 1, filter: "blur(0px)", y: 0 }}
+          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
         >
-          ← Volver al panel
-        </button>
-      )}
+          <MenuHero business={business} />
+        </motion.div>
 
-      {/* HEADER */}
-      <MenuHero business={business} />
-
-      {/* CATEGORÍAS */}
-      <CategoriesGrid
-        categories={categories}
-        onCategoryClick={(category) =>
-          navigate(`/${slug}/${category.id}`)
-        }
-      />
-    </div>
+        <CategoriesGrid
+          categories={categories}
+          onCategoryClick={(category) => navigate(`/${slug}/${category.id}`)}
+        />
+      </div>
     </PageContainer>
   )
 }

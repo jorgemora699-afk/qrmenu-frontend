@@ -1,10 +1,27 @@
 import { useParams, useNavigate } from "react-router-dom"
+import { motion } from "framer-motion"
 import { useCategory } from "../hooks/useCategory"
 import Loading from "../components/common/Loading"
 import ErrorState from "../components/common/ErrorState"
 import ProductCard from "../components/product/ProductCard"
 import PageContainer from "../components/layout/PageContainer"
 import PageBackground from "../components/layout/PageBackground"
+
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: { staggerChildren: 0.3, delayChildren: 0.25 },
+  },
+}
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
+  },
+}
 
 function CategoryPage() {
   const { slug, categoryId } = useParams()
@@ -42,15 +59,24 @@ function CategoryPage() {
 
         <PageBackground business={backgroundSource} />
 
-        <button
+        <motion.button
           className="category-back-btn"
           onClick={handleBack}
           aria-label="Volver"
+          initial={{ opacity: 0, x: -12 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.3 }}
+          whileTap={{ scale: 0.94 }}
         >
           ← Volver
-        </button>
+        </motion.button>
 
-        <div className="category-content">
+        <motion.div
+          className="category-content"
+          initial={{ y: 40, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
 
           <span className="category-eyebrow">
             Carta
@@ -71,21 +97,23 @@ function CategoryPage() {
 
           {/* PRODUCTOS */}
           {category.products.length > 0 && (
-            <div className="products-list">
-
+            <motion.div
+              className="products-list"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
               {category.products.map((product) => (
-
-                <ProductCard
-                  key={product.id}
-                  product={product}
-                  onClick={() =>
-                    navigate(`/${slug}/${categoryId}/${product.id}`)
-                  }
-                />
-
+                <motion.div key={product.id} variants={itemVariants}>
+                  <ProductCard
+                    product={product}
+                    onClick={() =>
+                      navigate(`/${slug}/${categoryId}/${product.id}`)
+                    }
+                  />
+                </motion.div>
               ))}
-
-            </div>
+            </motion.div>
           )}
 
           {/* SEPARADOR ENTRE SUBCATEGORÍAS Y PRODUCTOS */}
@@ -96,26 +124,26 @@ function CategoryPage() {
 
           {/* SUBCATEGORÍAS */}
           {children.length > 0 && (
-            <div className="products-list">
-
+            <motion.div
+              className="products-list"
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+            >
               {children.map((child) => (
-
-                <ProductCard
-                  key={child.id}
-                  product={{
-                    name: child.name,
-                    description: "",
-                    image_url: child.image_url
-                  }}
-                  isCategory
-                  onClick={() =>
-                    navigate(`/${slug}/${child.id}`)
-                  }
-                />
-
+                <motion.div key={child.id} variants={itemVariants}>
+                  <ProductCard
+                    product={{
+                      name: child.name,
+                      description: "",
+                      image_url: child.image_url
+                    }}
+                    isCategory
+                    onClick={() => navigate(`/${slug}/${child.id}`)}
+                  />
+                </motion.div>
               ))}
-
-            </div>
+            </motion.div>
           )}
 
           {/* VACÍO */}
@@ -125,7 +153,7 @@ function CategoryPage() {
             </div>
           )}
 
-        </div>
+        </motion.div>
 
       </div>
     </PageContainer>
