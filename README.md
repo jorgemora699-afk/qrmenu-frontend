@@ -1,16 +1,100 @@
-# React + Vite
+# QR Menu 📱
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Plataforma SaaS multi-inquilino para crear y publicar menús digitales de restaurantes y bares. Cada negocio administra sus categorías y productos desde un panel, personaliza la apariencia de su menú y obtiene un código QR para que sus clientes lo consulten desde el celular.
 
-Currently, two official plugins are available:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Problema
 
-## React Compiler
+Los menús impresos son costosos de actualizar y se desgastan. Cambiar un precio o agotar un plato implica reimprimir, y los negocios pequeños no suelen tener un sistema propio para manejarlo.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Funcionalidades
 
-## Expanding the ESLint configuration
+**Panel de administración (por negocio)**
+- Registro e inicio de sesión con JWT (sesión de 7 días).
+- CRUD de categorías con emoji y de productos con imagen (Cloudinary).
+- Ordenamiento de categorías y productos con botones de reordenar.
+- Edición del perfil del negocio.
+- Personalización del menú: colores con selector y combinaciones tipográficas por negocio.
+- Exportación de la tarjeta con el código QR.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+**Menú público (clientes)**
+- Acceso por URL propia del negocio (`/:slug`) o escaneando el QR.
+- Diseño responsive pensado para celular.
+- Datos servidos desde un endpoint público `/api/menu/{slug}`.
+
+## Modelo de datos
+
+- Arquitectura **multi-inquilino**: cada negocio tiene su `slug` único y sus datos aislados.
+- Relación negocio → categorías → productos.
+- Configuración de tema (colores y tipografías) guardada por negocio.
+- Imágenes en Cloudinary, con la URL almacenada en PostgreSQL.
+
+
+## Arquitectura
+
+```
+Cliente (celular)                    Administrador
+     │ escanea QR                         │
+     ▼                                    ▼
+Frontend React + Vite (Vercel)  ──►  API REST Flask (Railway)
+                                          │
+                                ┌─────────┴─────────┐
+                                ▼                   ▼
+                          PostgreSQL           Cloudinary
+```
+
+## Stack
+
+| Capa | Tecnología |
+|---|---|
+| Frontend | React, Vite, React Router |
+| Backend | Flask, SQLAlchemy |
+| Base de datos | PostgreSQL |
+| Autenticación | JWT |
+| Multimedia | Cloudinary |
+| Despliegue | Vercel (frontend), Railway (backend) |
+
+## Estructura del proyecto
+
+```
+qr-menu/
+├── backend/        # API REST en Flask
+│   ├── app/
+│   │   ├── models/
+│   │   ├── services/
+│   │   └── routes/
+│   └── migrations/
+├── frontend/       # Aplicación React + Vite
+│   └── src/
+│       ├── pages/
+│       └── components/
+└── docs/           # Capturas y diagrama ER
+```
+
+## Instalación local
+
+**Requisitos:** Python 3.10+, Node 18+ y PostgreSQL.
+
+### Backend
+```bash
+cd backend
+python -m venv venv
+source venv/bin/activate        # Windows: venv\Scripts\activate
+pip install -r requirements.txt
+cp .env.example .env
+flask db upgrade
+flask run
+```
+
+### Frontend
+```bash
+cd frontend
+npm install
+cp .env.example .env
+npm run dev
+```
+
+
+## Autor
+
+**Jorge Alejandro Mora**
